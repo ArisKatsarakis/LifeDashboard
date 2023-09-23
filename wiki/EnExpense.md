@@ -1,6 +1,6 @@
 # Description
 > This entity contains an expenses details
-
+asdasdasd
 # Fields
     - Incomde ID.
     - Money Expensed.

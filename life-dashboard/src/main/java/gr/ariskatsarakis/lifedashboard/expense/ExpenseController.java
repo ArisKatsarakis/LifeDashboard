@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -21,7 +22,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/api/v1/expenses")
-    Set<Expense> returnAllExpenses() {
+    List<Expense> returnAllExpenses() {
             return expenseService.returnAll();
     }
 }

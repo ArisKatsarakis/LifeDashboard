@@ -1,4 +1,4 @@
-package gr.ariskatsarakis.lifedashboard.expense;
+package gr.ariskatsarakis.lifedashboard.expense.def;
 
 import jakarta.persistence.*;
 

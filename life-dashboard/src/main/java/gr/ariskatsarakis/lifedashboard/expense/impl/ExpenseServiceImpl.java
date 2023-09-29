@@ -18,4 +18,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<Expense> findAll() {
             return expenseRepository.findAll();
     }
+
+    @Override
+    public Expense addExpense(Expense expense) {
+
+       return  expenseRepository.save(expense);
+    }
 }

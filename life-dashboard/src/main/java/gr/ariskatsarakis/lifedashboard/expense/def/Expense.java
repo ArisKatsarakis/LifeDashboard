@@ -6,6 +6,13 @@ import jakarta.persistence.*;
 @Table( name = "life_expenses")
 public class Expense {
 
+    /**
+     * Todo
+     * Add these fields
+     * date_created.
+     * Enum Type : UTILITIES, FUN, SAVINGS, DEBTS
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long expenseId;

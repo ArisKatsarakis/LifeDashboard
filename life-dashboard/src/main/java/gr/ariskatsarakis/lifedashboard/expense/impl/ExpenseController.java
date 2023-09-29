@@ -12,8 +12,6 @@ import java.util.List;
 @RestController
 
 public class ExpenseController {
-
-
     @Autowired
     private ExpenseService expenseService;
     @GetMapping("hello-world")
@@ -26,4 +24,5 @@ public class ExpenseController {
     List<Expense> returnAllExpenses() {
             return expenseService.findAll();
     }
+
 }

@@ -1,6 +1,8 @@
 package gr.ariskatsarakis.lifedashboard.expense.def;
 
 
+import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCritria;
+
 import java.util.List;
 
 public interface ExpenseService {
@@ -8,13 +10,7 @@ public interface ExpenseService {
     public List<Expense> findAll();
 
     public Expense addExpense(Expense expense);
-    /**
-     * Todo
-     *
-     */
-    //findExpensesByDate
-    //findExpensesByYear
-    //findExpensesByMonth
-    //findExpensesByWeek
-    //findExpensesByDay
+
+    List<Expense> getExpensesUsingCriteria(ExpenseCritria criteria);
+
 }

@@ -5,3 +5,4 @@
     - Money Expensed.
     - Date Created.
     - Reason with types Utilities/Fun/Savings.
+    - Comment/Name of the expense

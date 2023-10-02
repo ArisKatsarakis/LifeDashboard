@@ -1,6 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense.beans;
 
-public class ExpenseCritria {
+public class ExpenseCriteria {
 
     private  Integer year;
 
@@ -10,7 +10,7 @@ public class ExpenseCritria {
 
     private ExpenseType expenseType;
 
-    public ExpenseCritria(Integer year, Integer month, Integer day, ExpenseType expenseType) {
+    public ExpenseCriteria(Integer year, Integer month, Integer day, ExpenseType expenseType) {
         this.year = year;
         this.month = month;
         this.day = day;

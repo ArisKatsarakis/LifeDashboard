@@ -1,7 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.expense.def;
 
 
-import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCritria;
+import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCriteria;
 
 import java.util.List;
 
@@ -11,6 +11,6 @@ public interface ExpenseService {
 
     public Expense addExpense(Expense expense);
 
-    List<Expense> getExpensesUsingCriteria(ExpenseCritria criteria);
+    List<Expense> getExpensesUsingCriteria(ExpenseCriteria criteria);
 
 }

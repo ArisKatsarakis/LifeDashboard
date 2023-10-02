@@ -1,6 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense.impl;
 
-import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCritria;
+import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCriteria;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping
 ;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,8 @@ public class ExpenseController {
         
     }
 
-    @PostMapping("api/v1/expenses/criteria/")
-    List<Expense> getExpensesUsingCriteria(@RequestBody ExpenseCritria criteria) {
+    @PostMapping("api/v1/expenses/criteria")
+    List<Expense> getExpensesUsingCriteria(@RequestBody ExpenseCriteria criteria) {
 
         return expenseService.getExpensesUsingCriteria(criteria);
 

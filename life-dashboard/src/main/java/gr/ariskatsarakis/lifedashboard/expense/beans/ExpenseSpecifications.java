@@ -15,15 +15,8 @@ public class ExpenseSpecifications {
                 criteriaBuilder.equal(root.get("expenseType"), expenseType);
     }
 
-    public static Specification<Expense> byMonth(LocalDate mothDate) {
-        int specificMonth = mothDate.getMonthValue();
-         return (root, query, criteriaBuilder) ->
-        {
-             return criteriaBuilder.equal(
-                    criteriaBuilder.function("EXTRACT", Integer.class,
-                            criteriaBuilder.literal("MONTH"), root.get("dateCreated")),
-                    specificMonth
-            );
-        };
+    public static Specification<Expense> bySpecificDate(LocalDate currentDate) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("dateCreated"), currentDate);
     }
 }

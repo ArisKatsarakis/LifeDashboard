@@ -4,11 +4,7 @@ import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCriteria;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping
-;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,9 +29,12 @@ public class ExpenseController {
 
     @PostMapping("api/v1/expenses/criteria")
     List<Expense> getExpensesUsingCriteria(@RequestBody ExpenseCriteria criteria) {
-
         return expenseService.getExpensesUsingCriteria(criteria);
+    }
 
+    @GetMapping("api/v1/expenses/criteria/{month}")
+    List<Expense> getExpensesByMonth(@PathVariable int month) {
+        return expenseService.getExpensesByMonth(month);
     }
 
 

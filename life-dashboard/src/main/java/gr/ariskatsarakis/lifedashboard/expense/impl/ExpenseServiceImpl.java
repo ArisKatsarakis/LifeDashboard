@@ -31,12 +31,32 @@ public class ExpenseServiceImpl implements ExpenseService {
        return  expenseRepository.save(expense);
     }
 
+    public List<Expense> getExpensesByMonth(int month) {
+        return expenseRepository.findForMonth(month);
+    }
     @Override
-    public List<Expense> getExpensesUsingCriteria(ExpenseCriteria criteria) {
-        Specification<Expense> spec = ExpenseSpecifications.byExpenseType(ExpenseType.SAVINGS);
-        Specification<Expense> specMonth = ExpenseSpecifications.byMonth(
-                LocalDate.of(2023,1,1)
-        );
+    public List<Expense> getExpensesByType(String expenseType) {
+        ExpenseType expenseTypeAsked = null;
+        switch (expenseType) {
+            case "savings":
+                expenseTypeAsked = ExpenseType.SAVINGS;
+                break;
+            case "fun":
+                expenseTypeAsked = ExpenseType.FUN;
+                break;
+            case "debts":
+                expenseTypeAsked = ExpenseType.DEBTS;
+                break;
+            case "utilities":
+                expenseTypeAsked = ExpenseType.UTILITIES;
+                break;
+        }
+        Specification<Expense> spec = ExpenseSpecifications.byExpenseType(expenseTypeAsked);
+        return expenseRepository.findAll(spec);
+    }
+
+    public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {
+        Specification<Expense> specMonth = ExpenseSpecifications.bySpecificDate(specificDay);
         return expenseRepository.findAll(specMonth);
     }
 }

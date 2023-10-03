@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface ExpenseService {
 
-    public List<Expense> findAll();
+     List<Expense> findAll();
 
-    public Expense addExpense(Expense expense);
-
-    List<Expense> getExpensesUsingCriteria(ExpenseCriteria criteria);
+     Expense addExpense(Expense expense);
 
     List<Expense> getExpensesByMonth(int month);
 
     List<Expense> getExpensesForSpecificDay(LocalDate specificDay);
+
+    List<Expense> getExpensesByType(String expenseType);
 }

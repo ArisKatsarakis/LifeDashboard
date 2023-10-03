@@ -35,9 +35,23 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.findForMonth(month);
     }
     @Override
-    public List<Expense> getExpensesUsingCriteria(ExpenseCriteria criteria) {
-        Specification<Expense> spec = ExpenseSpecifications.byExpenseType(ExpenseType.SAVINGS);
-
+    public List<Expense> getExpensesByType(String expenseType) {
+        ExpenseType expenseTypeAsked = null;
+        switch (expenseType) {
+            case "savings":
+                expenseTypeAsked = ExpenseType.SAVINGS;
+                break;
+            case "fun":
+                expenseTypeAsked = ExpenseType.FUN;
+                break;
+            case "debts":
+                expenseTypeAsked = ExpenseType.DEBTS;
+                break;
+            case "utilities":
+                expenseTypeAsked = ExpenseType.UTILITIES;
+                break;
+        }
+        Specification<Expense> spec = ExpenseSpecifications.byExpenseType(expenseTypeAsked);
         return expenseRepository.findAll(spec);
     }
 

@@ -17,24 +17,24 @@ public class Income {
      @JoinColumn(name = "expense_id", nullable = false)
     private IncomeSource incomeSource;
 
+     private IncomeType incomeType;
 
     public Income() {
     }
 
-    public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource) {
+    public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource, IncomeType incomeType) {
         this.moneyReceived = moneyReceived;
         this.description = description;
         this.incomeSource = incomeSource;
+        this.incomeType = incomeType;
     }
 
-    @Override
-    public String toString() {
-        return "Income{" +
-                "incomeId=" + incomeId +
-                ", moneyReceived=" + moneyReceived +
-                ", description='" + description + '\'' +
-                ", incomeSource=" + incomeSource +
-                '}';
+    public IncomeType getIncomeType() {
+        return incomeType;
+    }
+
+    public void setIncomeType(IncomeType incomeType) {
+        this.incomeType = incomeType;
     }
 
     public long getIncomeId() {

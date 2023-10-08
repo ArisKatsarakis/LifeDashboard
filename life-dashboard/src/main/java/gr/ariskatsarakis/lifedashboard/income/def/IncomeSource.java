@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -14,25 +15,20 @@ public class IncomeSource {
     private String  Name;
     private Stability stabilityType;
     @OneToMany
+    @JsonIgnore
     private Set<Income> incomeSet;
+
+    private IncomeType incomeType;
 
     public IncomeSource() {
     }
 
-    public IncomeSource(String name, Stability stabilityType, Set<Income> incomeSet) {
+
+    public IncomeSource(String name, Stability stabilityType, Set<Income> incomeSet, IncomeType incomeType) {
         Name = name;
         this.stabilityType = stabilityType;
         this.incomeSet = incomeSet;
-    }
-
-    @Override
-    public String toString() {
-        return "IncomeSource{" +
-                "incomeSourceId=" + incomeSourceId +
-                ", Name='" + Name + '\'' +
-                ", stabilityType=" + stabilityType +
-                ", incomeSet=" + incomeSet +
-                '}';
+        this.incomeType = incomeType;
     }
 
     public long getIncomeSourceId() {
@@ -41,6 +37,14 @@ public class IncomeSource {
 
     public void setIncomeSourceId(long incomeSourceId) {
         this.incomeSourceId = incomeSourceId;
+    }
+
+    public IncomeType getIncomeType() {
+        return incomeType;
+    }
+
+    public void setIncomeType(IncomeType incomeType) {
+        this.incomeType = incomeType;
     }
 
     public String getName() {

@@ -14,10 +14,9 @@ public class Income {
     private BigDecimal moneyReceived;
     private String description;
      @ManyToOne
-     @JoinColumn(name = "expense_id", nullable = false)
+     @JoinColumn(name = "income_source_id", nullable = false)
     private IncomeSource incomeSource;
 
-     private IncomeType incomeType;
 
     public Income() {
     }
@@ -26,15 +25,6 @@ public class Income {
         this.moneyReceived = moneyReceived;
         this.description = description;
         this.incomeSource = incomeSource;
-        this.incomeType = incomeType;
-    }
-
-    public IncomeType getIncomeType() {
-        return incomeType;
-    }
-
-    public void setIncomeType(IncomeType incomeType) {
-        this.incomeType = incomeType;
     }
 
     public long getIncomeId() {

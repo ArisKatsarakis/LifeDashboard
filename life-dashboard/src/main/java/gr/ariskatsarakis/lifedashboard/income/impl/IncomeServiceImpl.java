@@ -20,7 +20,7 @@ implements IncomeService {
 
     @Override
     public Income addIncome(Income income) {
-        return null;
+        return incomeRepository.save(income);
     }
 
     @Override

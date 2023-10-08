@@ -21,7 +21,7 @@ public class Income {
     public Income() {
     }
 
-    public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource, IncomeType incomeType) {
+    public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource) {
         this.moneyReceived = moneyReceived;
         this.description = description;
         this.incomeSource = incomeSource;

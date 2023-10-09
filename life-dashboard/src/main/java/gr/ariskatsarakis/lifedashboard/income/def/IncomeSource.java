@@ -20,6 +20,7 @@ public class IncomeSource {
 
     private IncomeType incomeType;
 
+
     public IncomeSource() {
     }
 

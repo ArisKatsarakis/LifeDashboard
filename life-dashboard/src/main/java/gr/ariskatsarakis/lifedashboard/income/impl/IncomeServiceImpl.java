@@ -24,12 +24,12 @@ implements IncomeService {
     }
 
     @Override
-    public List<Income> getIncomeByStability(Stability stability) {
+    public List<Income> getByIncomeByStability(Stability stability) {
         return null;
     }
 
     @Override
-    public List<Income> getIncomeBySource(IncomeSource incomeSource) {
+    public List<Income> getByIncomeBySource(IncomeSource incomeSource) {
         return null;
     }
 }

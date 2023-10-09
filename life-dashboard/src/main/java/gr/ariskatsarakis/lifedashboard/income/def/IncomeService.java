@@ -25,7 +25,7 @@ public interface IncomeService {
      * @param stability
      * @return Same stability income.
      */
-    List<Income> getIncomeByStability(Stability stability);
+    List<Income> getByIncomeByStability(Stability stability);
 
 
     /**
@@ -33,7 +33,7 @@ public interface IncomeService {
      * @param incomeSource the IncomeSource.
      * @return List of Incomes by IncomeSource.
      */
-    List<Income> getIncomeBySource(IncomeSource incomeSource);
+    List<Income> getByIncomeBySource(IncomeSource incomeSource);
 
 
 }

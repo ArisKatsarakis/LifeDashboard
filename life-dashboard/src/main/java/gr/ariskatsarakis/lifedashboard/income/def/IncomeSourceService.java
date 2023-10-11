@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IncomeSourceService {
 
@@ -8,5 +9,5 @@ public interface IncomeSourceService {
      * Fetch Income Sources;
      * @return
      */
-    List<IncomeSource> getIncomeSources();
+    Map<String, Object> getIncomeSources();
 }

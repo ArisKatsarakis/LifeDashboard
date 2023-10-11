@@ -5,12 +5,18 @@ import gr.ariskatsarakis.lifedashboard.income.def.IncomeService;
 import gr.ariskatsarakis.lifedashboard.income.def.IncomeSource;
 import gr.ariskatsarakis.lifedashboard.income.def.IncomeSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class IncomeController {
@@ -32,7 +38,8 @@ public class IncomeController {
     }
 
     @GetMapping("api/v1/income-sources")
-    List<IncomeSource> getAllIncomeSources() {
-        return incomeSourceService.getIncomeSources();
+    ResponseEntity<Object> getAllIncomeSources() {
+        Map<String, Object> responseMap = incomeSourceService.getIncomeSources();
+        return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);
     }
 }

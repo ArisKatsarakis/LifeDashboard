@@ -10,4 +10,6 @@ public interface IncomeSourceService {
      * @return
      */
     Map<String, Object> getIncomeSources();
+
+    Map<String, Object> getIncomeSourcesByType(String incomeType);
 }

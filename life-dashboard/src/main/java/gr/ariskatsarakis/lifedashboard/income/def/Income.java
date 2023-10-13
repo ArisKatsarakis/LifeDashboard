@@ -17,6 +17,15 @@ public class Income {
      @JoinColumn(name = "income_source_id", nullable = false)
     private IncomeSource incomeSource;
 
+    @Override
+    public String toString() {
+        return "Income{" +
+                "incomeId=" + incomeId +
+                ", moneyReceived=" + moneyReceived +
+                ", description='" + description + '\'' +
+                ", incomeSource=" + incomeSource +
+                '}';
+    }
 
     public Income() {
     }

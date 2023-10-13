@@ -14,8 +14,7 @@ public class IncomeSource {
     private long incomeSourceId;
     private String  Name;
     private Stability stabilityType;
-    @OneToMany
-    @JsonIgnore
+    @OneToMany(mappedBy = "incomeSource")
     private Set<Income> incomeSet;
 
     private IncomeType incomeType;
@@ -30,6 +29,17 @@ public class IncomeSource {
         this.stabilityType = stabilityType;
         this.incomeSet = incomeSet;
         this.incomeType = incomeType;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeSource{" +
+                "incomeSourceId=" + incomeSourceId +
+                ", Name='" + Name + '\'' +
+                ", stabilityType=" + stabilityType +
+                ", incomeSet=" + incomeSet +
+                ", incomeType=" + incomeType +
+                '}';
     }
 
     public long getIncomeSourceId() {
@@ -71,4 +81,5 @@ public class IncomeSource {
     public void setIncomeSet(Set<Income> incomeSet) {
         this.incomeSet = incomeSet;
     }
+
 }

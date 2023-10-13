@@ -1,0 +1,14 @@
+[
+  {
+    "incomeId": 10001,
+    "moneyReceived": 100.00,
+    "description": "income descr",
+    "incomeSource": {
+      "incomeSourceId": 10001,
+      "stabilityType": "STABLE",
+      "incomeSet": [],
+      "name": "income_source"
+    },
+    "incomeType": "CODING"
+  }
+]

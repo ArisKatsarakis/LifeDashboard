@@ -6,7 +6,14 @@ const samples  = {
                     "expenseType": "UTILITIES",
                     "dateCreated": "2023-01-04",
                     "moneySpent": 100.0
-    }]
+    }],
+    SAMPLE_INCOMES: [
+        {
+            "incomeId": 10001,
+            "moneyReceived": 100.00,
+            "description": "income descr"
+        },
+    ]
 };
 
 export {samples};

@@ -19,6 +19,7 @@ public class ExpenseController {
     private ExpenseService expenseService;
 
     @GetMapping("/api/v1/expenses")
+    @CrossOrigin
     List<Expense> returnAllExpenses() {
             return expenseService.findAll();
     }

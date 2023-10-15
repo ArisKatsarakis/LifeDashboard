@@ -55,7 +55,7 @@ export const Incomes = () => {
                 }
                 <ListGroup.Item className='container'>
                     <Button variant='success'>
-                        <Plus />
+                        <span className='me-1'>Add Income</span> <Plus />
                     </Button>
                 </ListGroup.Item>
             </ListGroup>

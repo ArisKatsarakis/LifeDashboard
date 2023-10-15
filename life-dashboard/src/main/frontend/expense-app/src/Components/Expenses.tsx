@@ -1,8 +1,9 @@
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {samples} from "../Utilities/Samples";
 import axios from "axios";
 import {variables} from "../Utilities/Variables";
+import {Pencil, Bin, Plus} from "../Icons/CommonIcons";
 function Expenses() {
     const [expenses, setExpenses] = useState(samples.SAMPLE_EXPENSES);
     const fetchExpenses = async () => {
@@ -41,11 +42,22 @@ function Expenses() {
                                     <td>{expense.dateCreated}</td>
                                     <td>{expense.expenseType}</td>
                                     <td>{expense.moneySpent}</td>
+                                    <td>
+                                        <Button variant='primary'>
+                                           <Pencil />
+                                        </Button>
+                                        <Button variant='danger'>
+                                            <Bin />
+                                        </Button>
+                                    </td>
                                 </tr>
                     )
                 }
                 </tbody>
             </Table>
+            <Button variant='danger'>
+                <span className='me-1'>Add Expense</span> <Plus />
+            </Button>
         </>
     );
 }

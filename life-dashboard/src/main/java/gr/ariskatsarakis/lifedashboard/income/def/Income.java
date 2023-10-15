@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -13,8 +14,9 @@ public class Income {
     private long incomeId;
     private BigDecimal moneyReceived;
     private String description;
-     @ManyToOne
-     @JoinColumn(name = "income_source_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "income_source_id", nullable = false)
+    @JsonIgnore
     private IncomeSource incomeSource;
 
     @Override

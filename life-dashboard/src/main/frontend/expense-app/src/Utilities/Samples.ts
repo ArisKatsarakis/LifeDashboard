@@ -9,9 +9,10 @@ const samples  = {
     }],
     SAMPLE_INCOMES: [
         {
-            "incomeId": 10001,
-            "moneyReceived": 100.00,
-            "description": "income descr"
+            incomeId: 10001,
+            moneyReceived: 100.00,
+            description: "income descr",
+            dateCreated: '2022-10-22'
         },
     ]
 };

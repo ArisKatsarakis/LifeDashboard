@@ -3,9 +3,12 @@ import {samples} from "../Utilities/Samples";
 import {Accordion, Badge, ListGroup, Button} from "react-bootstrap";
 import axios from "axios";
 import {variables} from "../Utilities/Variables";
-import {Bin,Pencil, Plus} from "../Icons/CommonIcons";
+import {Bin, Calendar, Pencil, Plus} from "../Icons/CommonIcons";
+import {useNavigate} from "react-router-dom";
+
 export const Incomes = () => {
     const [incomes, setIncomes] = useState(samples.SAMPLE_INCOMES);
+    const navigate = useNavigate();
     const fetchIncomes = async () => {
         const data = await axios.get(variables.fetchIncomesURL);
         setIncomes(data.data);
@@ -29,12 +32,16 @@ export const Incomes = () => {
                                             <div className='text-left'>
                                                 {income.incomeId}
                                                 <Badge bg='primary ms-1'>
-                                                    {income.moneyReceived} €
+                                                    <span>{income.moneyReceived}€</span>
                                                 </Badge>
+                                                <span className={'me-1 ms-1'}>
+                                                    <Calendar/>
+                                                    {income.dateCreated}
+                                                </span>
                                             </div>
-                                            <div className='text-right'>
+                                            <div className=''>
                                                 <Button variant='outline-success'>
-                                                    <Pencil />
+                                                    <Pencil/>
                                                 </Button>
                                                 <Button variant='outline-danger'>
                                                     <Bin/>
@@ -54,8 +61,8 @@ export const Incomes = () => {
                     )
                 }
                 <ListGroup.Item className='container'>
-                    <Button variant='success'>
-                        <span className='me-1'>Add Income</span> <Plus />
+                    <Button variant='success' onClick={ () => {navigate('/income/-1')}}>
+                        <span className='me-1'>Add Income</span> <Plus/>
                     </Button>
                 </ListGroup.Item>
             </ListGroup>

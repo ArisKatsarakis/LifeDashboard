@@ -36,6 +36,7 @@ public class IncomeController {
     }
 
     @GetMapping("api/v1/income-sources")
+    @CrossOrigin
     ResponseEntity<Object> getAllIncomeSources() {
         Map<String, Object> responseMap = incomeSourceService.getIncomeSources();
         return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);

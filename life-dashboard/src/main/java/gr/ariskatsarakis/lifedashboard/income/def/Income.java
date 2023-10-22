@@ -2,8 +2,10 @@ package gr.ariskatsarakis.lifedashboard.income.def;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "life_incomes")
@@ -14,20 +16,11 @@ public class Income {
     private long incomeId;
     private BigDecimal moneyReceived;
     private String description;
+    private LocalDate dateCreated;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "income_source_id", nullable = false)
     @JsonIgnore
     private IncomeSource incomeSource;
-
-    @Override
-    public String toString() {
-        return "Income{" +
-                "incomeId=" + incomeId +
-                ", moneyReceived=" + moneyReceived +
-                ", description='" + description + '\'' +
-                ", incomeSource=" + incomeSource +
-                '}';
-    }
 
     public Income() {
     }
@@ -35,7 +28,27 @@ public class Income {
     public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource) {
         this.moneyReceived = moneyReceived;
         this.description = description;
+        this.dateCreated = LocalDate.now();
         this.incomeSource = incomeSource;
+    }
+
+    public LocalDate getDateCreated() {
+        return dateCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "Income{" +
+                "incomeId=" + incomeId +
+                ", moneyReceived=" + moneyReceived +
+                ", description='" + description + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", incomeSource=" + incomeSource +
+                '}';
+    }
+
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public long getIncomeId() {

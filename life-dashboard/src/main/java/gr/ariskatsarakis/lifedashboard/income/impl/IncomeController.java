@@ -31,6 +31,7 @@ public class IncomeController {
     }
 
     @PostMapping("/api/v1/incomes")
+    @CrossOrigin
     Income addIncome(@RequestBody Income income) {
         return incomeService.addIncome(income);
     }

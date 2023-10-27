@@ -19,7 +19,6 @@ public class Income {
     private LocalDate dateCreated;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "income_source_id", nullable = false)
-    @JsonIgnore
     private IncomeSource incomeSource;
 
     public Income() {

@@ -11,7 +11,8 @@ export const IncomeComponent = () => {
     const {incomeId}  = useParams();
     const [moneyReceived, setMoneyReceived] = useState(1);
     const [description, setDescription]  = useState(null);
-    const [dateCreate, setDateCreated] = useState(null);
+    const today = new Date();
+    const [dateCreate, setDateCreated] = useState(today);
     const [incomeSources, setIncomeSources] = useState([])
     useEffect(
         () => {
@@ -35,10 +36,31 @@ export const IncomeComponent = () => {
     const fetchIncomeById = () => {
         return samples.SAMPLE_INCOMES;
     }
+
+    async function createIncome(income: { dateCreated: any; description: any; moneyReceived: number; incomeSource: any}) {
+        console.log(income);
+        const postIncome = await axios.post(variables.fetchIncomesURL, income);
+        console.log(postIncome.data);
+    }
+
     const handleSubmit  = (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const currentvalue = `The money are ${moneyReceived}€`;
-        setMessage(currentvalue);
+        if (dateCreate == null) setDateCreated(today);
+        const income = {
+            moneyReceived: moneyReceived,
+            description: description,
+            dateCreated: dateCreate,
+            incomeSource: {
+                'incomeSourceId': 10001
+            }
+        }
+        if(moneyReceived > 0) {
+            setMessage(`The money are ${moneyReceived}€`);
+            createIncome(income);
+        }else {
+            setMessage(" No money was set");
+        }
+
     };
     const [message, setMessage] = useState('');
     return (
@@ -73,6 +95,8 @@ export const IncomeComponent = () => {
                            <Form.Control
                                type="date"
                                placeholder="Date Received"
+                               defaultValue={today.toISOString().split('T')[0]}
+                               onChange={event => {setDateCreated(new Date(event.target.value.toString()))}}
                                required
                            />
 

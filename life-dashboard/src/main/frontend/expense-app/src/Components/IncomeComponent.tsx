@@ -36,8 +36,11 @@ export const IncomeComponent = () => {
         return samples.SAMPLE_INCOMES;
     }
     const handleSubmit  = (event : FormEvent<HTMLFormElement>) => {
-            console.log(event.currentTarget)
+        event.preventDefault();
+        const currentvalue = `The money are ${moneyReceived}€`;
+        setMessage(currentvalue);
     };
+    const [message, setMessage] = useState('');
     return (
         <>
            <Form noValidate onSubmit={handleSubmit}>
@@ -48,6 +51,7 @@ export const IncomeComponent = () => {
                             type={'text'}
                             value={incomeId}
                             disabled={true}
+
                         />
                    </Form.Group>
                    <Form.Group as={Col} md={'4'} >
@@ -59,6 +63,7 @@ export const IncomeComponent = () => {
                                placeholder="Money Received"
                                aria-describedby="inputGroupPrepend"
                                required
+                               onChange={(event) => {setMoneyReceived(parseInt(event.target.value))}}
                            />
 
                        </InputGroup>
@@ -91,6 +96,8 @@ export const IncomeComponent = () => {
 
                    </Form.Group>
                </Row>
+               <Button type={'submit'}>Save</Button>
+               { message}
            </Form>
         </>
     );

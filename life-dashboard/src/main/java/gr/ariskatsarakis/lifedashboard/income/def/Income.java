@@ -2,6 +2,8 @@ package gr.ariskatsarakis.lifedashboard.income.def;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
@@ -19,6 +21,8 @@ public class Income {
     private LocalDate dateCreated;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "income_source_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private IncomeSource incomeSource;
 
     public Income() {
@@ -42,7 +46,7 @@ public class Income {
                 ", moneyReceived=" + moneyReceived +
                 ", description='" + description + '\'' +
                 ", dateCreated=" + dateCreated +
-                ", incomeSource=" + incomeSource +
+                ", incomeSource=" + incomeSource.getIncomeSourceId() +
                 '}';
     }
 

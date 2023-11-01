@@ -15,10 +15,12 @@ public interface IncomeService {
 
     /**
      * Adds the Income in param to the DB.
+     *
      * @param income
+     * @param incomeSourceId
      * @return The newly created Income.
      */
-    Income addIncome(Income income);
+    Income addIncome(Income income, Long incomeSourceId);
 
     /**
      * Gets the Incomes that have the same Stability

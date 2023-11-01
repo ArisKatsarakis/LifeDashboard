@@ -30,10 +30,10 @@ public class IncomeController {
         return incomeService.getAllIncomes();
     }
 
-    @PostMapping("/api/v1/incomes")
+    @PostMapping("/api/v1/{incomeSource}/incomes")
     @CrossOrigin
-    Income addIncome(@RequestBody Income income) {
-        return incomeService.addIncome(income);
+    Income addIncome(@PathVariable(value = "incomeSource")Long incomeSourceId, @RequestBody Income income) {
+        return incomeService.addIncome(income , incomeSourceId);
     }
 
     @GetMapping("api/v1/income-sources")

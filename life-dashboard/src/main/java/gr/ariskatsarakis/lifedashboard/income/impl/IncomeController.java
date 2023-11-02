@@ -1,9 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.income.impl;
 
-import gr.ariskatsarakis.lifedashboard.income.def.Income;
-import gr.ariskatsarakis.lifedashboard.income.def.IncomeService;
-import gr.ariskatsarakis.lifedashboard.income.def.IncomeSource;
-import gr.ariskatsarakis.lifedashboard.income.def.IncomeSourceService;
+import gr.ariskatsarakis.lifedashboard.income.def.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +10,6 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 public class IncomeController {

@@ -19,6 +19,8 @@ public class Income {
     private BigDecimal moneyReceived;
     private String description;
     private LocalDate dateCreated;
+
+    private Long sourceId;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "income_source_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,6 +35,15 @@ public class Income {
         this.description = description;
         this.dateCreated = LocalDate.now();
         this.incomeSource = incomeSource;
+        this.sourceId = incomeSource.getIncomeSourceId();
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long incomeSourceId) {
+        this.sourceId = incomeSourceId;
     }
 
     public LocalDate getDateCreated() {

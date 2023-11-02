@@ -4,25 +4,27 @@ import gr.ariskatsarakis.lifedashboard.income.def.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 @Service
 public class IncomeServiceImpl
 implements IncomeService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private IncomeRepository incomeRepository;
 
     @Autowired
     private IncomeSourceRepository incomeSourceRepository;
-    @Override
     public List<Income> getAllIncomes() {
         return incomeRepository.findAll();
     }
@@ -31,7 +33,7 @@ implements IncomeService {
     public Income addIncome(Income income, Long incomeSourceId) {
         Optional<IncomeSource> iSource = incomeSourceRepository.findById(incomeSourceId);
         income.setIncomeSource(iSource.orElse(null));
-        logger.info("New Income Added " + income.toString() + " TIME: " + Timestamp.valueOf(LocalDateTime.now()));
+        logger.info("New Income Added " + income + " TIME: " + Timestamp.valueOf(LocalDateTime.now()));
         return incomeRepository.save(income);
     }
 

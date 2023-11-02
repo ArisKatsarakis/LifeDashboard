@@ -1,11 +1,10 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.cglib.core.Local;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -20,11 +19,10 @@ public class Income {
     private String description;
     private LocalDate dateCreated;
 
-    private Long sourceId;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "income_source_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+
+    @ManyToOne
+    @JoinColumn(name = " income_source_id")
+    @JsonBackReference
     private IncomeSource incomeSource;
 
     public Income() {
@@ -35,16 +33,8 @@ public class Income {
         this.description = description;
         this.dateCreated = LocalDate.now();
         this.incomeSource = incomeSource;
-        this.sourceId = incomeSource.getIncomeSourceId();
     }
 
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long incomeSourceId) {
-        this.sourceId = incomeSourceId;
-    }
 
     public LocalDate getDateCreated() {
         return dateCreated;

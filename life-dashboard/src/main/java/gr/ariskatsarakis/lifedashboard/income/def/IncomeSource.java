@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -15,6 +16,7 @@ public class IncomeSource {
     private String  Name;
     private Stability stabilityType;
     @OneToMany(mappedBy = "incomeSource")
+    @JsonManagedReference
     private Set<Income> incomeSet;
 
     private IncomeType incomeType;
@@ -27,7 +29,7 @@ public class IncomeSource {
         Name = name;
         this.stabilityType = stabilityType;
         this.incomeSet = incomeSet;
-        this.incomeType = incomeType;
+        this.incomeType = IncomeType.CODING;
     }
 
     @Override

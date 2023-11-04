@@ -46,4 +46,9 @@ implements IncomeService {
     public List<Income> getByIncomeBySource(IncomeSource incomeSource) {
         return null;
     }
+
+    @Override
+    public Optional<Income> fetchIncomeById(Long incomeId) {
+        return incomeRepository.findById(incomeId);
+    }
 }

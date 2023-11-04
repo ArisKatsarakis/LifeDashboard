@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class IncomeController {
@@ -43,5 +44,16 @@ public class IncomeController {
     ResponseEntity<Object> getIncomeSourceType(@PathVariable String incomeType) {
         Map<String, Object> responseMap = incomeSourceService.getIncomeSourcesByType(incomeType);
         return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);
+    }
+
+    @GetMapping("api/v1/incomeDto/{id}")
+    @CrossOrigin
+    ResponseEntity<IncomeDTO> getIncomeDTO(@PathVariable Long id) {
+        Optional<Income> income = incomeService.fetchIncomeById(id);
+        if(income.isPresent()) {
+            IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(income.get());
+            return new ResponseEntity<>(incomeDTO, HttpStatus.OK);
+        }
+        return null;
     }
 }

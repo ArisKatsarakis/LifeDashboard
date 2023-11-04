@@ -14,14 +14,16 @@ export const IncomeComponent = () => {
     const today = new Date();
     const [dateCreate, setDateCreated] = useState(today);
     const [incomeSource, setIncomeSource] = useState('')
-    const [incomeSources, setIncomeSources] = useState([])
+    const [incomeSources, setIncomeSources] = useState([]);
+    const [selectedSourceId, setSelectedSourceId] = useState(-1);
     useEffect(
         () => {
             // @ts-ignore
             if (incomeId !== -1) {
                 // @ts-ignore
-                const { incomeId, description, moneyReceived, dateCreated } = fetchIncomeById();
+                const { incomeId, incomeSourceId, description, moneyReceived, dateCreated } = fetchIncomeById();
                 console.log(incomeId, description, moneyReceived, dateCreated)
+                setSelectedSourceId(incomeSourceId);
                 setDateCreated(dateCreated);
                 setMoneyReceived(moneyReceived);
             }
@@ -35,7 +37,9 @@ export const IncomeComponent = () => {
         setIncomeSources(response.data.sources);
         console.log("Sources fetched");
     }
-    const fetchIncomeById = () => {
+     const fetchIncomeById = async () => {
+        const income = await axios.get(`${variables.fetchIncomeDTOURL}${incomeId}`);
+        return income.data;
         return samples.SAMPLE_INCOMES;
     }
 
@@ -44,6 +48,8 @@ export const IncomeComponent = () => {
         const postIncome = await axios.post(`http://localhost:8080/api/v1/${incomeSource}/incomes`, income);
         console.log(postIncome.data);
     }
+
+
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -62,6 +68,8 @@ export const IncomeComponent = () => {
 
     };
     const [message, setMessage] = useState('');
+
+
     return (
         <>
             <Form noValidate onSubmit={handleSubmit}>
@@ -113,7 +121,7 @@ export const IncomeComponent = () => {
                                 {incomeSources.map(
                                     source => {
                                         //@ts-ignore
-                                        return (<option value={source.incomeSourceId}>{source.incomeType}</option>)
+                                        return <option  { ...( selectedSourceId === source.incomeSourceId ) ? 'selected' : '' } value={source.incomeSourceId}>{source.incomeType}</option>
                                     }
                                 )}
                             </Form.Select>

@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This Service contains the Business Logic for {@link Income}
@@ -36,6 +37,10 @@ public interface IncomeService {
      * @return List of Incomes by IncomeSource.
      */
     List<Income> getByIncomeBySource(IncomeSource incomeSource);
+
+
+
+    Optional<Income> fetchIncomeById(Long incomeId);
 
 
 }

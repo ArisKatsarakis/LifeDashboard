@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 import { samples } from "../Utilities/Samples";
 import { Col, Form, Row, InputGroup, Button } from "react-bootstrap";
 import axios, { AxiosResponse } from "axios";
-import { variables } from "../Utilities/Variables";
+import { systemLinks, variables } from "../Utilities/Variables";
 import { Income } from "../Interfaces/IncomeInterfaces";
 
 
@@ -17,6 +17,7 @@ export const IncomeComponent = () => {
     const [incomeSource, setIncomeSource] = useState('')
     const [incomeSources, setIncomeSources] = useState([]);
     const [selectedSourceId, setSelectedSourceId] = useState(-1);
+    const navigate = useNavigate();
     useEffect(
         () => {
 
@@ -67,13 +68,15 @@ export const IncomeComponent = () => {
             moneyReceived: moneyReceived,
             description: description,
             dateCreated: dateCreate,
-            incomeSourceId: parseInt(incomeSource),
+            incomeSourceId: parseInt(incomeSource ? incomeSource : selectedSourceId.toString()),
         }
         if (moneyReceived > 0 && incomeId === '-1') {
             setMessage(`The money are ${moneyReceived}€`);
             createIncome(income);
+            navigate(systemLinks.incomes);
         } else if (moneyReceived > 0 && incomeId !== '-1') {
             updateIncome(income);
+            navigate(systemLinks.incomes);
         } else {
             setMessage(" No money was set");
         }
@@ -99,7 +102,6 @@ export const IncomeComponent = () => {
                     <Form.Group as={Col} md={'4'} >
                         <Form.Label>Money Received</Form.Label>
                         <InputGroup hasValidation>
-                            <InputGroup.Text id="inputGroupPrepend">€</InputGroup.Text>
                             <Form.Control
                                 type="number"
                                 placeholder="Money Received"
@@ -108,6 +110,7 @@ export const IncomeComponent = () => {
                                 value={moneyReceived}
                                 onChange={(event) => { setMoneyReceived(parseInt(event.target.value)) }}
                             />
+                            <InputGroup.Text id="inputGroupPrepend">€</InputGroup.Text>
 
                         </InputGroup>
                     </Form.Group>
@@ -126,8 +129,10 @@ export const IncomeComponent = () => {
                 <Row className='mb-3'>
 
                     <Form.Group as={Col} md={'8'} >
+                    <Form.Label > Source of Income</Form.Label>
                         <InputGroup>
                             <Form.Select
+                                id='incomeSource'
                                 onChange={(event) => { setIncomeSource(event.currentTarget.value.toString()) }}
                             >
                                 <option key={0}>Select Income Source Type</option>
@@ -145,7 +150,6 @@ export const IncomeComponent = () => {
 
                         <Form.Label>Income Description</Form.Label>
                         <InputGroup hasValidation>
-                            <InputGroup.Text id="Description">€</InputGroup.Text>
                             <Form.Control
                                 type="text"
                                 placeholder="Description"

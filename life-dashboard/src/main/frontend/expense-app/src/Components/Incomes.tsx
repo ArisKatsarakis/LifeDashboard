@@ -40,7 +40,7 @@ export const Incomes = () => {
                                                 </span>
                                             </div>
                                             <div className=''>
-                                                <Button variant='outline-success'>
+                                                <Button href={`../income/${income.incomeId}`} variant='outline-success'>
                                                     <Pencil/>
                                                 </Button>
                                                 <Button variant='outline-danger'>

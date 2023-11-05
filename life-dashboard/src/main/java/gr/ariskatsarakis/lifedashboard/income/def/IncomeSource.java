@@ -1,6 +1,5 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 

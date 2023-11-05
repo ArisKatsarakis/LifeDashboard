@@ -1,6 +1,5 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

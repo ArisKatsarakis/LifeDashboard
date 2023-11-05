@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2c1ae88-748f-4bd8-9981-de101dc2225d" name="Changes" comment="Added back reference and managedReference.">
+    <list default="true" id="a2c1ae88-748f-4bd8-9981-de101dc2225d" name="Changes" comment="Added navigation back to Incomes after adding or updating an Income.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/IncomeComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/IncomeComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/Incomes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/Incomes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Utilities/Variables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Utilities/Variables.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSourceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSourceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeSourceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/impl/IncomeSourceServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,33 +51,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable&quot;: &quot;ALL&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/macbook/LifeDashboard&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;3e3bfe1e093d083ad759d9b2e2875826&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable": "ALL",
+    "last_opened_file_path": "/Users/macbook/LifeDashboard",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "spring.configuration.checksum": "3e3bfe1e093d083ad759d9b2e2875826",
+    "ts.external.directory.path": "/Users/macbook/LifeDashboard/life-dashboard/src/main/frontend/expense-app/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Spring Boot.LifeDashboardApplication">
     <configuration name="generated-requests | #19" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="19" requestIdentifier="#19" runType="Run single request">
       <method v="2" />
@@ -118,7 +119,7 @@
       <workItem from="1698954632690" duration="1121000" />
       <workItem from="1698955762125" duration="1460000" />
       <workItem from="1699081343921" duration="4254000" />
-      <workItem from="1699172894939" duration="2591000" />
+      <workItem from="1699172894939" duration="3673000" />
     </task>
     <task id="LOCAL-00001" summary="Added back reference and managedReference.">
       <created>1698957215202</created>
@@ -153,6 +154,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added back reference and managedReference." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added back reference and managedReference." />
+    <MESSAGE value="Added navigation back to Incomes after adding or updating an Income." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added navigation back to Incomes after adding or updating an Income." />
   </component>
 </project>

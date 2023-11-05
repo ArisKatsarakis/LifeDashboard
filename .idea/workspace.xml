@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2c1ae88-748f-4bd8-9981-de101dc2225d" name="Changes" comment="">
+    <list default="true" id="a2c1ae88-748f-4bd8-9981-de101dc2225d" name="Changes" comment="Added back reference and managedReference.">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/40785e57-90e9-45f6-983f-155e2caf2e8b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/40785e57-90e9-45f6-983f-155e2caf2e8b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/40785e57-90e9-45f6-983f-155e2caf2e8b/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/40785e57-90e9-45f6-983f-155e2caf2e8b/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/Income.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/Income.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/java/gr/ariskatsarakis/lifedashboard/income/def/IncomeSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/IncomeComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/life-dashboard/src/main/frontend/expense-app/src/Components/IncomeComponent.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,8 +113,25 @@
       <updated>1696798376121</updated>
       <workItem from="1696798377828" duration="1953000" />
       <workItem from="1698954632690" duration="1121000" />
-      <workItem from="1698955762125" duration="1421000" />
+      <workItem from="1698955762125" duration="1460000" />
+      <workItem from="1699081343921" duration="4254000" />
+      <workItem from="1699172894939" duration="612000" />
     </task>
+    <task id="LOCAL-00001" summary="Added back reference and managedReference.">
+      <created>1698957215202</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698957215202</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added back reference and managedReference.">
+      <created>1698957220218</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698957220218</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,5 +147,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added back reference and managedReference." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added back reference and managedReference." />
   </component>
 </project>

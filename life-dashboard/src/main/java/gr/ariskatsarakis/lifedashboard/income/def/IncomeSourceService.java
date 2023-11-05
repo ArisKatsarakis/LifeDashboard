@@ -2,6 +2,7 @@ package gr.ariskatsarakis.lifedashboard.income.def;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface IncomeSourceService {
 
@@ -12,4 +13,11 @@ public interface IncomeSourceService {
     Map<String, Object> getIncomeSources();
 
     Map<String, Object> getIncomeSourcesByType(String incomeType);
+
+    /**
+     * Fetch Income Source by ID
+     * @param incomeSourceId
+     * @return
+     */
+    Optional<IncomeSource> findByID(Long incomeSourceId);
 }

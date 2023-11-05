@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.income.def;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +44,11 @@ public interface IncomeService {
 
     Optional<Income> fetchIncomeById(Long incomeId);
 
+    /**
+     * Update Income
+     * @param income
+     * @return
+     */
 
+    ResponseEntity<IncomeDTO> updateIncome(Income income);
 }

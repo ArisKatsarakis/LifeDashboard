@@ -56,4 +56,22 @@ public class IncomeController {
         }
         return null;
     }
+
+    @PutMapping("api/v1/incomeDto/{incomeId}")
+    @CrossOrigin
+    ResponseEntity<IncomeDTO> updateIncomeThroughDTO(@PathVariable Long incomeId, @RequestBody IncomeDTO dto) {
+        Optional<IncomeSource> incomeSource = incomeSourceService.findByID(dto.getIncomeSourceId());
+        if(incomeSource.isPresent()) {
+            Optional<Income> income = incomeService.fetchIncomeById(incomeId);
+            if(income.isPresent()) {
+                income.get().setIncomeSource(incomeSource.get());
+                income.get().setDescription(dto.getDescription());
+                income.get().setDateCreated(dto.getDateCreated());
+                income.get().setMoneyReceived(dto.getMoneyReceived());
+                return incomeService.updateIncome(income.get());
+            }
+        }
+        return new ResponseEntity<IncomeDTO>(new IncomeDTO(), HttpStatus.NOT_FOUND);
+    }
+
 }

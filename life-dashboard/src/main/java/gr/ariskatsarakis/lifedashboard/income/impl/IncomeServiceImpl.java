@@ -4,6 +4,7 @@ import gr.ariskatsarakis.lifedashboard.income.def.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,12 @@ implements IncomeService {
     @Override
     public Optional<Income> fetchIncomeById(Long incomeId) {
         return incomeRepository.findById(incomeId);
+    }
+
+    @Override
+    public ResponseEntity<IncomeDTO> updateIncome(Income income) {
+        Income update = incomeRepository.save(income);
+        IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(update);
+        return new ResponseEntity<IncomeDTO>(incomeDTO, HttpStatus.OK);
     }
 }

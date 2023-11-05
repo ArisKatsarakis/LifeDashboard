@@ -4,11 +4,12 @@ import { samples } from "../Utilities/Samples";
 import { Col, Form, Row, InputGroup, Button } from "react-bootstrap";
 import axios, { AxiosResponse } from "axios";
 import { variables } from "../Utilities/Variables";
+import { Income } from "../Interfaces/IncomeInterfaces";
 
 
 
 export const IncomeComponent = () => {
-    const { incomeId } = useParams();
+    const { incomeId} = useParams();
     const [moneyReceived, setMoneyReceived] = useState(0);
     const [description, setDescription] = useState('');
     const today = new Date();
@@ -18,15 +19,15 @@ export const IncomeComponent = () => {
     const [selectedSourceId, setSelectedSourceId] = useState(-1);
     useEffect(
         () => {
+
+
             // @ts-ignore
-            if (incomeId !== -1) {
-                // @ts-ignore
+            if (incomeId !== '-1') {
                 fetchIncomeById();
-
-
             }
-            fetchIncomeSources();
-        }, []
+            fetchIncomeSources()
+
+        }, [incomeId]
 
     )
     const fetchIncomeSources = async () => {
@@ -35,16 +36,22 @@ export const IncomeComponent = () => {
         setIncomeSources(response.data.sources);
         console.log("Sources fetched");
     }
+
+
+    const updateIncome = async (income : Income) => {
+        const updateResponse = axios.put(`${variables.updateIncomeURL}${incomeId}`, income)
+    } 
     const fetchIncomeById = async () => {
         const income = await axios.get(`${variables.fetchIncomeDTOURL}${incomeId}`);
         console.log(income.data)
         setSelectedSourceId(income.data.incomeSourceId);
         setDateCreated(income.data.dateCreated);
         setMoneyReceived(income.data.moneyReceived);
-        console.log(income.data.moneyReceived)
+        setDescription(income.data.description? income.data.description : '');
+        fetchIncomeSources();
     }
 
-    async function createIncome(income: { dateCreated: any; description: any; moneyReceived: number; }) {
+    async function createIncome(income: Income) {
         console.log(income);
         const postIncome = await axios.post(`http://localhost:8080/api/v1/${incomeSource}/incomes`, income);
         console.log(postIncome.data);
@@ -55,17 +62,22 @@ export const IncomeComponent = () => {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (dateCreate == null) setDateCreated(today);
-        const income = {
+        const income : Income = {
+            incomeId : '',
             moneyReceived: moneyReceived,
             description: description,
             dateCreated: dateCreate,
+            incomeSourceId: parseInt(incomeSource),
         }
-        if (moneyReceived > 0) {
+        if (moneyReceived > 0 && incomeId === '-1') {
             setMessage(`The money are ${moneyReceived}€`);
             createIncome(income);
+        } else if (moneyReceived > 0 && incomeId !== '-1') {
+            updateIncome(income);
         } else {
             setMessage(" No money was set");
         }
+
 
     };
     const [message, setMessage] = useState('');
@@ -122,7 +134,9 @@ export const IncomeComponent = () => {
                                 {incomeSources.map(
                                     source => {
                                         //@ts-ignore
-                                        return <option  {...(selectedSourceId === source.incomeSourceId) ? 'selected' : ''} value={source.incomeSourceId} key={source.incomeSourceId}>{source.incomeType}</option>
+                                        const bool = (selectedSourceId === source.incomeSourceId) ? 'selected' : '';
+                                        //@ts-ignore
+                                        return <option  value={source.incomeSourceId} key={source.incomeSourceId} selected={bool} >{source.incomeType}</option>
                                     }
                                 )}
                             </Form.Select>

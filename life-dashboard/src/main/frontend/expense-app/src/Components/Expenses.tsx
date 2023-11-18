@@ -4,7 +4,9 @@ import {samples} from "../Utilities/Samples";
 import axios from "axios";
 import {variables} from "../Utilities/Variables";
 import {Pencil, Bin, Plus} from "../Icons/CommonIcons";
+import { useNavigate } from "react-router-dom";
 function Expenses() {
+    const navigate = useNavigate();
     const [expenses, setExpenses] = useState(samples.SAMPLE_EXPENSES);
     const fetchExpenses = async () => {
         const data = await axios.get(variables.fetchExpensesURL);
@@ -43,7 +45,9 @@ function Expenses() {
                                     <td>{expense.expenseType}</td>
                                     <td>{expense.moneySpent}</td>
                                     <td>
-                                        <Button variant='primary'>
+                                        <Button variant='primary' onClick={()=> {
+                                            navigate(`/expenses/${expense.expenseId}`)
+                                        }}>
                                            <Pencil />
                                         </Button>
                                         <Button variant='danger'>
@@ -55,7 +59,7 @@ function Expenses() {
                 }
                 </tbody>
             </Table>
-            <Button variant='danger'>
+            <Button variant='danger' onClick={ () => {navigate('/expenses/-1')}}>
                 <span className='me-1'>Add Expense</span> <Plus />
             </Button>
         </>

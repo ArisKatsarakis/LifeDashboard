@@ -8,10 +8,12 @@ import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -59,6 +61,15 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<ExpenseType> getExpenseTypes() {
         List<ExpenseType> expenseTypes = Arrays.asList(ExpenseType.values());
         return expenseTypes;
+    }
+
+    @Override
+    public Expense getExpenseById(long expenseId) {
+        Optional<Expense> expense = expenseRepository.findById(expenseId);
+        if (expense.isPresent()) {
+            return expense.get();
+        }
+        return null;
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

@@ -9,6 +9,7 @@ import {Header} from "./Components/Header";
 import {Incomes} from "./Components/Incomes";
 import {Container} from "react-bootstrap";
 import {IncomeComponent} from "./Components/IncomeComponent";
+import { ExpenseComponent } from './Components/ExpenseComponent';
 
 
 
@@ -22,6 +23,7 @@ function App() {
                   <Route  path='/expenses' element={<Expenses />} />
                   <Route  path='/incomes' element={<Incomes />} />
                   <Route  path='/income/:incomeId' element={<IncomeComponent />} />
+                  <Route  path='/expenses/:expenseId' element={<ExpenseComponent />} />
               </Routes>
 
           </BrowserRouter>

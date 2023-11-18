@@ -26,6 +26,7 @@ public class ExpenseController {
     }
 
     @PostMapping("/api/v1/expenses")
+    @CrossOrigin
     Expense createNewExpense(@RequestBody Expense expense) {
         if(expense.getExpenseId() == 0L) {
             return expenseService.addExpense(expense);
@@ -45,6 +46,11 @@ public class ExpenseController {
     }
 
 
+    @GetMapping("api/v1/expenses/{expenseId}")
+    @CrossOrigin
+    Expense getExpenseById(@PathVariable long expenseId) {
+        return expenseService.getExpenseById(expenseId);
+    }
     @GetMapping("api/v1/expenses/criteria")
     List<Expense> getExpensesBySpecificDay(@RequestParam LocalDate specificDay) {
         controllerLogger.info("Expenses for : "+ specificDay.toString()  + " are requested.");
@@ -52,6 +58,7 @@ public class ExpenseController {
     }
 
     @GetMapping("api/v1/expense-types")
+    @CrossOrigin
     List<ExpenseType> getExpenseTypes() {
         return expenseService.getExpenseTypes();
     }

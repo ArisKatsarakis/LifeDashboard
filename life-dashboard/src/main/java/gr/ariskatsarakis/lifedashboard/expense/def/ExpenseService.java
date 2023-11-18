@@ -20,4 +20,6 @@ public interface ExpenseService {
     List<Expense> getExpensesByType(String expenseType);
 
     List<ExpenseType> getExpenseTypes();
+
+    Expense getExpenseById(long expenseId);
 }

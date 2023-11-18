@@ -14,7 +14,12 @@ function Expenses() {
         setExpenses(data.data);
         // return data.data;
     }
-    // @ts-ignore
+
+    const deleteExpenseByIdApi = async (expenseId:  number) => {
+        await axios.delete(`${variables.fetchExpensesURL}/${expenseId}`);
+        navigate(0);
+    }
+    // @ts-ignore 
     useEffect(
         () => {
              fetchExpenses();
@@ -50,7 +55,11 @@ function Expenses() {
                                         }}>
                                            <Pencil />
                                         </Button>
-                                        <Button variant='danger'>
+                                        <Button 
+                                        onClick={ async () => {
+                                           await deleteExpenseByIdApi(expense.expenseId);
+                                        }}
+                                        variant='danger'>
                                             <Bin />
                                         </Button>
                                     </td>

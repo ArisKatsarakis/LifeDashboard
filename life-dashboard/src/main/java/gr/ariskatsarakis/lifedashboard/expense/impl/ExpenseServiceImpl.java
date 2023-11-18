@@ -5,6 +5,7 @@ import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseRepository;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
@@ -79,6 +81,11 @@ public class ExpenseServiceImpl implements ExpenseService {
             expenseRepository.save(expense);
         }
         return expense;
+    }
+
+    @Override
+    public void deleteExpenseById(long expenseId) {
+        expenseRepository.deleteExpenseById(expenseId);
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

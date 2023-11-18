@@ -8,7 +8,6 @@ import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -70,6 +69,16 @@ public class ExpenseServiceImpl implements ExpenseService {
             return expense.get();
         }
         return null;
+    }
+
+    @Override
+    public Expense updateExpenseById(long expenseId, Expense expense) {
+        Optional<Expense> expenseFromDb = expenseRepository.findById(expenseId);
+        if(expenseFromDb.isPresent()) {
+            expense.setExpenseId(expenseFromDb.get().getExpenseId());
+            expenseRepository.save(expense);
+        }
+        return expense;
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

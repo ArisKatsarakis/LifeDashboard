@@ -1,7 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense.def;
 
 
-import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCriteria;
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
 
 import java.time.LocalDate;
@@ -22,4 +21,6 @@ public interface ExpenseService {
     List<ExpenseType> getExpenseTypes();
 
     Expense getExpenseById(long expenseId);
+
+    Expense updateExpenseById(long expenseId, Expense expense);
 }

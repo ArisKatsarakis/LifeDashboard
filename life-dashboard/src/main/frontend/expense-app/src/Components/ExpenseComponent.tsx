@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Form, Row, Col, DropdownButton, Dropdown, InputGroup, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { variables } from "../Utilities/Variables";
 import axios from "axios";
 import { ExpensePromise, Expense } from "../Interfaces/ExpenseInterfaces";
@@ -13,6 +13,7 @@ export const ExpenseComponent = () => {
     const [moneySpent, setMoneySpent] = useState(0);
     const [dateCreated, setDateCreated] = useState('');
     const [types, setTypes] = useState([])
+    const navigate = useNavigate();
     const fetchExpenseById = async () => {
         const expense: ExpensePromise = await axios.get(variables.fetchExpensesURL + '/' + expenseId,);
         console.log(expense.data);
@@ -48,8 +49,18 @@ export const ExpenseComponent = () => {
         }
         if (expenseId === '-1') {
             await createNewExpenseFromApi(expenseData);
+            navigate('/expenses');
+        }else {
+            await updateExpenseFromApi(expenseData);
+            navigate(0);
         }
 
+       
+    }
+
+    const updateExpenseFromApi = async (expenseData: Expense) => {
+        const response = await axios.put(`${variables.fetchExpensesURL}/${expenseId}`, expenseData);
+        console.log(response.data);
     }
 
     const createNewExpenseFromApi = async (expenseData: Expense) => {

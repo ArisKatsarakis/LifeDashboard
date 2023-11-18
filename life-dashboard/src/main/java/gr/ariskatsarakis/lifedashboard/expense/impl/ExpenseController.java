@@ -57,6 +57,12 @@ public class ExpenseController {
         return expenseService.getExpensesForSpecificDay(specificDay);
     }
 
+    @PutMapping("api/v1/expenses/{expenseId}")
+    @CrossOrigin
+    Expense updateExpenseById(@PathVariable long expenseId, @RequestBody Expense expense) {
+        return expenseService.updateExpenseById(expenseId, expense);
+    }
+
     @GetMapping("api/v1/expense-types")
     @CrossOrigin
     List<ExpenseType> getExpenseTypes() {

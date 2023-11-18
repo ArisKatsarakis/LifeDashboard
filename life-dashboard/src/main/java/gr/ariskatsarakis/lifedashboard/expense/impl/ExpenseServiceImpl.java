@@ -1,6 +1,5 @@
 package gr.ariskatsarakis.lifedashboard.expense.impl;
 
-import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseCriteria;
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseSpecifications;
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
@@ -11,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -53,6 +53,12 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
         Specification<Expense> spec = ExpenseSpecifications.byExpenseType(expenseTypeAsked);
         return expenseRepository.findAll(spec);
+    }
+
+    @Override
+    public List<ExpenseType> getExpenseTypes() {
+        List<ExpenseType> expenseTypes = Arrays.asList(ExpenseType.values());
+        return expenseTypes;
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense.impl;
 
+import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
 import org.slf4j.Logger;
@@ -48,5 +49,10 @@ public class ExpenseController {
     List<Expense> getExpensesBySpecificDay(@RequestParam LocalDate specificDay) {
         controllerLogger.info("Expenses for : "+ specificDay.toString()  + " are requested.");
         return expenseService.getExpensesForSpecificDay(specificDay);
+    }
+
+    @GetMapping("api/v1/expense-types")
+    List<ExpenseType> getExpenseTypes() {
+        return expenseService.getExpenseTypes();
     }
 }

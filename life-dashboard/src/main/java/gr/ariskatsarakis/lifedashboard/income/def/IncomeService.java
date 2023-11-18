@@ -51,4 +51,11 @@ public interface IncomeService {
      */
 
     ResponseEntity<IncomeDTO> updateIncome(Income income);
+
+    /**
+     * Delete Income by incomeId
+     * @param incomeId
+     */
+
+    void deleteIncomeById(long incomeId);
 }

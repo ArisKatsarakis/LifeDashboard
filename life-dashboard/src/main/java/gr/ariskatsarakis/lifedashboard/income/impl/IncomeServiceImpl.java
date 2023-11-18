@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.income.impl;
 
 import gr.ariskatsarakis.lifedashboard.income.def.*;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class IncomeServiceImpl
 implements IncomeService {
 
@@ -57,5 +59,10 @@ implements IncomeService {
         Income update = incomeRepository.save(income);
         IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(update);
         return new ResponseEntity<IncomeDTO>(incomeDTO, HttpStatus.OK);
+    }
+
+    @Override
+    public void deleteIncomeById(long incomeId) {
+        incomeRepository.deleteIncomeById(incomeId);
     }
 }

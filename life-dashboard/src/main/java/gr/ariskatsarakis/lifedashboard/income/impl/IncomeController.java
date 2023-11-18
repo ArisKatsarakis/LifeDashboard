@@ -72,4 +72,9 @@ public class IncomeController {
         return new ResponseEntity<IncomeDTO>(new IncomeDTO(), HttpStatus.NOT_FOUND);
     }
 
+    @DeleteMapping("api/v1/incomes/{incomeId}")
+    void deleteIncomeById(@PathVariable long incomeId) {
+         incomeService.deleteIncomeById(incomeId);
+    }
+
 }

@@ -13,6 +13,9 @@ export const Incomes = () => {
         const data = await axios.get(variables.fetchIncomesURL);
         setIncomes(data.data);
     };
+    const deleteIncomeById = async (incomeId: number) => {
+        await axios.delete(`${variables.fetchIncomesURL}/${incomeId}`);
+    }
     useEffect(
         () => {
             fetchIncomes();
@@ -43,7 +46,11 @@ export const Incomes = () => {
                                                 <Button href={`../income/${income.incomeId}`} variant='outline-success'>
                                                     <Pencil/>
                                                 </Button>
-                                                <Button variant='outline-danger'>
+                                                <Button 
+                                                onClick={() => {
+                                                    deleteIncomeById(income.incomeId);
+                                                }}
+                                                variant='outline-danger'>
                                                     <Bin/>
                                                 </Button>
                                             </div>

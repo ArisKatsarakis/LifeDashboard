@@ -15,7 +15,7 @@ export const IncomeCard = (income: IncomeDTO) => {
                                 {income.moneyReceived}€
                             </Col>
                             <Col md='6' className={styles.expense}>
-                                {income.incomeSourceId}€
+                                {income.incomeSourceName}
                             </Col>
                         </Row>
                     </Container>

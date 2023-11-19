@@ -74,6 +74,8 @@ public class ExpenseController {
     @DeleteMapping("api/v1/expenses/{expenseId}")
     @CrossOrigin
     public void deleteExpenseById(@PathVariable long expenseId) {
+
+
         expenseService.deleteExpenseById(expenseId);
     }
 

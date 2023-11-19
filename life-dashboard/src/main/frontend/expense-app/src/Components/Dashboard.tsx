@@ -6,8 +6,9 @@ import { Button, Row, Col, } from "react-bootstrap";
 import styles from './Dashboard.module.css'
 import { ExpenseCard } from "./ExpenseCard";
 import { Expense, ExpensesPromise } from "../Interfaces/ExpenseInterfaces";
-import {  IncomeDTO, IncomesPromise } from "../Interfaces/IncomeInterfaces";
+import { IncomeDTO, IncomesPromise } from "../Interfaces/IncomeInterfaces";
 import { IncomeCard } from "./IncomeCard";
+import { TotalBudget } from "./TotalBudget";
 export const Dashboard = () => {
 
     const [expenses, setExpenses] = useState<Expense[]>(samples.SAMPLE_EXPENSES);
@@ -36,6 +37,38 @@ export const Dashboard = () => {
                         Dashboard
                     </h2>
                 </Row>
+                <Row>
+                    <ExpenseCard
+                        key={sampleExpense.expenseId}
+                        expenseId={sampleExpense.expenseId}
+                        expenseName={sampleExpense.expenseName}
+                        expenseType={sampleExpense.expenseType}
+                        moneySpent={sampleExpense.moneySpent}
+                        dateCreated={
+                            sampleExpense.dateCreated
+                        }
+                    />
+                    <ExpenseCard
+                        key={sampleExpense.expenseId}
+                        expenseId={sampleExpense.expenseId}
+                        expenseName={sampleExpense.expenseName}
+                        expenseType={sampleExpense.expenseType}
+                        moneySpent={sampleExpense.moneySpent}
+                        dateCreated={
+                            sampleExpense.dateCreated
+                        }
+                    />
+                    <IncomeCard
+                        key={sampleIncome.incomeId}
+                        incomeId={sampleIncome.incomeId}
+                        incomeSourceName={sampleIncome.incomeSourceName}
+                        incomeSourceId={sampleIncome.incomeSourceId}
+                        moneyReceived={sampleIncome.moneyReceived}
+                        dateCreated={sampleIncome.dateCreated}
+                        description={sampleIncome.description}
+
+                    />
+                </Row>
                 <Row className='text-center'>
                     <Col className="expenses">
                         {expenses.map(
@@ -57,29 +90,30 @@ export const Dashboard = () => {
                         <Button variant='danger' > Add Expense </Button>
                     </Col>
                     <Col className="incomes">
-                            {incomes.map(
-                                income => {
-                                    return (
-                                        <IncomeCard 
-                                        
-                                            key={income.incomeId}
-                                            incomeId={income.incomeId}
-                                            incomeSourceName={income.incomeSourceName}
-                                            incomeSourceId={income.incomeSourceId}
-                                            moneyReceived={income.moneyReceived}
-                                            dateCreated={income.dateCreated}
-                                            description={income.description}
-                                        
-                                        />
-                                    )
-                                }
-                            )}
-                            
-                            <Button variant='success'>Add Income</Button>
+                        {incomes.map(
+                            income => {
+                                return (
+                                    <IncomeCard
+
+                                        key={income.incomeId}
+                                        incomeId={income.incomeId}
+                                        incomeSourceName={income.incomeSourceName}
+                                        incomeSourceId={income.incomeSourceId}
+                                        moneyReceived={income.moneyReceived}
+                                        dateCreated={income.dateCreated}
+                                        description={income.description}
+
+                                    />
+                                )
+                            }
+                        )}
+
+                        <Button variant='success'>Add Income</Button>
                     </Col>
                 </Row>
-
-
+                <Row>
+                    <TotalBudget />
+                </Row>
             </div>
         </>
     );

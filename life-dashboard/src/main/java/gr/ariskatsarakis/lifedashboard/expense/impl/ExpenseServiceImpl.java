@@ -1,5 +1,8 @@
 package gr.ariskatsarakis.lifedashboard.expense.impl;
 
+import gr.ariskatsarakis.lifedashboard.budget.def.Entry;
+import gr.ariskatsarakis.lifedashboard.budget.def.EntryService;
+import gr.ariskatsarakis.lifedashboard.budget.impl.EntryMapper;
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseSpecifications;
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
@@ -22,6 +25,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
+    @Autowired
+    private EntryService entryService;
 
 
     @Override
@@ -31,8 +36,10 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public Expense addExpense(Expense expense) {
-
-       return  expenseRepository.save(expense);
+        Expense savedExpense = expenseRepository.save(expense);
+        Entry entry = EntryMapper.expenseToEntry(savedExpense);
+        entryService.addNewEntry(entry);
+       return savedExpense;
     }
 
     public List<Expense> getExpensesByMonth(int month) {
@@ -79,6 +86,8 @@ public class ExpenseServiceImpl implements ExpenseService {
         Optional<Expense> expenseFromDb = expenseRepository.findById(expenseId);
         if(expenseFromDb.isPresent()) {
             expense.setExpenseId(expenseFromDb.get().getExpenseId());
+            Entry entry = EntryMapper.expenseToEntry(expense);
+            entryService.updateEntry(entry);
             expenseRepository.save(expense);
         }
         return expense;
@@ -86,6 +95,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void deleteExpenseById(long expenseId) {
+        entryService.deleteEntryByExpenseId(expenseId);
         expenseRepository.deleteExpenseById(expenseId);
     }
 

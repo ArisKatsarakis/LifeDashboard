@@ -1,5 +1,9 @@
 package gr.ariskatsarakis.lifedashboard.income.impl;
 
+import gr.ariskatsarakis.lifedashboard.budget.def.BudgetUtilities;
+import gr.ariskatsarakis.lifedashboard.budget.def.Entry;
+import gr.ariskatsarakis.lifedashboard.budget.def.EntryService;
+import gr.ariskatsarakis.lifedashboard.budget.impl.EntryMapper;
 import gr.ariskatsarakis.lifedashboard.income.def.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -30,6 +34,12 @@ implements IncomeService {
 
     @Autowired
     private IncomeSourceRepository incomeSourceRepository;
+
+    @Autowired
+    private BudgetUtilities budgetUtilities;
+
+    @Autowired
+    private EntryService entryService;
     public List<Income> getAllIncomes() {
         return incomeRepository.findAll();
     }
@@ -39,7 +49,10 @@ implements IncomeService {
         Optional<IncomeSource> iSource = incomeSourceRepository.findById(incomeSourceId);
         income.setIncomeSource(iSource.orElse(null));
         logger.info("New Income Added " + income + " TIME: " + Timestamp.valueOf(LocalDateTime.now()));
-        return incomeRepository.save(income);
+        Income savedIncome = incomeRepository.save(income);
+        Entry entry = EntryMapper.incomeToEntry(savedIncome);
+        entryService.addNewEntry(entry);
+        return savedIncome;
     }
 
     @Override
@@ -61,11 +74,14 @@ implements IncomeService {
     public ResponseEntity<IncomeDTO> updateIncome(Income income) {
         Income update = incomeRepository.save(income);
         IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(update);
+        Entry entry = EntryMapper.incomeToEntry(update);
+        entryService.updateEntry(entry);
         return new ResponseEntity<IncomeDTO>(incomeDTO, HttpStatus.OK);
     }
 
     @Override
     public void deleteIncomeById(long incomeId) {
+        entryService.deleteEntryByIncomeId(incomeId);
         incomeRepository.deleteIncomeById(incomeId);
     }
 

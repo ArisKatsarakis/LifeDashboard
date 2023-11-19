@@ -18,7 +18,8 @@ public class IncomeMapper {
                 income.getIncomeSource().getIncomeSourceId(),
                 income.getDescription(),
                 income.getDateCreated(),
-                income.getMoneyReceived()
+                income.getMoneyReceived(),
+                 income.getIncomeSource().getName()
         );
 
         return dto;

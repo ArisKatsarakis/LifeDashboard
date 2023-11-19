@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.income.impl;
 
+import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseRepository;
 import gr.ariskatsarakis.lifedashboard.income.def.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ public class IncomeController {
 
     @Autowired
     private IncomeSourceService incomeSourceService;
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     @GetMapping("/api/v1/incomes")
     @CrossOrigin
@@ -73,8 +76,15 @@ public class IncomeController {
     }
 
     @DeleteMapping("api/v1/incomes/{incomeId}")
+    @CrossOrigin
     void deleteIncomeById(@PathVariable long incomeId) {
          incomeService.deleteIncomeById(incomeId);
+    }
+
+    @GetMapping("api/v1/incomes-last-10")
+    @CrossOrigin
+    List<IncomeDTO> getLast10Incomes() {
+        return incomeService.getLast10Incomes();
     }
 
 }

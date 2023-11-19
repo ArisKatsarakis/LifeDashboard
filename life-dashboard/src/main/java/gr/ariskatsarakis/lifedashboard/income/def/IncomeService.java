@@ -58,4 +58,6 @@ public interface IncomeService {
      */
 
     void deleteIncomeById(long incomeId);
+
+    List<IncomeDTO> getLast10Incomes();
 }

@@ -5,12 +5,15 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,5 +67,19 @@ implements IncomeService {
     @Override
     public void deleteIncomeById(long incomeId) {
         incomeRepository.deleteIncomeById(incomeId);
+    }
+
+    @Override
+    public List<IncomeDTO> getLast10Incomes() {
+        List<IncomeDTO> tenIncomeDtos = new ArrayList<>();
+        Pageable last10 = PageRequest.of(0, 10);
+        List<Income>  tenIncomes = incomeRepository.getLast10(last10);
+        tenIncomes.stream().forEach(
+                income -> {
+                    IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(income);
+                    tenIncomeDtos.add(incomeDTO);
+                }
+        );
+        return tenIncomeDtos;
     }
 }

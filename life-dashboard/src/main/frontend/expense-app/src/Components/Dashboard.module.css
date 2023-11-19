@@ -1,0 +1,12 @@
+.expense {
+    border: 1px solid black;
+    box-shadow:  1px 1px 1px 1px black;
+}
+.ExpenseCard {
+    margin-bottom: 1rem;
+    box-shadow: 1px 1px 1px 1px red;
+}
+.IncomeCard {
+    margin-bottom: 1rem;
+    box-shadow: 1px 1px 1px 1px green;
+}

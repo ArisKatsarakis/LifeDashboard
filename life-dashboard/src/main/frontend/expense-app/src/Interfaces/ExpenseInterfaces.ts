@@ -10,3 +10,8 @@ export interface ExpensePromise {
     data: Expense
     
 }
+
+export interface ExpensesPromise {
+    data: [Expense]
+    
+}

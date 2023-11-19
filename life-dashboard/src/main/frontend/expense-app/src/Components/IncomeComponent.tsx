@@ -13,7 +13,7 @@ export const IncomeComponent = () => {
     const [moneyReceived, setMoneyReceived] = useState(0);
     const [description, setDescription] = useState('');
     const today = new Date();
-    const [dateCreate, setDateCreated] = useState(today);
+    const [dateCreate, setDateCreated] = useState('');
     const [incomeSource, setIncomeSource] = useState('')
     const [incomeSources, setIncomeSources] = useState([]);
     const [selectedSourceId, setSelectedSourceId] = useState(-1);
@@ -62,7 +62,6 @@ export const IncomeComponent = () => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (dateCreate == null) setDateCreated(today);
         const income : Income = {
             incomeId : '',
             moneyReceived: moneyReceived,
@@ -120,7 +119,7 @@ export const IncomeComponent = () => {
                             type="date"
                             placeholder="Date Received"
                             defaultValue={today.toISOString().split('T')[0]}
-                            onChange={event => { setDateCreated(new Date(event.target.value.toString())) }}
+                            onChange={event => { setDateCreated(event.currentTarget.value) }}
                             required
                         />
 

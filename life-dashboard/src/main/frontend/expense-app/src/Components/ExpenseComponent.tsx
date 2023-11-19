@@ -1,13 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Form, Row, Col, DropdownButton, Dropdown, InputGroup, Button } from "react-bootstrap";
+import { Form, Row, Col, InputGroup, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { variables } from "../Utilities/Variables";
 import axios from "axios";
 import { ExpensePromise, Expense } from "../Interfaces/ExpenseInterfaces";
 export const ExpenseComponent = () => {
     const { expenseId } = useParams();
-    const today = new Date();
-
     const [expenseName, setExpenseName] = useState('');
     const [expenseType, setExpenseType] = useState('');
     const [moneySpent, setMoneySpent] = useState(0);

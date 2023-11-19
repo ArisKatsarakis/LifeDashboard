@@ -19,4 +19,5 @@ public class IncomeDTO {
     private String description;
     private LocalDate dateCreated;
     private BigDecimal MoneyReceived;
+    private String incomeSourceName;
 }

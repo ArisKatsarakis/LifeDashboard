@@ -7,6 +7,7 @@ import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseRepository;
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public void deleteExpenseById(long expenseId) {
         expenseRepository.deleteExpenseById(expenseId);
+    }
+
+    @Override
+    public List<Expense> getLast10(Pageable lastTen) {
+        return expenseRepository.getLast10();
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

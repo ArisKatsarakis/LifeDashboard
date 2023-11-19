@@ -6,6 +6,8 @@ import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -73,5 +75,13 @@ public class ExpenseController {
     @CrossOrigin
     public void deleteExpenseById(@PathVariable long expenseId) {
         expenseService.deleteExpenseById(expenseId);
+    }
+
+    @GetMapping("api/v1/expenses-last-10")
+    @CrossOrigin
+    public List<Expense> getLast10Expenses() {
+        Pageable lastTen = PageRequest.of(0, 10);
+
+        return expenseService.getLast10(lastTen);
     }
 }

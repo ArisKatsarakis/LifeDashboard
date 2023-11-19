@@ -21,4 +21,7 @@ public   interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSp
     @Modifying
     @Query("delete from  Expense e where e.expenseId = ?1")
     void deleteExpenseById(long expenseId);
+
+    @Query( "SELECT ex from Expense ex ORDER BY ex.dateCreated")
+    List<Expense> getLast10();
 }

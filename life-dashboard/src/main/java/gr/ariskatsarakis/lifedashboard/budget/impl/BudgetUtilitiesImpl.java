@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class BudgetUtilitiesImpl
 implements BudgetUtilities {
     private static final Logger logger = LoggerFactory.getLogger(BudgetUtilitiesImpl.class);
-    private static final Logger logger = LoggerFactory.getLogger(BudgetUtilitiesImpl.class);
     @Autowired
     private BudgetRepository budgetRepository;
     @Override

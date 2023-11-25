@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncomeDTO {
-    private Long id;
+    private Long incomeId;
     private Long incomeSourceId;
     private String description;
     private LocalDate dateCreated;

@@ -26,8 +26,8 @@ public class IncomeController {
 
     @GetMapping("/api/v1/incomes")
     @CrossOrigin
-    List<Income> getAllIncomes() {
-        return incomeService.getAllIncomes();
+    List<IncomeDTO> getAllIncomes() {
+        return incomeService.getAllIncomesToDtos();
     }
 
     @PostMapping("/api/v1/{incomeSource}/incomes")

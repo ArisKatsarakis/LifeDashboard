@@ -41,8 +41,10 @@ implements IncomeService {
 
     @Autowired
     private EntryService entryService;
-    public List<Income> getAllIncomes() {
-        return incomeRepository.findAll();
+    public List<IncomeDTO> getAllIncomesToDtos() {
+        List<IncomeDTO> incomeDTOS = new ArrayList<IncomeDTO>();
+        incomeRepository.findAll().stream().forEach(income -> incomeDTOS.add(IncomeMapper.incomeToIncomeDTO(income)));
+        return  incomeDTOS;
     }
 
     @Override

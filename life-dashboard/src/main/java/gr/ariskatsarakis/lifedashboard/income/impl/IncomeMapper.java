@@ -33,7 +33,7 @@ public class IncomeMapper {
         if( incomeSource.isPresent()) {
             income.setIncomeSource(incomeSource.get());
         }
-        income.setIncomeId(dto.getId());
+        income.setIncomeId(dto.getIncomeId());
         income.setDescription(dto.getDescription());
         income.setMoneyReceived(dto.getMoneyReceived());
         return income;

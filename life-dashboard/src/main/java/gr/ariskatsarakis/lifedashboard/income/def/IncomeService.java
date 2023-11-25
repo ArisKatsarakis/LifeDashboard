@@ -14,7 +14,7 @@ public interface IncomeService {
     /**
      * Returns all Incomes.
      */
-    List<Income> getAllIncomes();
+    List<IncomeDTO> getAllIncomesToDtos();
 
     /**
      * Adds the Income in param to the DB.

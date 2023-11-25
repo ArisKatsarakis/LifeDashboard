@@ -45,7 +45,7 @@ public class TestBudgetUtilitiesImpl {
     @Test
     public void test_createBudget_FromIncome() {
         Entry income = EntrySamples.
-                createRandomExpenseEntry();
+                createRandomIncomeEntry();
         Budget lastBudget = BudgetSamples.sampleBudget();
         Budget budgetCreated = undertest.createBudgetFromLastEntry(lastBudget, income);
         BigDecimal expectedWalletMoney = lastBudget.getWalletMoney().add(income.getMoney());

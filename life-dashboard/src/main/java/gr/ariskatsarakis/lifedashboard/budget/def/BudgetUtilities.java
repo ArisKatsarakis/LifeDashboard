@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.budget.def;
 
+import gr.ariskatsarakis.lifedashboard.budget.beans.BudgetHistory;
+
 public interface BudgetUtilities {
     /**
      * Updates Budget each time an Income/Expense is added deleted or edited.
@@ -28,4 +30,10 @@ public interface BudgetUtilities {
      * make the new budget accordingly
      */
     void refreshBudget();
+
+    /**
+     *
+     * @return {@link BudgetHistory}
+     */
+    BudgetHistory getBudgetHistory();
 }

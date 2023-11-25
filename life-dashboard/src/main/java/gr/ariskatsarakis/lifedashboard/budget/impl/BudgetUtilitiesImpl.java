@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.budget.impl;
 
+import gr.ariskatsarakis.lifedashboard.budget.beans.BudgetHistory;
 import gr.ariskatsarakis.lifedashboard.budget.def.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -14,6 +15,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+
+/**
+ * TODO remove all the pageables used in order to use limit in repository of entries
+ */
 
 @Service
 @Transactional
@@ -37,6 +42,8 @@ implements BudgetUtilities {
             budgetRepository.save(firstBudget);
         }else {
             Budget currentBudget = createBudgetFromLastEntry(lastBudget.get(0), entry);
+            logger.info("BUDGET CREATED FROM ENTRY: ",entry.getEntryId());
+            budgetRepository.save(currentBudget);
         }
 
     }
@@ -92,5 +99,22 @@ implements BudgetUtilities {
     @Override
     public void refreshBudget() {
 
+    }
+
+    /**
+     * TODO fix this if there is no budget for some reason
+     *
+     * @return the Budget and the last 10 entries
+     */
+    @Override
+    public BudgetHistory getBudgetHistory() {
+        BudgetHistory budgetHistory = new BudgetHistory();
+        Pageable latest = PageRequest.of(0, 1);
+        Budget lastBudget = budgetRepository.getLastBudget(latest).get(0);
+        budgetHistory.setBudget(lastBudget);
+        Pageable lastTenEntries = PageRequest.of(0,10);
+        List<Entry>  last10 = entryRepository.getLast10(lastTenEntries);
+        budgetHistory.setTenLastEntries(last10);
+        return budgetHistory;
     }
 }

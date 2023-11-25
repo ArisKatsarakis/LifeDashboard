@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sampleExpense, sampleIncome, samples } from "../Utilities/Samples";
+import { sampleBudget, sampleExpense, sampleIncome, samples } from "../Utilities/Samples";
 import { variables } from "../Utilities/Variables";
 import axios from "axios";
 import { Button, Row, Col, } from "react-bootstrap";
@@ -9,24 +9,19 @@ import { Expense, ExpensesPromise } from "../Interfaces/ExpenseInterfaces";
 import { IncomeDTO, IncomesPromise } from "../Interfaces/IncomeInterfaces";
 import { IncomeCard } from "./IncomeCard";
 import { TotalBudget } from "./TotalBudget";
+import { Budget, BudgetHistory, BudgetHistoryPromise, Entry } from "../Interfaces/BudgetInterfaces";
 export const Dashboard = () => {
 
-    const [expenses, setExpenses] = useState<Expense[]>(samples.SAMPLE_EXPENSES);
-    const [incomes, setIncomes] = useState<IncomeDTO[]>(samples.SAMPLE_INCOMES);
-
-    const getLast10ExpensesfromApi = async () => {
-        const expenses: ExpensesPromise = await axios.get(variables.fetchLast10ExpensesURL);
-        setExpenses(expenses.data);
-    }
-
-    const getLast10IncomesFromApi = async () => {
-        const incomes: IncomesPromise = await axios.get(variables.fetchLast10IncomesURL)
-        setIncomes(incomes.data);
+    const [entries, setEntries] = useState<Entry[]>([]);
+    const [budget, setBudget] = useState<Budget>(sampleBudget)
+    const getBudugetHistoryFromApi = async () => {
+        const results: BudgetHistoryPromise = await axios.get(variables.fetchHistory);
+        setEntries(results.data.tenLastEntries);
+        setBudget(results.data.budget);
     }
     useEffect(
         () => {
-            getLast10ExpensesfromApi();
-            getLast10IncomesFromApi();
+            getBudugetHistoryFromApi();
         }, []
     )
     return (
@@ -38,82 +33,67 @@ export const Dashboard = () => {
                     </h2>
                 </Row>
                 <Row>
-                    <ExpenseCard
-                        key={sampleExpense.expenseId}
-                        expenseId={sampleExpense.expenseId}
-                        expenseName={sampleExpense.expenseName}
-                        expenseType={sampleExpense.expenseType}
-                        moneySpent={sampleExpense.moneySpent}
-                        dateCreated={
-                            sampleExpense.dateCreated
-                        }
-                    />
-                    <ExpenseCard
-                        key={sampleExpense.expenseId}
-                        expenseId={sampleExpense.expenseId}
-                        expenseName={sampleExpense.expenseName}
-                        expenseType={sampleExpense.expenseType}
-                        moneySpent={sampleExpense.moneySpent}
-                        dateCreated={
-                            sampleExpense.dateCreated
-                        }
-                    />
-                    <IncomeCard
-                        key={sampleIncome.incomeId}
-                        incomeId={sampleIncome.incomeId}
-                        incomeSourceName={sampleIncome.incomeSourceName}
-                        incomeSourceId={sampleIncome.incomeSourceId}
-                        moneyReceived={sampleIncome.moneyReceived}
-                        dateCreated={sampleIncome.dateCreated}
-                        description={sampleIncome.description}
+                    <Col md='2'>
+                        <span>
 
-                    />
+                        </span>
+                    </Col>
+                    <Col md='8'>
+                        <TotalBudget
+                            key={budget.budgetId}
+                            lastExpenseDate={budget.lastExpenseDate}
+                            dateCreated={budget.dateCreated}
+                            lastIncomeDate={budget.lastIncomeDate}
+                            budgetId={budget.budgetId}
+                            walletMoney={budget.walletMoney}
+                        />
+                    </Col>
+
+                    <Col md='2'>
+                    </Col>
                 </Row>
-                <Row className='text-center'>
-                    <Col className="expenses">
-                        {expenses.map(
-                            expense => {
+                <Row md={'12'}>
+                    <Col md='6'>
+                        {entries.filter(entry => entry.entryType === 'EXPENSE').map(
+                            entry => {
                                 return (
                                     <ExpenseCard
-                                        key={expense.expenseId}
-                                        expenseId={expense.expenseId}
-                                        expenseName={expense.expenseName}
-                                        expenseType={expense.expenseType}
-                                        moneySpent={expense.moneySpent}
+                                        key={entry.expenseId}
+                                        expenseId={entry.expenseId}
+                                        expenseName={''}
+                                        expenseType={entry.entryType}
+                                        moneySpent={entry.money}
                                         dateCreated={
-                                            expense.dateCreated
+                                            entry.dateInserted
                                         }
                                     />
                                 )
                             }
                         )}
-                        <Button variant='danger' > Add Expense </Button>
                     </Col>
-                    <Col className="incomes">
-                        {incomes.map(
-                            income => {
+                    <Col md='6'>
+                        {entries.filter(entry => entry.entryType === 'INCOME').map(
+                            entry => {
                                 return (
                                     <IncomeCard
-
-                                        key={income.incomeId}
-                                        incomeId={income.incomeId}
-                                        incomeSourceName={income.incomeSourceName}
-                                        incomeSourceId={income.incomeSourceId}
-                                        moneyReceived={income.moneyReceived}
-                                        dateCreated={income.dateCreated}
-                                        description={income.description}
-
+                                        key={entry.incomeId}
+                                        incomeId={entry.entryId.toString()}
+                                        incomeSourceName={entry.entryType}
+                                        incomeSourceId={entry.entryId}
+                                        moneyReceived={entry.money}
+                                        dateCreated={entry.dateInserted}
+                                        description={''}
                                     />
+
                                 )
                             }
                         )}
 
-                        <Button variant='success'>Add Income</Button>
                     </Col>
+
+
                 </Row>
-                <Row>
-                    <TotalBudget />
-                </Row>
+
             </div>
         </>
     );

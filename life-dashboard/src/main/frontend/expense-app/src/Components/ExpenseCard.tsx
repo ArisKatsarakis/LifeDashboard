@@ -5,23 +5,16 @@ import { Expense } from '../Interfaces/ExpenseInterfaces';
 export const ExpenseCard = (expense : Expense) => {
 
     return (
-        <Card className={styles.ExpenseCard}>
-        <Card.Title style={{ background: 'red', color: 'white' }}>
-            Expense at {expense.dateCreated}
+        <Card className={styles.ExpenseCard} >
+        <Card.Title className={styles.ExpensePrice}>
+         {expense.moneySpent} € 
         </Card.Title>
-        <Card.Body>
-            <Card.Text>
-                <Container>
-                    <Row>
-                        <Col md='6' className={styles.expense}>
-                                {expense.moneySpent}€
-                        </Col>
-                        <Col md='6' className={styles.expense}>
-                                Type: {expense.expenseType}
-                        </Col>
-                    </Row>
-
-                </Container>
+        <Card.Subtitle className={styles.ExpenseDate}>
+            {expense.dateCreated}
+        </Card.Subtitle>
+        <Card.Body className={styles.ExpenseType}>
+            <Card.Text >
+            <span>Type: {expense.expenseType}</span>
             </Card.Text>
         </Card.Body>
 

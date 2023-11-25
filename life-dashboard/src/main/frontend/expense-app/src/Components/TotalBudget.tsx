@@ -1,22 +1,13 @@
-import { Row, Container, Col } from "react-bootstrap"
-export const TotalBudget = () => {
+import { Row, Container, Col, Card } from "react-bootstrap"
+import { Budget } from "../Interfaces/BudgetInterfaces"
+import styles from './Dashboard.module.css';
+export const TotalBudget = (budget: Budget) => {
     return (
-        <Container>
+        <Card className={styles.BudgetCard}>
+            <Card.Body className={styles.BudgetMoney}>
+                <h2>Budget: €{budget.walletMoney} </h2>
+            </Card.Body>
+        </Card>
 
-            <Row>
-                <Col md='3'>
-                    <h2>
-                        Budget Now 10e
-                    </h2>
-                    
-                </Col>
-                <Col md='4' style={{background:'green' , color: 'white'}} >
-                    <h2>last income: 2023-10-30</h2>   
-                </Col>
-                <Col md='4' style={{background:'red' , color: 'white'}} >
-                    <h2>last expense: 2023-10-30</h2>   
-                </Col>
-            </Row>
-        </Container>
     )
 }

@@ -17,7 +17,7 @@ public class IncomeMapper {
                 income.getIncomeId(),
                 income.getIncomeSource().getIncomeSourceId(),
                 income.getDescription(),
-                income.getDateCreated(),
+                income.getDateCreated().toLocalDateTime().toLocalDate(),
                 income.getMoneyReceived(),
                  income.getIncomeSource().getName()
         );

@@ -98,7 +98,8 @@ implements BudgetUtilities {
 
     @Override
     public void refreshBudget() {
-
+            Budget refreshedBudget = createInitialBudget();
+            budgetRepository.save(refreshedBudget);
     }
 
     /**

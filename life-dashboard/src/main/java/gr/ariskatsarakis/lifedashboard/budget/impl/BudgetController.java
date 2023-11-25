@@ -21,7 +21,7 @@ public class BudgetController {
 
 
     @GetMapping("api/v1/budget/history")
-    @CrossOrigincl
+    @CrossOrigin
     public BudgetHistory budgetHistory() {
         return  budgetService.getBudgetHistory();
     }

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ implements IncomeService {
         Optional<IncomeSource> iSource = incomeSourceRepository.findById(incomeSourceId);
         income.setIncomeSource(iSource.orElse(null));
         logger.info("New Income Added " + income + " TIME: " + Timestamp.valueOf(LocalDateTime.now()));
+        income.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
         Income savedIncome = incomeRepository.save(income);
         Entry entry = EntryMapper.incomeToEntry(savedIncome);
         entryService.addNewEntry(entry);

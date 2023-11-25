@@ -17,7 +17,7 @@ public class EntryMapper  {
     public static Entry incomeToEntry(Income income) {
         Entry entry = new Entry();
         entry.setEntryType(INCOME_TYPE_STRING);
-        entry.setDateInserted(Timestamp.valueOf(income.getDateCreated().atTime(LocalTime.now())));
+        entry.setDateInserted(income.getDateCreated());
         entry.setMoney(income.getMoneyReceived());
         entry.setIncomeId(income.getIncomeId());
         return entry;

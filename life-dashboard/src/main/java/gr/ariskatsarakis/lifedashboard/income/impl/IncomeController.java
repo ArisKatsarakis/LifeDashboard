@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -67,7 +69,7 @@ public class IncomeController {
             if(income.isPresent()) {
                 income.get().setIncomeSource(incomeSource.get());
                 income.get().setDescription(dto.getDescription());
-                income.get().setDateCreated(dto.getDateCreated());
+                income.get().setDateCreated(Timestamp.valueOf(dto.getDateCreated().atTime(LocalTime.now())));
                 income.get().setMoneyReceived(dto.getMoneyReceived());
                 return incomeService.updateIncome(income.get());
             }

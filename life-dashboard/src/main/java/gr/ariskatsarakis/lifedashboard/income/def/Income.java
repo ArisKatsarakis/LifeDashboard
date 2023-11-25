@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "life_incomes")
@@ -17,7 +19,7 @@ public class Income {
     private long incomeId;
     private BigDecimal moneyReceived;
     private String description;
-    private LocalDate dateCreated;
+    private Timestamp dateCreated;
 
 
     @ManyToOne
@@ -31,12 +33,12 @@ public class Income {
     public Income(BigDecimal moneyReceived, String description, IncomeSource incomeSource) {
         this.moneyReceived = moneyReceived;
         this.description = description;
-        this.dateCreated = LocalDate.now();
+        this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
         this.incomeSource = incomeSource;
     }
 
 
-    public LocalDate getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
@@ -51,7 +53,7 @@ public class Income {
                 '}';
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 

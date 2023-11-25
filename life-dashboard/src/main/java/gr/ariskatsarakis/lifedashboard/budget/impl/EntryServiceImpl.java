@@ -38,7 +38,7 @@ public class EntryServiceImpl implements EntryService {
     public Entry addNewEntry(Entry entry) {
         logger.info("NEW ENTRY ADDED " + Timestamp.valueOf(LocalDateTime.now()) + " TYPE OF " + entry.getEntryType());
         Entry entrySaved = entryRepository.save(entry);
-        budgetUtilities.updateBudget();
+        budgetUtilities.updateBudget(entrySaved);
         return entrySaved;
     }
 
@@ -53,7 +53,7 @@ public class EntryServiceImpl implements EntryService {
         }
         logger.info("ENTRY WITH ID:" + entry.getEntryId() +  " UPDATED TIME: " + Timestamp.valueOf(LocalDateTime.now()));
         Entry entrySaved = entryRepository.save(entry);
-        budgetUtilities.updateBudget();
+        budgetUtilities.updateBudget(entrySaved);
         return entrySaved;
     }
 
@@ -64,7 +64,7 @@ public class EntryServiceImpl implements EntryService {
         if(entry.isPresent()) {
             logger.info("ENTRY WITH ID: " + entry.get().getEntryId() + " AT : " + Timestamp.valueOf(LocalDateTime.now()));
             entryRepository.delete(entry.get());
-            budgetUtilities.updateBudget();
+            budgetUtilities.refreshBudget();
         }
 
     }

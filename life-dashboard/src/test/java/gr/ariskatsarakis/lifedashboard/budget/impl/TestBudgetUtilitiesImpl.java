@@ -1,7 +1,9 @@
 package gr.ariskatsarakis.lifedashboard.budget.impl;
 
 import gr.ariskatsarakis.lifedashboard.budget.def.Budget;
+import gr.ariskatsarakis.lifedashboard.budget.def.Entry;
 import gr.ariskatsarakis.lifedashboard.budget.def.EntryRepository;
+import gr.ariskatsarakis.lifedashboard.samples.BudgetSamples;
 import gr.ariskatsarakis.lifedashboard.samples.EntrySamples;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,4 +27,18 @@ public class TestBudgetUtilitiesImpl {
         assertEquals(BigDecimal.valueOf(-8l), budget.getWalletMoney());
         assertEquals(budget.getLastExpenseDate(), budget.getLastExpenseDate());
     }
+
+
+    @Test
+    public void test_createBudgetWithExpense() {
+        Entry expense = EntrySamples.
+                createRandomExpenseEntry();
+        Budget lastBudget = BudgetSamples.sampleBudget();
+        Budget budgetCreated = undertest.createBudgetFromLastEntry(lastBudget, expense);
+
+        System.out.println(budgetCreated.getWalletMoney());
+
+    }
+
+
 }

@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ implements BudgetUtilities {
     EntryRepository entryRepository;
 
     @Override
-    public void updateBudget() {
+    public void updateBudget(Entry entry ) {
         logger.info("UPDATING BUDGET "+ Timestamp.valueOf(LocalDateTime.now()));
         Pageable latest = PageRequest.of(0,1);
         List<Budget> lastBudget = budgetRepository.getLastBudget(latest);
@@ -37,14 +36,12 @@ implements BudgetUtilities {
             Budget firstBudget = createInitialBudget();
             budgetRepository.save(firstBudget);
         }else {
-            Budget currentBudget = createNewBudgetFromOld(lastBudget.get(0));
+            Budget currentBudget = createBudgetFromLastEntry(lastBudget.get(0), entry);
         }
 
     }
 
-     Budget createNewBudgetFromOld(Budget budget) {
-        Budget
-    }
+
 
     @Override
     public Budget createInitialBudget() {
@@ -72,5 +69,28 @@ implements BudgetUtilities {
         logger.info("Last Expense : " + budget.getLastExpenseDate());
         budget.setWalletMoney(sum);
         return budget;
+    }
+
+    @Override
+    public Budget createBudgetFromLastEntry(Budget lastBudget, Entry entry) {
+        Budget updatedBudget = new Budget();
+        if (entry.getExpenseId() ==  0L ) {
+            updatedBudget.setLastIncomeDate(entry.getDateInserted());
+            updatedBudget.setWalletMoney(lastBudget.getWalletMoney().add(entry.getMoney()));
+            updatedBudget.setLastExpenseDate(lastBudget.getLastExpenseDate());
+            updatedBudget.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
+        } else {
+            updatedBudget.setLastIncomeDate(lastBudget.getLastIncomeDate());
+            updatedBudget.setWalletMoney(lastBudget.getWalletMoney().subtract(entry.getMoney()));
+            updatedBudget.setLastExpenseDate(entry.getDateInserted());
+            updatedBudget.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
+        }
+        return updatedBudget;
+    }
+
+
+    @Override
+    public void refreshBudget() {
+
     }
 }

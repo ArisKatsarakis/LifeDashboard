@@ -5,6 +5,7 @@ import gr.ariskatsarakis.lifedashboard.budget.def.Entry;
 import gr.ariskatsarakis.lifedashboard.budget.def.EntryRepository;
 import gr.ariskatsarakis.lifedashboard.samples.BudgetSamples;
 import gr.ariskatsarakis.lifedashboard.samples.EntrySamples;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,8 +36,21 @@ public class TestBudgetUtilitiesImpl {
                 createRandomExpenseEntry();
         Budget lastBudget = BudgetSamples.sampleBudget();
         Budget budgetCreated = undertest.createBudgetFromLastEntry(lastBudget, expense);
+        BigDecimal expectedWalletMoney = lastBudget.getWalletMoney().subtract(expense.getMoney());
+        assertEquals(expectedWalletMoney, budgetCreated.getWalletMoney());
+        assertEquals(expense.getDateInserted(), budgetCreated.getLastExpenseDate());
 
-        System.out.println(budgetCreated.getWalletMoney());
+    }
+
+    @Test
+    public void test_createBudget_FromIncome() {
+        Entry income = EntrySamples.
+                createRandomExpenseEntry();
+        Budget lastBudget = BudgetSamples.sampleBudget();
+        Budget budgetCreated = undertest.createBudgetFromLastEntry(lastBudget, income);
+        BigDecimal expectedWalletMoney = lastBudget.getWalletMoney().add(income.getMoney());
+        assertEquals(expectedWalletMoney, budgetCreated.getWalletMoney());
+        assertEquals(income.getDateInserted(), budgetCreated.getLastIncomeDate());
 
     }
 

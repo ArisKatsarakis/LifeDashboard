@@ -1,4 +1,4 @@
-FROM maven:latest AS mvn
+FROM maven:latest AS build
 WORKDIR /home/app
 
 COPY ./pom.xml /home/app/pom.xml
@@ -11,6 +11,6 @@ COPY . /home/app
 RUN mvn clean install
 
 FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/getyourway-0.0.1-SNAPSHOT.jar /usr/local/lib/demo.jar
+COPY --from=build /home/app/target/*.jar /usr/local/lib/demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]

@@ -19,4 +19,13 @@ public interface IncomeSourceService {
      * @return
      */
     Optional<IncomeSource> findByID(Long incomeSourceId);
+
+
+    /**
+     * Creates new Income Source
+     * @param incomeSource
+     * @return the Income Source created
+     */
+    IncomeSource addIncomeSource(IncomeSource incomeSource);
+
 }

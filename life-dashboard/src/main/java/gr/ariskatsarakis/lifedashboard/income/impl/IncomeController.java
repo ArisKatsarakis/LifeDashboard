@@ -43,6 +43,10 @@ public class IncomeController {
         return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);
     }
 
+    @PostMapping("api/v1/income-sources")
+    IncomeSource  addIncomeSource(@RequestBody IncomeSource incomeSource) {
+        return incomeSourceService.addIncomeSource(incomeSource);
+    }
     @GetMapping("api/v1/income-sources/type/{incomeType}")
     ResponseEntity<Object> getIncomeSourceType(@PathVariable String incomeType) {
         Map<String, Object> responseMap = incomeSourceService.getIncomeSourcesByType(incomeType);
@@ -88,5 +92,8 @@ public class IncomeController {
     List<IncomeDTO> getLast10Incomes() {
         return incomeService.getLast10Incomes();
     }
+
+    //TODO Get Incomes Using Criteria.
+
 
 }

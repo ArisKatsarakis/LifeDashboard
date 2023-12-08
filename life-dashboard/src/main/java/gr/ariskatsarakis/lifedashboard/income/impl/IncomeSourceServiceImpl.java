@@ -14,6 +14,7 @@ implements IncomeSourceService {
 
     @Autowired
     private IncomeSourceRepository incomeSourceRepository;
+
     @Override
     public Map<String, Object> getIncomeSources() {
         List<IncomeSource> incomeSources = incomeSourceRepository.findAll();
@@ -46,6 +47,11 @@ implements IncomeSourceService {
     @Override
     public Optional<IncomeSource> findByID(Long incomeSourceId) {
         return incomeSourceRepository.findById(incomeSourceId);
+    }
+
+    @Override
+    public IncomeSource addIncomeSource(IncomeSource incomeSource) {
+        return incomeSourceRepository.save(incomeSource);
     }
 
     BigDecimal calculateIncomesSum(Set<Income> incomeSet) {

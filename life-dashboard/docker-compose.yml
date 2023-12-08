@@ -1,0 +1,32 @@
+version: '3'
+services:
+  postgresdb:
+    image: postgres:14.1-alpine
+    restart: always
+    env_file: ./.env
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+    ports:
+      - '5438:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+  mvn:
+    depends_on:
+      - postgresdb
+    build: .
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+            "spring.datasource.url"  : "jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$POSTGRESDB_DATABASE",
+            "spring.datasource.username" : "$POSTGRESDB_USER",
+            "spring.datasource.password" : "$POSTGRESDB_ROOT_PASSWORD",
+            "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
+            "spring.jpa.hibernate.ddl-auto" : "update"
+          }'
+volumes:
+  db:
+    driver: local

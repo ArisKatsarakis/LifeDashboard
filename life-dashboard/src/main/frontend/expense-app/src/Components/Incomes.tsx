@@ -77,54 +77,8 @@ export const Incomes = () => {
                 <span className='me-1'>Add Income</span> <Plus />
             </Button>
 
-            <Button
-                onClick={() => setOpen(!open)}
-                aria-controls="example-collapse-text"
-                aria-expanded={open}
-            >
-                click
-            </Button>
-            <div style={{ minHeight: '150px' }}>
-                <Collapse in={open} dimension="width">
-                    <Row md='12'>
-                        <Form >
-                            <Col md='6'>
-                                <Form.Group>
-                                    <Form.Label>
-                                        Money:
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="number"
 
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md='6'>
-                                <Form.Label > Source of Income</Form.Label>
-                                <InputGroup>
-                                    <Form.Select
-                                        id='incomeSource'
-                                        onChange={(event) => { setIncomeSource(event.currentTarget.value.toString()) }}
-                                    >
-                                        <option key={0}>Select Income Source Type</option>
-                                        {incomeSources.map(
-                                            source => {
-                                                //@ts-ignore
-                                                const bool = (selectedSourceId === source.incomeSourceId) ? 'selected' : '';
-                                                //@ts-ignore
-                                                return <option value={source.incomeSourceId} key={source.incomeSourceId} selected={bool} >{source.incomeType}</option>
-                                            }
-                                        )}
-                                    </Form.Select>
-                                    <Button variant={'success'}>+</Button>
-                                </InputGroup>
-                            </Col>
 
-                        </Form>
-                    </Row >
-                </Collapse>
-
-            </div>
         </div>
     );
 };

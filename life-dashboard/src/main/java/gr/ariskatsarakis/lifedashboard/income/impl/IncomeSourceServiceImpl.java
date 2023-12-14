@@ -16,9 +16,9 @@ implements IncomeSourceService {
     private IncomeSourceRepository incomeSourceRepository;
 
     @Override
-    public Map<String, Object> getIncomeSources() {
+    public Map<String,  List<IncomeSource>> getIncomeSources() {
         List<IncomeSource> incomeSources = incomeSourceRepository.findAll();
-        Map<String, Object> responseMap = new HashMap<>();
+        Map<String, List<IncomeSource>> responseMap = new HashMap<>();
         responseMap.put("sources", incomeSources);
         return responseMap;
     }

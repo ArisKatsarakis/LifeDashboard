@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class LifeDashboardApplication {
@@ -28,7 +30,13 @@ public class LifeDashboardApplication {
                 incomeSource.setIncomeType(IncomeType.CODING);
                 incomeSource.setStabilityType(Stability.STABLE);
                 incomeSource.setName("CODING");
-                incomeSource = incomeSourceService.addIncomeSource(incomeSource);
+                if(incomeSourceService.getIncomeSources().get("sources").isEmpty()) {
+                    incomeSource = incomeSourceService.addIncomeSource(incomeSource);
+                } else {
+                    Map<String, List<IncomeSource>> response = incomeSourceService.getIncomeSources();
+                    List<IncomeSource> incomeSources = response.get("sources");
+                    incomeSource = incomeSources.stream().filter(source -> source.getName().equals("CODING")).findAny().get();
+                }
                 Income income = new Income();
                 income.setIncomeSource(incomeSource);
                 income.setDescription("Income 1");

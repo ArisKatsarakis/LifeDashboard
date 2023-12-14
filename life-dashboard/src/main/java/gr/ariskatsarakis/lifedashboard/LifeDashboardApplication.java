@@ -41,6 +41,11 @@ public class LifeDashboardApplication {
                 expense.setExpenseType(ExpenseType.DEBTS);
                 expense.setMoneySpent(BigDecimal.valueOf(30L));
                 expenseService.addExpense(expense);
+                Income incomeOld = new Income();
+                incomeOld.setDescription("Old Income");
+                incomeOld.setMoneyReceived(BigDecimal.valueOf(100L));
+                incomeOld.setDateCreated(Timestamp.valueOf(LocalDateTime.now().minusMonths(1L)));
+                incomeService.addIncome(incomeOld , incomeSource.getIncomeSourceId());
             }
 
 

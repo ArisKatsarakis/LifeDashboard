@@ -5,19 +5,14 @@
 
 .ExpenseCard {
     flex-shrink: 0;
-    border-radius: 1.75rem;
-    background: #BB4430;
-    flex-shrink: 0;
-
-    /* 1 */
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
-    margin-bottom: 0.5rem;
+    border-radius: 0.625rem;
+    background: var(--color-2, #FFF);
+    box-shadow: 0px 21px 79px 0px rgba(0, 0, 0, 0.08);
+    margin-bottom: 0.5rem
 }
 
 .ExpensePrice {
-    margin-left: 1rem;
-    flex-shrink: 0;
-    color: #FFF;
+    color: var(--color-1, #000);
     font-family: Lato;
     font-size: 1.49869rem;
     font-style: normal;
@@ -26,12 +21,14 @@
 }
 
 .ExpenseType {
-    color: #FFF;
+    color: #e42706;
     font-family: Suprema;
     font-size: 1.257rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+
 }
 
 .ExpenseDate {
@@ -45,7 +42,7 @@
 }
 
 .IncomeCard {
-    border-radius: 1.75rem;
+    border-radius: 0.625rem;
     background: #DDF9E4;
     /* 1 */
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
@@ -98,11 +95,10 @@
 }
 
 .BudgetMoney {
-    color: #15E743;
+    color: #FFD700;
     font-family: Lato;
     font-size: 1.49869rem;
     font-style: normal;
-    font-weight: 600;
     line-height: normal;
     text-align: center;
     text-shadow: white;

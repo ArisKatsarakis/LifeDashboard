@@ -1,24 +1,27 @@
-import {Card, Container, Row, Col} from  'react-bootstrap';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 import styles from './Dashboard.module.css'
 import { Expense } from '../Interfaces/ExpenseInterfaces';
+import { Cash } from '../Icons/CommonIcons';
 
-export const ExpenseCard = (expense : Expense) => {
+export const ExpenseCard = (expense: Expense) => {
 
     return (
         <Card className={styles.ExpenseCard} >
-        <Card.Title className={styles.ExpensePrice}>
-         {expense.moneySpent} € 
-        </Card.Title>
-        <Card.Subtitle className={styles.ExpenseDate}>
-            {expense.dateCreated}
-        </Card.Subtitle>
-        <Card.Body className={styles.ExpenseType}>
-            <Card.Text >
-            <span>Type: {expense.expenseType}</span>
-            </Card.Text>
-        </Card.Body>
+            <Card.Body >
+                <Card.Text  >
+                    <Container>
+                        <Row md={12}>
 
-    </Card>
+                            <Col md={4}> <Cash /> </Col>
+                            <Col md={5}>   <span className={styles.ExpenseType}> {expense.expenseType}</span></Col>
+                            <Col md={3}> <span className={styles.ExpensePrice}> - {expense.moneySpent} €  </span></Col>
+                        </Row>
+                    </Container>
+                </Card.Text>
+
+            </Card.Body>
+
+        </Card>
 
     )
 

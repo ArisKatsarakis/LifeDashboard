@@ -28,17 +28,8 @@ export const Dashboard = () => {
         <>
             <div className='container'>
                 <Row>
-                    <h2 className='text-center'>
-                        Dashboard
-                    </h2>
-                </Row>
-                <Row>
-                    <Col md='2'>
-                        <span>
 
-                        </span>
-                    </Col>
-                    <Col md='8'>
+                    <Col md='12' style={{padding:'1rem'}}>
                         <TotalBudget
                             key={budget.budgetId}
                             lastExpenseDate={budget.lastExpenseDate}

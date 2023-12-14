@@ -67,7 +67,7 @@ export const ExpenseComponent = () => {
     }
     return (
         <>
-        <h2 className='text-center text-bg-danger'>Add/Edit Expnese</h2>
+        <h2 className='text-center text-bg-danger'>Add/Edit Expense</h2>
         <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
                 <Form.Group as={Col} md='12'>

@@ -1,10 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense.beans;
 
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.Expression;
-import org.hibernate.query.criteria.spi.CriteriaBuilderExtension;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;

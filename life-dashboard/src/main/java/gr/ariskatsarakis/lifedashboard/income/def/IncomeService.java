@@ -60,4 +60,11 @@ public interface IncomeService {
     void deleteIncomeById(long incomeId);
 
     List<IncomeDTO> getLast10Incomes();
+
+    /**
+     * Fetches Incomes according to the month created
+     * @param month
+     * @return Incomes in DTO Formation for the selected month
+     */
+    List<IncomeDTO> getIncomesByMonth(Integer month);
 }

@@ -4,6 +4,7 @@ import gr.ariskatsarakis.lifedashboard.budget.def.BudgetUtilities;
 import gr.ariskatsarakis.lifedashboard.budget.def.Entry;
 import gr.ariskatsarakis.lifedashboard.budget.def.EntryService;
 import gr.ariskatsarakis.lifedashboard.budget.impl.EntryMapper;
+import gr.ariskatsarakis.lifedashboard.income.beans.IncomeSpecifications;
 import gr.ariskatsarakis.lifedashboard.income.def.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -11,13 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -101,5 +105,23 @@ implements IncomeService {
                 }
         );
         return tenIncomeDtos;
+    }
+
+    @Override
+    public List<IncomeDTO> getIncomesByMonth(Integer month) {
+        LocalDate monthSelected = LocalDate.of(LocalDate.now().getYear(), month, 1);
+        Integer endMonth = monthSelected.lengthOfMonth();
+        LocalDateTime end = LocalDateTime.of(2023, month, endMonth, 0,0,0 );
+
+        Specification spec = IncomeSpecifications.afterDate(Timestamp.valueOf(monthSelected.atTime(LocalTime.of(0,0,0))));
+        spec  = spec.and(IncomeSpecifications.beforeDate(Timestamp.valueOf(end)));
+
+        List<Income> incomesByMonth = incomeRepository.findAll(spec);
+        List<IncomeDTO> incomeDtos = new ArrayList<>();
+
+        incomesByMonth.stream().forEach(
+                income -> incomeDtos.add(IncomeMapper.incomeToIncomeDTO(income))
+        );
+        return incomeDtos;
     }
 }

@@ -2,6 +2,8 @@ package gr.ariskatsarakis.lifedashboard.income.impl;
 
 import gr.ariskatsarakis.lifedashboard.expense.def.ExpenseRepository;
 import gr.ariskatsarakis.lifedashboard.income.def.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class IncomeController {
     private IncomeSourceService incomeSourceService;
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/api/v1/incomes")
     @CrossOrigin
@@ -91,6 +95,14 @@ public class IncomeController {
     @CrossOrigin
     List<IncomeDTO> getLast10Incomes() {
         return incomeService.getLast10Incomes();
+    }
+
+    @GetMapping("api/v1/incomes/month/{monthSelected}")
+    @CrossOrigin
+    List<IncomeDTO> getIncomesOfMothSelected(@PathVariable Integer monthSelected) {
+        logger.info("MONTH SELECTED " + monthSelected);
+
+        return incomeService.getIncomesByMonth(monthSelected);
     }
 
     //TODO Get Incomes Using Criteria.

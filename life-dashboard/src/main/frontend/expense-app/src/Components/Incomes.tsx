@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { samples } from "../Utilities/Samples";
-import { Collapse, Button, Card, Table, Form, Row, Col, InputGroup } from "react-bootstrap";
+import { Collapse, Button, Card, Table, Form,  Col, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { variables } from "../Utilities/Variables";
 import { Bin, Calendar, Pencil, Plus } from "../Icons/CommonIcons";
 import { useNavigate } from "react-router-dom";
-import styles from './Income.module.css';
-import { IncomeComponent } from "./IncomeComponent";
 
 export const Incomes = () => {
-    const [open, setOpen] = useState(false);
     const [incomes, setIncomes] = useState(samples.SAMPLE_INCOMES);
     const navigate = useNavigate();
-    const [incomeSource, setIncomeSource] = useState('')
-    const [incomeSources, setIncomeSources] = useState([]);
     const fetchIncomes = async () => {
         const data = await axios.get(variables.fetchIncomesURL);
         setIncomes(data.data);

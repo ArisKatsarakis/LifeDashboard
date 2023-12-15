@@ -40,7 +40,7 @@ export const IncomeComponent = () => {
 
 
     const updateIncome = async (income : Income) => {
-        const updateResponse = axios.put(`${variables.updateIncomeURL}${incomeId}`, income)
+        const updateResponse = await axios.put(`${variables.updateIncomeURL}${incomeId}`, income);
     } 
     const fetchIncomeById = async () => {
         const income = await axios.get(`${variables.fetchIncomeDTOURL}${incomeId}`);
@@ -60,7 +60,7 @@ export const IncomeComponent = () => {
 
 
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const income : Income = {
             incomeId : '',
@@ -71,10 +71,10 @@ export const IncomeComponent = () => {
         }
         if (moneyReceived > 0 && incomeId === '-1') {
             setMessage(`The money are ${moneyReceived}€`);
-            createIncome(income);
+            await createIncome(income);
             navigate(systemLinks.incomes);
         } else if (moneyReceived > 0 && incomeId !== '-1') {
-            updateIncome(income);
+            await updateIncome(income);
             navigate(systemLinks.incomes);
         } else {
             setMessage(" No money was set");

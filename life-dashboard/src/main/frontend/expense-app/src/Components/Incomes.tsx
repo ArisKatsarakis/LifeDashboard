@@ -5,6 +5,7 @@ import axios from "axios";
 import { variables } from "../Utilities/Variables";
 import { Bin, Calendar, Pencil, Plus } from "../Icons/CommonIcons";
 import { useNavigate } from "react-router-dom";
+import { SortModal } from "./SortModal";
 
 export const Incomes = () => {
     const [incomes, setIncomes] = useState(samples.SAMPLE_INCOMES);
@@ -26,8 +27,8 @@ export const Incomes = () => {
     return (
         <div>
             <h2 className='text-center text-bg-success'>Incomes</h2>
-
-            <Table variant="dark">
+            <SortModal />
+            <Table variant="dark" className="mt-1">
                 <thead>
                     <tr>
                         <th>Description</th>

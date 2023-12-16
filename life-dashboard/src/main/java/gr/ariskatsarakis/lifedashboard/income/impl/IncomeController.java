@@ -48,6 +48,7 @@ public class IncomeController {
     }
 
     @PostMapping("api/v1/income-sources")
+    @CrossOrigin
     IncomeSource  addIncomeSource(@RequestBody IncomeSource incomeSource) {
         return incomeSourceService.addIncomeSource(incomeSource);
     }

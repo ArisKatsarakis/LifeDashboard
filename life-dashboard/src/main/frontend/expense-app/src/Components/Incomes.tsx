@@ -1,17 +1,18 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { samples } from "../Utilities/Samples";
-import { Collapse, Button, Card, Table, Form, Col, InputGroup, Container, Row } from "react-bootstrap";
+import { Button, Table, Form, Col, Container, Row } from "react-bootstrap";
 import axios from "axios";
 import { variables } from "../Utilities/Variables";
 import { Bin, Calendar, Pencil, Plus } from "../Icons/CommonIcons";
 import { useNavigate } from "react-router-dom";
-import { SortModal } from "./SortModal";
+import { IncomeSource, IncomeSourcePromiese } from "../Interfaces/IncomeInterfaces";
 
 export const Incomes = () => {
     const [incomes, setIncomes] = useState(samples.SAMPLE_INCOMES);
     const navigate = useNavigate();
     const [monthSelected, setMonthSelected] = useState(0);
     const [incomeSourceSelected, setIncomeSourceSelected] = useState(0);
+    const [incomeSources, setIncomeSources] = useState<IncomeSource[]>([]);
     const fetchIncomes = async () => {
         const data = await axios.get(variables.fetchIncomesURL);
         setIncomes(data.data);
@@ -20,11 +21,35 @@ export const Incomes = () => {
         await axios.delete(`${variables.fetchIncomesURL}/${incomeId}`);
         navigate(0)
     }
+    useEffect(
+        () =>{
+            fetchIncomeSources();
+        }, []
+    );
 
+    const fetchIncomeSources = async () => {
+        const response = await axios.get<IncomeSourcePromiese>(variables.fetchIncomeSourcesURL);
+        //@ts-ignore
+        setIncomeSources(response.data.sources);
+        console.log("Sources fetched");
+    }
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
     }
+
+    const handleChangeMonth = (event: ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        setMonthSelected(parseInt(event.currentTarget.value));
+
+    }
+
+    const handleChangeIncomeSource = (event: ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        setIncomeSourceSelected(parseInt(event.currentTarget.value));
+
+    }
+
     useEffect(
         () => {
             fetchIncomes();
@@ -34,29 +59,41 @@ export const Incomes = () => {
         <Container>
             <h2 className='text-center text-bg-success'>Incomes</h2>
             <Row md={12} className="mb-1">
-                    <Col md={3}>
-                            <Form.Select value={monthSelected} onChange={event => setMonthSelected(parseInt(event.currentTarget.value))}>
-                                <option value={0}>Select Month</option>
-                                <option value={1}>January</option>
-                                <option value={2}>February</option>
-                                <option value={3}>March</option>
-                                <option value={4}>April</option>
-                                <option value={5}>May</option>
-                                <option value={6}>June</option>
-                                <option value={7}>July</option>
-                                <option value={8}>August</option>
-                                <option value={9}>September</option>
-                                <option value={10}>Octomber</option>
-                                <option value={11}>November</option>
-                                <option value={12}>December</option>
-                            </Form.Select>
-                    </Col>
-                    <Col md={3}>
-                            <Form.Select value={incomeSourceSelected} onChange={event => setIncomeSourceSelected(parseInt(event.currentTarget.value))}>
-                                <option value={0}>Select Income Source</option>
-                                <option value={1}>CODING</option>
-                            </Form.Select>
-                    </Col>
+                <Col md={3}>
+                    <Form.Select value={monthSelected} onChange={handleChangeMonth}>
+                        <option value={0}>Select Month</option>
+                        <option value={1}>January</option>
+                        <option value={2}>February</option>
+                        <option value={3}>March</option>
+                        <option value={4}>April</option>
+                        <option value={5}>May</option>
+                        <option value={6}>June</option>
+                        <option value={7}>July</option>
+                        <option value={8}>August</option>
+                        <option value={9}>September</option>
+                        <option value={10}>Octomber</option>
+                        <option value={11}>November</option>
+                        <option value={12}>December</option>
+                    </Form.Select>
+                </Col>
+                <Col md={3}>
+                    <Form.Select value={incomeSourceSelected} onChange={handleChangeIncomeSource}>
+                        <option value={0}>Select Income Source</option>
+                        {
+                            incomeSources.map(
+                                source => {
+                                    return (
+                                        <option value={source.incomeSourceId}>{source.name}</option>
+                                    );
+                                }
+                            )
+                        }
+                    </Form.Select>
+                </Col>
+                <Col md={2}></Col>
+                <Col md={4}>
+                    <Button variant="success" onClick={() => navigate('/income-sources/-1')}> Add Income Source</Button>
+                </Col>
             </Row>
             <Row>
                 <Table variant="dark" className="mt-1">

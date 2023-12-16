@@ -140,7 +140,7 @@ export const IncomeComponent = () => {
                                         //@ts-ignore
                                         const bool = (selectedSourceId === source.incomeSourceId) ? 'selected' : '';
                                         //@ts-ignore
-                                        return <option  value={source.incomeSourceId} key={source.incomeSourceId} selected={bool} >{source.incomeType}</option>
+                                        return <option  value={source.incomeSourceId} key={source.incomeSourceId} selected={bool} >{source.name}</option>
                                     }
                                 )}
                             </Form.Select>

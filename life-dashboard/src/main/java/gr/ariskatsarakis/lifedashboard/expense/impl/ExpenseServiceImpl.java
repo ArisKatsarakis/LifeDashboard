@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     private EntryService entryService;
 
-
+   
     @Override
     public List<Expense> findAll() {
             return expenseRepository.findAll();
@@ -45,25 +46,26 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<Expense> getExpensesByMonth(int month) {
         return expenseRepository.findForMonth(month);
     }
+   
     @Override
     public List<Expense> getExpensesByType(String expenseType) {
-        ExpenseType expenseTypeAsked = null;
-        switch (expenseType) {
-            case "savings":
-                expenseTypeAsked = ExpenseType.SAVINGS;
-                break;
-            case "fun":
-                expenseTypeAsked = ExpenseType.FUN;
-                break;
-            case "debts":
-                expenseTypeAsked = ExpenseType.DEBTS;
-                break;
-            case "utilities":
-                expenseTypeAsked = ExpenseType.UTILITIES;
-                break;
-        }
-        Specification<Expense> spec = ExpenseSpecifications.byExpenseType(expenseTypeAsked);
-        return expenseRepository.findAll(spec);
+	    ExpenseType expenseTypeAsked = null;
+	    switch (expenseType) {
+		    case "savings":
+			    expenseTypeAsked = ExpenseType.SAVINGS;
+			    break;
+		    case "fun":
+			    expenseTypeAsked = ExpenseType.FUN;
+			    break;
+		    case "debts":
+			    expenseTypeAsked = ExpenseType.DEBTS;
+			    break;
+		    case "utilities":
+			    expenseTypeAsked = ExpenseType.UTILITIES;
+			    break;
+	    }
+	    Specification<Expense> spec = ExpenseSpecifications.byExpenseType(expenseTypeAsked);
+	    return expenseRepository.findAll(spec);
     }
 
     @Override
@@ -102,6 +104,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<Expense> getLast10(Pageable lastTen) {
         return expenseRepository.getLast10();
+    }
+
+    @Override
+    public List<Expense> getExpenseByMaxMoneySpent(BigDecimal maxMoneySpent) {
+	    Specification<Expense> specMaxMoneySpent = ExpenseSpecifications.byMmaxMoneySpent(maxMoneySpent);
+	    return expenseRepository.findAll(specMaxMoneySpent);
     }
 
     public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {

@@ -7,7 +7,7 @@ COPY ./src/main/java/gr/ariskatsarakis/lifedashboard/LifeDashboardApplication.ja
 
 COPY . /home/app
 
-RUN mvn clean install
+RUN mvn clean install -T 4
 
 FROM openjdk:19
 COPY --from=build /home/app/target/*.jar /usr/local/lib/demo.jar

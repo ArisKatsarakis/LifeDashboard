@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -85,6 +86,11 @@ public class ExpenseController {
         Pageable lastTen = PageRequest.of(0, 10);
 
         return expenseService.getLast10(lastTen);
+    }
+
+    @GetMapping("api/v1/expenses/maxSpent/{maxSpent}")
+    public List<Expense> getExpensesByMaxSpent(@PathVariable BigDecimal maxSpent) {
+	return expenseService.getExpenseByMaxMoneySpent(maxSpent);
     }
 
     //TODO Implement Get Using Criteria

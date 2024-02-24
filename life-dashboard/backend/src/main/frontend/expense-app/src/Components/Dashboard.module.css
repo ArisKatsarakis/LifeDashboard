@@ -1,0 +1,113 @@
+.expense {
+    text-align: center;
+    color: #e42706;
+}
+
+.ExpenseCard {
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    background: var(--color-2, #FFF);
+    box-shadow: 0px 21px 79px 0px rgba(0, 0, 0, 0.08);
+    margin-bottom: 0.5rem
+}
+
+.ExpensePrice {
+    color: var(--color-1, #000);
+    font-family: Lato;
+    font-size: 1.49869rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.ExpenseType {
+    color: #e42706;
+    font-family: Suprema;
+    font-size: 1.257rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+
+}
+
+.ExpenseDate {
+    margin-left: 1rem;
+    color: #FFF;
+    font-family: Suprema;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.AddExpense{
+    margin-top: 1rem;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 1.75rem;
+    /* 1 */
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+    margin-bottom: 0.5rem;
+}
+.IncomeCard {
+    border-radius: 0.625rem;
+    background: #DDF9E4;
+    /* 1 */
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+    margin-bottom: 0.5rem;
+}
+
+.IncomePrice {
+    margin-left: 1rem;
+    flex-shrink: 0;
+    color: #121212;
+    font-family: Lato;
+    font-size: 1.49869rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+}
+
+.IncomeSource {
+    color: var(--text-primary, #404040);
+    font-family: Suprema;
+    font-size: 1.257rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.IncomeDate {
+    margin-left: 1rem;
+    color: #121212;
+    font-family: Suprema;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.income {
+    text-align: center;
+    color: greenyellow;
+}
+
+.BudgetCard {
+    border-radius: 1.75rem;
+    background: #121212;
+
+    /* 1 */
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+    margin-bottom: 0.5rem;
+}
+
+.BudgetMoney {
+    color: #FFD700;
+    font-family: Lato;
+    font-size: 1.49869rem;
+    font-style: normal;
+    line-height: normal;
+    text-align: center;
+    text-shadow: white;
+}

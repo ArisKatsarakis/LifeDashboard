@@ -3,7 +3,7 @@ services:
   mvn:
     depends_on: 
       - postgresdb
-    build: .
+    build: ./backend 
     env_file: .env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT

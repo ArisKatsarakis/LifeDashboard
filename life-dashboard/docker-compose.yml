@@ -15,6 +15,12 @@ services:
       - '5438:5432'
     volumes:
       - db:/var/lib/postgresql/data
+  react:
+      depends_on:
+        - mvn
+      build: ./frontend
+      ports:
+        - '3000:3000'
 volumes:
   db:
     driver: local

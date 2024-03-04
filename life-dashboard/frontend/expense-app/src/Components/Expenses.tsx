@@ -5,7 +5,7 @@ import axios from "axios";
 import { variables } from "../Utilities/Variables";
 import { Pencil, Bin, Plus } from "../Icons/CommonIcons";
 import { useNavigate } from "react-router-dom";
-import { ExpenseType } from "../Interfaces/ExpenseInterfaces";
+import { ExpenseType, ExpenseTypePromise } from "../Interfaces/ExpenseInterfaces";
 function Expenses() {
   const navigate = useNavigate();
   const [expenses, setExpenses] = useState(samples.SAMPLE_EXPENSES);
@@ -23,8 +23,8 @@ function Expenses() {
   }
 
   const fetchExpensesByType = async () => {
-    const expenses: ExpenseType = await axios.get(`${variables.fetchExpensesURL}/type/fun`);
-    setExpensesByType(expenses);
+    const expenses: ExpenseTypePromise = await axios.get(`${variables.fetchExpensesURL}/type/fun`);
+    setExpensesByType(expenses.data);
   }
   // @ts-ignore 
   useEffect(

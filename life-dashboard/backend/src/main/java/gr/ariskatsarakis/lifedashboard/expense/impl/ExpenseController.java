@@ -94,6 +94,4 @@ public class ExpenseController {
     return expenseService.getExpenseByMaxMoneySpent(maxSpent);
   }
 
-  // TODO Implement Get Using Criteria
-  // TODO Create expenses types using Entities not Enums
 }

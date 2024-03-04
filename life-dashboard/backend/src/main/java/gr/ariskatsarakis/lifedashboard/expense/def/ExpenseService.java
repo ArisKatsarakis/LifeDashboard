@@ -1,7 +1,8 @@
 package gr.ariskatsarakis.lifedashboard.expense.def;
 
-
 import gr.ariskatsarakis.lifedashboard.expense.beans.ExpenseType;
+import gr.ariskatsarakis.lifedashboard.expense.beans.ExpensesByTypeDTO;
+
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -10,24 +11,25 @@ import java.util.List;
 
 public interface ExpenseService {
 
-     List<Expense> findAll();
+  List<Expense> findAll();
 
-     Expense addExpense(Expense expense);
+  Expense addExpense(Expense expense);
 
-    List<Expense> getExpensesByMonth(int month);
+  List<Expense> getExpensesByMonth(int month);
 
-    List<Expense> getExpensesForSpecificDay(LocalDate specificDay);
+  List<Expense> getExpensesForSpecificDay(LocalDate specificDay);
 
-    List<Expense> getExpensesByType(String expenseType);
+  ExpensesByTypeDTO getExpensesByType(String expenseType);
 
-    List<Expense> getExpenseByMaxMoneySpent(BigDecimal maxMoneySpent);
-    List<ExpenseType> getExpenseTypes();
+  List<Expense> getExpenseByMaxMoneySpent(BigDecimal maxMoneySpent);
 
-    Expense getExpenseById(long expenseId);
+  List<ExpenseType> getExpenseTypes();
 
-    Expense updateExpenseById(long expenseId, Expense expense);
+  Expense getExpenseById(long expenseId);
 
-    void deleteExpenseById(long expenseId);
+  Expense updateExpenseById(long expenseId, Expense expense);
 
-    List<Expense> getLast10(Pageable lastTen);
+  void deleteExpenseById(long expenseId);
+
+  List<Expense> getLast10(Pageable lastTen);
 }

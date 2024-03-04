@@ -1,12 +1,12 @@
 version: '3'
 services:
-  mvn:
-    depends_on: 
-      - postgresdb
-    build: ./backend 
-    env_file: .env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+  #mvn:
+  #  depends_on: 
+  #    - postgresdb
+  #  build: ./backend 
+  #  env_file: .env
+  #  ports:
+  #    - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
   postgresdb:
     image: postgres:14.1-alpine
     restart: always
@@ -15,12 +15,12 @@ services:
       - '5438:5432'
     volumes:
       - db:/var/lib/postgresql/data
-  react:
-      depends_on:
-        - mvn
-      build: ./frontend
-      ports:
-        - '3000:3000'
+        #react:
+        #    depends_on:
+        #      - mvn
+        #    build: ./frontend
+        #    ports:
+        #      - '3000:3000'
 volumes:
   db:
     driver: local

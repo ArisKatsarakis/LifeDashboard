@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import gr.ariskatsarakis.lifedashboard.expense.beans.ExpensesByTypeDTO;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -117,5 +117,19 @@ public class ExpenseServiceImpl implements ExpenseService {
   public List<Expense> getExpensesForSpecificDay(LocalDate specificDay) {
     Specification<Expense> specMonth = ExpenseSpecifications.bySpecificDate(specificDay);
     return expenseRepository.findAll(specMonth);
+  }
+
+  public List<ExpensesByTypeDTO> fetchExpensesStatistics() {
+    List<ExpensesByTypeDTO> expensesByTypeDTOs = new ArrayList<>();
+    List<ExpenseType> expenseTypes = getExpenseTypes();
+    expenseTypes.stream().forEach(
+        expenseType -> {
+          Specification<Expense> specType = ExpenseSpecifications.byExpenseType(expenseType);
+          List<Expense> expenses = expenseRepository.findAll(specType);
+          ExpensesByTypeDTO dto = new ExpensesByTypeDTO(expenses, expenseType);
+          expensesByTypeDTOs.add(dto);
+        });
+
+    return expensesByTypeDTOs;
   }
 }

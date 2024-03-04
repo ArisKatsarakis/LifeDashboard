@@ -32,4 +32,6 @@ public interface ExpenseService {
   void deleteExpenseById(long expenseId);
 
   List<Expense> getLast10(Pageable lastTen);
+
+  List<ExpensesByTypeDTO> fetchExpensesStatistics();
 }

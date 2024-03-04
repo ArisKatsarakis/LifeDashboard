@@ -1,5 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Dashboard } from "./Components/Dashboard";
@@ -12,6 +11,10 @@ import { IncomeComponent } from "./Components/IncomeComponent";
 import { ExpenseComponent } from './Components/ExpenseComponent';
 import { IncomeSourceComponent } from './Components/IncomeSourceComponent';
 import { Statistiscs } from './Components/Statistics';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 
 

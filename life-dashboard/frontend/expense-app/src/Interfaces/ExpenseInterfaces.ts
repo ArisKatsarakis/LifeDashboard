@@ -31,3 +31,8 @@ export interface ExpenseType {
 export interface ExpenseTypePromise {
   data: ExpenseType
 }
+
+export interface ExpenseStat {
+  data: [ExpenseType]
+}
+

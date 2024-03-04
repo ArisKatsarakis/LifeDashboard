@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/expenses")
 public class ExpenseController {
 
   private final Logger controllerLogger = LoggerFactory.getLogger(RestController.class);
@@ -23,13 +23,13 @@ public class ExpenseController {
   @Autowired
   private ExpenseService expenseService;
 
-  @GetMapping("/api/v1/expenses")
+  @GetMapping
   @CrossOrigin
   List<Expense> returnAllExpenses() {
     return expenseService.findAll();
   }
 
-  @PostMapping("/api/v1/expenses")
+  @PostMapping
   @CrossOrigin
   Expense createNewExpense(@RequestBody Expense expense) {
     if (expense.getExpenseId() == 0L) {
@@ -40,48 +40,48 @@ public class ExpenseController {
   }
 
   @CrossOrigin
-  @GetMapping("api/v1/expenses/type/{expenseType}")
+  @GetMapping("/type/{expenseType}")
   ExpensesByTypeDTO getExpensesByType(@PathVariable String expenseType) {
     return expenseService.getExpensesByType(expenseType);
   }
 
-  @GetMapping("api/v1/expenses/criteria/{month}")
+  @GetMapping("/criteria/{month}")
   List<Expense> getExpensesByMonth(@PathVariable int month) {
     return expenseService.getExpensesByMonth(month);
   }
 
-  @GetMapping("api/v1/expenses/{expenseId}")
+  @GetMapping("/{expenseId}")
   @CrossOrigin
   Expense getExpenseById(@PathVariable long expenseId) {
     return expenseService.getExpenseById(expenseId);
   }
 
-  @GetMapping("api/v1/expenses/criteria")
+  @GetMapping("/criteria")
   List<Expense> getExpensesBySpecificDay(@RequestParam LocalDate specificDay) {
     controllerLogger.info("Expenses for : " + specificDay.toString() + " are requested.");
     return expenseService.getExpensesForSpecificDay(specificDay);
   }
 
-  @PutMapping("api/v1/expenses/{expenseId}")
+  @PutMapping("/{expenseId}")
   @CrossOrigin
   Expense updateExpenseById(@PathVariable long expenseId, @RequestBody Expense expense) {
     return expenseService.updateExpenseById(expenseId, expense);
   }
 
-  @GetMapping("api/v1/expense-types")
+  @GetMapping("/expense-types")
   @CrossOrigin
   List<ExpenseType> getExpenseTypes() {
     return expenseService.getExpenseTypes();
   }
 
-  @DeleteMapping("api/v1/expenses/{expenseId}")
+  @DeleteMapping("/{expenseId}")
   @CrossOrigin
   public void deleteExpenseById(@PathVariable long expenseId) {
 
     expenseService.deleteExpenseById(expenseId);
   }
 
-  @GetMapping("api/v1/expenses-last-10")
+  @GetMapping("/expenses-last-10")
   @CrossOrigin
   public List<Expense> getLast10Expenses() {
     Pageable lastTen = PageRequest.of(0, 10);
@@ -89,9 +89,14 @@ public class ExpenseController {
     return expenseService.getLast10(lastTen);
   }
 
-  @GetMapping("api/v1/expenses/maxSpent/{maxSpent}")
+  @GetMapping("/maxSpent/{maxSpent}")
   public List<Expense> getExpensesByMaxSpent(@PathVariable BigDecimal maxSpent) {
     return expenseService.getExpenseByMaxMoneySpent(maxSpent);
   }
 
+  @CrossOrigin
+  @GetMapping("/stats")
+  public List<ExpensesByTypeDTO> getStatsForExpenses() {
+    return expenseService.fetchExpensesStatistics();
+  }
 }

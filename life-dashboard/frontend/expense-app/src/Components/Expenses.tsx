@@ -6,6 +6,10 @@ import { variables } from "../Utilities/Variables";
 import { Pencil, Bin, Plus } from "../Icons/CommonIcons";
 import { useNavigate } from "react-router-dom";
 import { ExpenseType, ExpenseTypePromise } from "../Interfaces/ExpenseInterfaces";
+/*
+ * @TODO change to MUI Data Grid
+ *
+ * */
 function Expenses() {
   const navigate = useNavigate();
   const [expenses, setExpenses] = useState(samples.SAMPLE_EXPENSES);

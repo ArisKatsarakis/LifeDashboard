@@ -38,7 +38,7 @@ export function Statistiscs() {
             return (
               <Accordion id={stat.expenseType}>
                 <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
-                  {stat.expenseType}
+                  {stat.expenseType} {stat.moneySum} <EuroSharp />
                 </AccordionSummary>
                 <AccordionDetails>
 

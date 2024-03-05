@@ -1,6 +1,8 @@
 package gr.ariskatsarakis.lifedashboard.expense.beans;
 
 import gr.ariskatsarakis.lifedashboard.expense.def.Expense;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ExpensesByTypeDTO {
@@ -8,6 +10,8 @@ public class ExpensesByTypeDTO {
   private ExpenseType expenseType;
 
   private List<Expense> expenses;
+
+  private BigDecimal moneySum;
 
   public ExpensesByTypeDTO(List<Expense> sameTypeExpenses, ExpenseType expenseType) {
     this.expenses = sameTypeExpenses;
@@ -31,4 +35,11 @@ public class ExpensesByTypeDTO {
     return expenseType;
   }
 
+  public void setMoneySum(BigDecimal moneySum) {
+    this.moneySum = moneySum;
+  }
+
+  public BigDecimal getMoneySum() {
+    return moneySum;
+  }
 }

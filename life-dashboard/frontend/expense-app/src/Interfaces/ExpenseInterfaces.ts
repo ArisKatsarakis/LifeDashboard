@@ -25,7 +25,8 @@ export interface ExpenseType {
       dateCreated: string,
       moneySpent: number
     }
-  ]
+  ],
+  moneySum: number,
 }
 
 export interface ExpenseTypePromise {
@@ -36,3 +37,4 @@ export interface ExpenseStat {
   data: [ExpenseType]
 }
 
+export interface ExpenseSetPromise { }

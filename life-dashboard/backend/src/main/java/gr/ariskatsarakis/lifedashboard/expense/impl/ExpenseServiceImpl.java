@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -128,6 +129,10 @@ public class ExpenseServiceImpl implements ExpenseService {
           List<Expense> expenses = expenseRepository.findAll(specType);
           ExpensesByTypeDTO dto = new ExpensesByTypeDTO(expenses, expenseType);
           expensesByTypeDTOs.add(dto);
+          BigDecimal sum = expenses.stream()
+              .map(item -> item.getMoneySpent())
+              .reduce(BigDecimal.ZERO, (a, b) -> a.add(b));
+          dto.setMoneySum(sum);
         });
 
     return expensesByTypeDTOs;

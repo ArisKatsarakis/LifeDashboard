@@ -54,7 +54,7 @@ export const IncomeComponent = () => {
 
     async function createIncome(income: Income) {
         console.log(income);
-        const postIncome = await axios.post(`http://localhost:8080/api/v1/${incomeSource}/incomes`, income);
+        const postIncome = await axios.post(`http://localhost:8080/api/v1/incomes/${incomeSource}`, income);
         console.log(postIncome.data);
     }
 

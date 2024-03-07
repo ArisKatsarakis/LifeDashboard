@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { ExpenseStat, ExpenseType } from "../Interfaces/ExpenseInterfaces";
 import { variables } from "../Utilities/Variables";
 import axios from "axios";
-import { Accordion, AccordionSummary, AccordionDetails, Paper, Grid, Box, Chip } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Paper, Grid, Box, Chip, Divider, ButtonBase, Button } from "@mui/material";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { EuroSharp, EuroSymbol } from "@mui/icons-material";
 import { styled } from '@mui/material/styles';
 import { Calendar } from "../Icons/CommonIcons";
+import { GridPanelHeader } from "@mui/x-data-grid";
 
 export function Statistiscs() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -31,7 +32,13 @@ export function Statistiscs() {
   return (
     <Container>
       <h2> Statistiscs </h2>
-      <Chip label={'Expenses'} />
+      <Chip label={'Expenses'} style={{color: 'red'}}/>
+      <ButtonBase>
+        <Button variant='outlined'> Today </Button>
+        <Button variant='outlined'> Week </Button>
+        <Button variant='outlined'> Month </Button>
+      </ButtonBase>
+      <Divider component='legend'/>
       {
         expenseStats.map(
           stat => {
@@ -48,13 +55,10 @@ export function Statistiscs() {
                         expense => {
                           return (
                             <Grid item xs={4}>
-                              <Item>{expense.moneySpent} <EuroSharp /></Item>
-                              <Item> {expense.dateCreated} <Calendar /></Item>
+                              <Item>{expense.moneySpent} <EuroSharp /> {expense.dateCreated} <Calendar /></Item>
                             </Grid>
                           )
                         })}
-                      <Grid item xs={4}>
-                      </Grid>
                     </Grid>
                   </Box>
                 </AccordionDetails>
@@ -63,9 +67,15 @@ export function Statistiscs() {
           }
         )
       }
-      <Container>
-        <h3 style={{ background: 'green' }}>Incomes</h3>
+      <Container style={{marginTop: '1rem'}}>
+        <Chip label={'Expenses'} style={{color: 'green'}}/>       
+        <ButtonBase>          
+          <Button variant='outlined'> Today </Button>  
+          <Button variant='outlined'> Week </Button>    
+          <Button variant='outlined'> Month </Button>    
+        </ButtonBase>                                     
+        <Divider component='legend'/>                   
       </Container>
-    </Container >
-  );
-}
+    </Container >     
+  );}
+

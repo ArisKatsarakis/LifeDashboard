@@ -109,7 +109,7 @@ public class IncomeController {
     return incomeService.getIncomesByMonth(monthSelected);
   }
 
-  //TODO Get Incomes Using Criteria.
+
 
   @GetMapping("/stats")
   @CrossOrigin
@@ -131,5 +131,5 @@ public class IncomeController {
     return incomeStatsDTOs;
 
   }
-
+  //TODO Get Incomes Using Criteria. 
 }

@@ -27,7 +27,6 @@ public class IncomeController {
 
   @Autowired
   private IncomeSourceService incomeSourceService;
-  
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -39,33 +38,34 @@ public class IncomeController {
 
   @PostMapping("/{incomeSource}")
   @CrossOrigin
-  Income addIncome(@PathVariable(value = "incomeSource")Long incomeSourceId, @RequestBody Income income) {
-    return incomeService.addIncome(income , incomeSourceId);
+  Income addIncome(@PathVariable(value = "incomeSource") Long incomeSourceId, @RequestBody Income income) {
+    return incomeService.addIncome(income, incomeSourceId);
   }
 
   @GetMapping("/income-sources")
   @CrossOrigin
   ResponseEntity<Object> etAllIncomeSources() {
     Map<String, List<IncomeSource>> responseMap = incomeSourceService.getIncomeSources();
-    return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);
+    return new ResponseEntity<Object>(responseMap, HttpStatus.OK);
   }
 
   @PostMapping("/income-sources")
   @CrossOrigin
-  IncomeSource  addIncomeSource(@RequestBody IncomeSource incomeSource) {
+  IncomeSource addIncomeSource(@RequestBody IncomeSource incomeSource) {
     return incomeSourceService.addIncomeSource(incomeSource);
   }
+
   @GetMapping("api/v1/income-sources/type/{incomeType}")
   ResponseEntity<Object> getIncomeSourceType(@PathVariable String incomeType) {
     Map<String, Object> responseMap = incomeSourceService.getIncomeSourcesByType(incomeType);
-    return   new ResponseEntity<Object>(responseMap,HttpStatus.OK);
+    return new ResponseEntity<Object>(responseMap, HttpStatus.OK);
   }
 
   @GetMapping("/incomeDto/{id}")
   @CrossOrigin
   ResponseEntity<IncomeDTO> getIncomeDTO(@PathVariable Long id) {
     Optional<Income> income = incomeService.fetchIncomeById(id);
-    if(income.isPresent()) {
+    if (income.isPresent()) {
       IncomeDTO incomeDTO = IncomeMapper.incomeToIncomeDTO(income.get());
       return new ResponseEntity<>(incomeDTO, HttpStatus.OK);
     }
@@ -76,9 +76,9 @@ public class IncomeController {
   @CrossOrigin
   ResponseEntity<IncomeDTO> updateIncomeThroughDTO(@PathVariable Long incomeId, @RequestBody IncomeDTO dto) {
     Optional<IncomeSource> incomeSource = incomeSourceService.findByID(dto.getIncomeSourceId());
-    if(incomeSource.isPresent()) {
+    if (incomeSource.isPresent()) {
       Optional<Income> income = incomeService.fetchIncomeById(incomeId);
-      if(income.isPresent()) {
+      if (income.isPresent()) {
         income.get().setIncomeSource(incomeSource.get());
         income.get().setDescription(dto.getDescription());
         income.get().setDateCreated(Timestamp.valueOf(dto.getDateCreated().atTime(LocalTime.now())));
@@ -109,27 +109,24 @@ public class IncomeController {
     return incomeService.getIncomesByMonth(monthSelected);
   }
 
-
-
   @GetMapping("/stats")
   @CrossOrigin
   public List<IncomeStatsDTO> getAllIncomeStats() {
     List<IncomeStatsDTO> incomeStatsDTOs = new ArrayList<>();
     List<IncomeSource> incomeSources = incomeSourceService.getIncomeSources().get("sources");
     incomeSources.stream().forEach(
-      source -> {
-        IncomeStatsDTO incomeStatsDTO = new IncomeStatsDTO();
-        incomeStatsDTO.setIncomes(new ArrayList<>(source.getIncomeSet()));
-        BigDecimal sum =  incomeStatsDTO.getIncomes().stream()
-        .map( income -> income.getMoneyReceived() )
-        .reduce(BigDecimal.ZERO, (first, second)-> first.add(second));
-        incomeStatsDTO.setMoneySum(sum);
-        incomeStatsDTO.setIncomeType(source.getIncomeType());
-        incomeStatsDTOs.add(incomeStatsDTO);
-      }
-    );
+        source -> {
+          IncomeStatsDTO incomeStatsDTO = new IncomeStatsDTO();
+          incomeStatsDTO.setIncomes(new ArrayList<>(source.getIncomeSet()));
+          BigDecimal sum = incomeStatsDTO.getIncomes().stream()
+              .map(income -> income.getMoneyReceived())
+              .reduce(BigDecimal.ZERO, (first, second) -> first.add(second));
+          incomeStatsDTO.setMoneySum(sum);
+          incomeStatsDTO.setIncomeType(source.getIncomeType());
+          incomeStatsDTOs.add(incomeStatsDTO);
+        });
     return incomeStatsDTOs;
 
   }
-  //TODO Get Incomes Using Criteria. 
+  // TODO Get Incomes Using Criteria.
 }

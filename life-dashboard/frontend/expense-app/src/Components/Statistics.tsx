@@ -9,7 +9,7 @@ import { EuroSharp, EuroSymbol } from "@mui/icons-material";
 import { styled } from '@mui/material/styles';
 import { Calendar } from "../Icons/CommonIcons";
 import { GridPanelHeader } from "@mui/x-data-grid";
-
+import { IncomeStatsPromise, IncomeStats } from "../Interfaces/IncomeInterfaces";
 export function Statistiscs() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,26 +19,33 @@ export function Statistiscs() {
     color: theme.palette.text.secondary,
   }));
   const [expenseStats, setExpenseStats] = useState<ExpenseType[]>([]);
+  const [incomeStats, setIncomeStats] = useState<IncomeStats[]>([]);
 
   const fetchExpensesStats = async () => {
     const stats: ExpenseStat = await axios.get(`${variables.fetchExpenseStats}`);
     setExpenseStats(stats.data);
   };
+
+  const fetchIncomeStats = async () => {
+    const stats: IncomeStatsPromise = await axios.get(`${variables.fetchIncomesURL}/stats`);
+    setIncomeStats(stats.data);
+  }
   useEffect(
     () => {
       fetchExpensesStats();
+      fetchIncomeStats();
     }, []
   );
   return (
     <Container>
       <h2> Statistiscs </h2>
-      <Chip label={'Expenses'} style={{color: 'red'}}/>
+      <Chip label={'Expenses'} style={{ color: 'red' }} />
       <ButtonBase>
         <Button variant='outlined'> Today </Button>
         <Button variant='outlined'> Week </Button>
         <Button variant='outlined'> Month </Button>
       </ButtonBase>
-      <Divider component='legend'/>
+      <Divider component='legend' />
       {
         expenseStats.map(
           stat => {
@@ -67,15 +74,43 @@ export function Statistiscs() {
           }
         )
       }
-      <Container style={{marginTop: '1rem'}}>
-        <Chip label={'Expenses'} style={{color: 'green'}}/>       
-        <ButtonBase>          
-          <Button variant='outlined'> Today </Button>  
-          <Button variant='outlined'> Week </Button>    
-          <Button variant='outlined'> Month </Button>    
-        </ButtonBase>                                     
-        <Divider component='legend'/>                   
-      </Container>
-    </Container >     
-  );}
+      <Container style={{ marginTop: '1rem' }}>
+        <Chip label={'Expenses'} style={{ color: 'green' }} />
+        <ButtonBase>
+          <Button variant='outlined'> Today </Button>
+          <Button variant='outlined'> Week </Button>
+          <Button variant='outlined'> Month </Button>
+        </ButtonBase>
+        <Divider component='legend' />
+        {
+          incomeStats.map(
+            stat => {
+              return (
+                <Accordion id={stat.incomeSource}>
+                  <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+                    {stat.incomeType} {stat.moneySum} <EuroSharp />
+                  </AccordionSummary>
+                  <AccordionDetails>
 
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={2}>
+                        {stat.incomes.map(
+                          income => {
+                            return (
+                              <Grid item xs={4}>
+                                <Item>{income.moneyReceived} <EuroSharp /> {income.dateCreated} <Calendar /></Item>
+                              </Grid>
+                            )
+                          })}
+                      </Grid>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              )
+            }
+          )
+        }
+      </Container>
+    </Container >
+  );
+}                         

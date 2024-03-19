@@ -14,6 +14,7 @@ export const Header = () => {
               <Nav.Link href="/expenses">Expenses</Nav.Link>
               <Nav.Link href="/incomes">Incomes</Nav.Link>
               <Nav.Link href="/stats">Statistics</Nav.Link>
+              <Nav.Link href="/users">Users</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

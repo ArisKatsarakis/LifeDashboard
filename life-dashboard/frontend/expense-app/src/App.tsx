@@ -15,6 +15,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { User } from './Components/User';
 
 
 
@@ -31,6 +32,7 @@ function App() {
           <Route path='/expenses/:expenseId' element={<ExpenseComponent />} />
           <Route path='/income-sources/:incomeSourceId' element={<IncomeSourceComponent />} />
           <Route path='/stats' element={<Statistiscs />} />
+          <Route path='/users' element={<User />} />
 
         </Routes>
 

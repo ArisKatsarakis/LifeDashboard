@@ -2,16 +2,20 @@ package gr.ariskatsarakis.lifedashboard.income.impl;
 
 import gr.ariskatsarakis.lifedashboard.income.beans.IncomeStatsDTO;
 import gr.ariskatsarakis.lifedashboard.income.def.*;
+import lombok.Getter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,5 +132,20 @@ public class IncomeController {
     return incomeStatsDTOs;
 
   }
-  // TODO Get Incomes Using Criteria.
+
+  @GetMapping("/today")
+  public List<IncomeDTO> getTodayIncomes() {
+    return incomeService.getTodaysIncomes();
+  }
+
+  @GetMapping("/period")
+  public List<IncomeDTO> getIncomesDurionPeriod(@RequestParam String from, @RequestParam String to) {
+    System.out.println("From: " + from);
+    System.out.println("To: " + to);
+    Date fromDate = Date.valueOf(from);
+    Date toDate = Date.valueOf(to);
+    Timestamp fromTimestamp = Timestamp.valueOf(fromDate.toLocalDate().atTime(00, 00));
+    Timestamp toTimestamp = Timestamp.valueOf(toDate.toLocalDate().atTime(23, 59));
+    return incomeService.getIncomesInPeriod(fromTimestamp, toTimestamp);
+  }
 }

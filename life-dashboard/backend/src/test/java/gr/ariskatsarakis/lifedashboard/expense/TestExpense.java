@@ -23,6 +23,7 @@ public class TestExpense {
 
     Expense expense2 = new Expense();
     expense2.setMoney(BigDecimal.TEN);
+
     BigDecimal sum = expense2.getMoney().add(expense.getMoney());
     assert (sum.equals(BigDecimal.valueOf(20l)));
   }

@@ -1,0 +1,19 @@
+package gr.ariskatsarakis.lifedashboard.expense;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * TestExpenseService
+ */
+public class TestExpenseService {
+
+  @Autowired
+  private static ExpenseService expenseService;
+
+  @Test
+  public void tet_addExpenses() {
+    assert (this.expenseService.getExpense().isEmpty() == true);
+  }
+
+}

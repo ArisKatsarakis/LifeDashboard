@@ -24,6 +24,8 @@ public class TestExpenseService {
     sample2.setExpenseId(sample.getExpenseId());
     expenseService.updateExpense(sample2);
     assert (expenseService.getExpenseById(sample.getExpenseId()).getMoney() == sample2.getMoney());
+    expenseService.deleteExpense(sample);
+    assert (expenseService.getExpense().isEmpty() == true);
   }
 
 }

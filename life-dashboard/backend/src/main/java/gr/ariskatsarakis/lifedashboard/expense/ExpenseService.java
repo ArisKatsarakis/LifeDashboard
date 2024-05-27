@@ -41,4 +41,16 @@ public class ExpenseService {
     return null;
   }
 
+  public void deleteExpense(Expense e) {
+    int index = -1;
+    for (Expense expense : expenses) {
+      if (expense.getExpenseId() == e.getExpenseId()) {
+        index = expenses.indexOf(expense);
+      }
+    }
+    if (index != -1) {
+      expenses.remove(index);
+    }
+  }
+
 }

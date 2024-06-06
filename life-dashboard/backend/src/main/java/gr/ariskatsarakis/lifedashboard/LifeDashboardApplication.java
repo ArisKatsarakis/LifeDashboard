@@ -8,7 +8,6 @@ public class LifeDashboardApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(LifeDashboardApplication.class, args);
-    System.out.println("hello World");
   }
 
 }

@@ -1,12 +1,13 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +20,13 @@ public class ExpenseController {
 
   @GetMapping
   public List<Expense> getExpense() {
-    Expense e = new Expense();
-    e.setMoney(BigDecimal.TEN);
-    e.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    e.setExpenseId(1L);
-    service.addExpense(e);
     return service.getExpense();
+  }
+
+  @PostMapping
+  public Expense addExpense(@RequestBody Expense expense) {
+    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    return service.addExpense(expense);
   }
 
 }

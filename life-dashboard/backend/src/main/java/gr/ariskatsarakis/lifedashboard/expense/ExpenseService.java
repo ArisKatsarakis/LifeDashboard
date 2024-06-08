@@ -3,6 +3,7 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,14 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExpenseService {
 
+  @Autowired
+  private ExpenseRepository expenseRepository;
   public static List<Expense> expenses = new ArrayList<>();
 
   public List<Expense> getExpense() {
-    return expenses;
+    return expenseRepository.findAll();
   }
 
-  public void addExpense(Expense e) {
-    expenses.add(e);
+  public Expense addExpense(Expense e) {
+    return expenseRepository.save(e);
   }
 
   public void updateExpense(Expense e) {

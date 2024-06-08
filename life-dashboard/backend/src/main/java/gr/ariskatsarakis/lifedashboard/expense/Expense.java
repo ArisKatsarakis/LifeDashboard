@@ -15,7 +15,7 @@ import jakarta.persistence.Id;
 public class Expense {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private long expenseId;
+  private Long expenseId;
   private BigDecimal money;
   private Timestamp timestamp;
 
@@ -31,7 +31,7 @@ public class Expense {
     this.money = money;
   }
 
-  public long getExpenseId() {
+  public Long getExpenseId() {
     return expenseId;
   }
 

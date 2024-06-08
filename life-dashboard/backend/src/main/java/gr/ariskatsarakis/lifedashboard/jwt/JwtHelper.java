@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.jwt;
 
+import java.security.Key;
+import java.security.KeyFactory;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;;
@@ -37,7 +40,9 @@ public class JwtHelper {
   }
 
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secret).build();
+    return jwtParser.parseClaimsJws(token).getBody();
+    // return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
   }
 
   public Boolean isTokenExpired(String token) {
@@ -53,7 +58,7 @@ public class JwtHelper {
   public String doGenerateToken(Map<String, Object> claims, String subject) {
     return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_DURATION * 1000))
-        .signWith(SignatureAlgorithm.HS512, secret).compact();
+        .signWith(secret, SignatureAlgorithm.HS512).compact();
   }
 
   public Boolean validateToken(String token, UserDetails userDetails) {

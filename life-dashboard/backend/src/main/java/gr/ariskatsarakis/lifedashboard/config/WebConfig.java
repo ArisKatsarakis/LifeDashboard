@@ -18,7 +18,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebConfig {
 
   @Bean
-  public UserDetailsService UserDetailsService() {
+  public UserDetailsService userDetailsService() {
 
     UserDetails userdetails = User.builder()
         .username("katsar")

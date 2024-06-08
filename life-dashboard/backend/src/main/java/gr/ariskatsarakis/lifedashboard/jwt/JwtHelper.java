@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;;
 
 /**
  * JwtHelper
@@ -18,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;;
 @Component
 public class JwtHelper {
   public static final long JWT_TOKEN_DURATION = 5 * 60 * 60;
-  private String secret = "javainuse";
+  private String secret = Keys.secretKeyFor(SignatureAlgorithm.HS512).toString();
 
   public String getUsernameFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);

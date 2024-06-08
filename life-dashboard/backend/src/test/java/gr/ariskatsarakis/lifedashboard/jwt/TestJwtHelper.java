@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.jwt;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,8 @@ public class TestJwtHelper {
   @Test
   public void text_doGenerateToken() {
     UserDetails userDetails = this.userDetailsService.loadUserByUsername("katsar");
-    System.out.println(this.sut.generateToken(userDetails));
+    String token = this.sut.generateToken(userDetails);
+    System.out.println("Bearer: " + token);
+    assert ("katsar".equals(this.sut.getUsernameFromToken(token)));
   }
 }

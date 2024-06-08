@@ -1,7 +1,5 @@
 package gr.ariskatsarakis.lifedashboard.jwt;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

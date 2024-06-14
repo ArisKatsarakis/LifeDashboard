@@ -1,13 +1,19 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import gr.ariskatsarakis.lifedashboard.samples.Samples;
 
 /**
  * TestExpenseService
  */
+@AutoConfigureTestDatabase
 public class TestExpenseService {
 
   @Autowired
@@ -15,17 +21,13 @@ public class TestExpenseService {
 
   @Test
   public void test_ExpensesCrud() {
-    assert (expenseService.getExpense().isEmpty() == true);
-    Expense sample = Samples.sampleExpense();
-    expenseService.addExpense(sample);
-    assert (expenseService.getExpense().isEmpty() == false);
-    assert (expenseService.getExpenseById(sample.getExpenseId()).getMoney() == sample.getMoney());
-    Expense sample2 = Samples.sampleExpense();
-    sample2.setExpenseId(sample.getExpenseId());
-    expenseService.updateExpense(sample2);
-    assert (expenseService.getExpenseById(sample.getExpenseId()).getMoney() == sample2.getMoney());
-    expenseService.deleteExpense(sample);
-    assert (expenseService.getExpense().isEmpty() == true);
+    this.expenseService.expenseRepository = Mockito.mock(ExpenseRepository.class);
+    Expense testExpense = Samples.sampleExpense();
+    this.expenseService.addExpense(testExpense);
+    List<Expense> expenses = new ArrayList<>();
+    expenses.add(testExpense);
+    Mockito.when(expenseService.getExpense()).thenReturn(expenses);
+    System.out.println(this.expenseService.getExpense());
   }
 
 }

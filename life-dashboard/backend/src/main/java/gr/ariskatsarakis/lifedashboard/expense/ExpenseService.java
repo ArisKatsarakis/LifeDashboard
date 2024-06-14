@@ -2,6 +2,7 @@ package gr.ariskatsarakis.lifedashboard.expense;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class ExpenseService {
 
   @Autowired
-  private ExpenseRepository expenseRepository;
+  ExpenseRepository expenseRepository;
   public static List<Expense> expenses = new ArrayList<>();
 
   public List<Expense> getExpense() {
@@ -24,14 +25,16 @@ public class ExpenseService {
     return expenseRepository.save(e);
   }
 
-  public void updateExpense(Expense e) {
-    expenses.forEach(
-        expense -> {
-          if (expense.getExpenseId() == e.getExpenseId()) {
-            expense.setTimestamp(e.getTimestamp() != null ? e.getTimestamp() : expense.getTimestamp());
-            expense.setMoney(e.getMoney() != null ? e.getMoney() : expense.getMoney());
-          }
-        });
+  public Expense updateExpense(Expense e) {
+    Optional<Expense> opt = expenseRepository.findById(e.getExpenseId());
+    if (opt.isEmpty()) {
+      return null;
+    }
+    Expense e2 = opt.get();
+    e2.setTimestamp(e.getTimestamp());
+    e2.setMoney(e.getMoney());
+    e2 = expenseRepository.save(e2);
+    return e2;
   }
 
   public Expense getExpenseById(Long expenseId) {

@@ -4,18 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * ExpenseService
  */
 @Service
 public class ExpenseService {
-
+  private Logger logger = LoggerFactory.getLogger(ExpenseService.class);
   @Autowired
   ExpenseRepository expenseRepository;
-  public static List<Expense> expenses = new ArrayList<>();
+
+  @Autowired
+  ExpenseTypeRepository expenseTypeRepository;
 
   public List<Expense> getExpense() {
     return expenseRepository.findAll();
@@ -26,15 +32,21 @@ public class ExpenseService {
   }
 
   public Expense updateExpense(Expense e) {
-    Optional<Expense> opt = expenseRepository.findById(e.getExpenseId());
-    if (opt.isEmpty()) {
-      return null;
+    try {
+      Optional<Expense> opt = expenseRepository.findById(e.getExpenseId());
+      if (opt.isEmpty()) {
+        return null;
+      }
+      Expense e2 = opt.get();
+      e2.setTimestamp(e.getTimestamp());
+      e2.setMoney(e.getMoney());
+      e2 = expenseRepository.save(e2);
+      return e2;
+    } catch (Exception exc) {
+      logger.info(exc.getMessage());
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, exc.getMessage());
     }
-    Expense e2 = opt.get();
-    e2.setTimestamp(e.getTimestamp());
-    e2.setMoney(e.getMoney());
-    e2 = expenseRepository.save(e2);
-    return e2;
   }
 
   public Expense getExpenseById(Long expenseId) {
@@ -57,6 +69,10 @@ public class ExpenseService {
     if (index != -1) {
       expenses.remove(index);
     }
+  }
+
+  public List<ExpenseType> getExpenseTypes() {
+
   }
 
 }

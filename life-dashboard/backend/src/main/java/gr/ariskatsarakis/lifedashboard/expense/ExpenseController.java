@@ -13,26 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/expenses")
+@RequestMapping("/api/v1")
 public class ExpenseController {
 
   @Autowired
   private ExpenseService service;
 
-  @GetMapping
+  @GetMapping("/expenses")
   public List<Expense> getExpense() {
     return service.getExpense();
   }
 
-  @PostMapping
+  @PostMapping("/expenses")
   public Expense addExpense(@RequestBody Expense expense) {
     expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
     return service.addExpense(expense);
   }
 
-  @PutMapping
+  @PutMapping("/expenses")
   public Expense updateExpense(@RequestBody Expense expense) {
     return service.updateExpense(expense);
+  }
+
+  @GetMapping("/expense-types")
+  public List<ExpenseType> getExpenseTypes() {
+
   }
 
 }

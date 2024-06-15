@@ -7,17 +7,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 /**
  * Expense
  */
 @Entity
 public class Expense {
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long expenseId;
   private BigDecimal money;
   private Timestamp timestamp;
+  @ManyToOne
+  @JoinColumn(name = "expense")
+  private ExpenseType expenseType;
 
   public Expense() {
 
@@ -45,6 +51,14 @@ public class Expense {
 
   public void setTimestamp(Timestamp timestamp) {
     this.timestamp = timestamp;
+  }
+
+  public ExpenseType getExpenseType() {
+    return expenseType;
+  }
+
+  public void setExpenseType(ExpenseType expenseType) {
+    this.expenseType = expenseType;
   }
 
 }

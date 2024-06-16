@@ -1,6 +1,5 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,15 +30,26 @@ public class ExpenseService {
     return expenseRepository.save(e);
   }
 
-  public Expense updateExpense(Expense e) {
+  public Expense updateExpense(Expense e, Long expenseTypeId) {
     try {
       Optional<Expense> opt = expenseRepository.findById(e.getExpenseId());
       if (opt.isEmpty()) {
         return null;
       }
+
       Expense e2 = opt.get();
       e2.setTimestamp(e.getTimestamp());
       e2.setMoney(e.getMoney());
+      // Optional<ExpenseType> expenseType =
+      // expenseTypeRepository.findById(expenseTypeId);
+      // if (!expenseType.isEmpty()) {
+      // e2.setExpenseType(expenseType.get());
+      // List<Expense> expenses = expenseType.get().getExpense();
+      // expenses.add(e2);
+      // expenseType.get().setExpense(expenses);
+      // expenseTypeRepository.save(expenseType.get());
+      // }
+
       e2 = expenseRepository.save(e2);
       return e2;
     } catch (Exception exc) {
@@ -50,29 +60,30 @@ public class ExpenseService {
   }
 
   public Expense getExpenseById(Long expenseId) {
-    for (Expense expense : expenses) {
-      if (expense.getExpenseId() == expenseId) {
-        return expense;
-
-      }
-    }
+    // for (Expense expense : expenses) {
+    // if (expense.getExpenseId() == expenseId) {
+    // return expense;
+    //
+    // }
+    // }
+    // return null;
     return null;
   }
 
   public void deleteExpense(Expense e) {
-    int index = -1;
-    for (Expense expense : expenses) {
-      if (expense.getExpenseId() == e.getExpenseId()) {
-        index = expenses.indexOf(expense);
-      }
-    }
-    if (index != -1) {
-      expenses.remove(index);
-    }
+    // int index = -1;
+    // for (Expense expense : expenses) {
+    // if (expense.getExpenseId() == e.getExpenseId()) {
+    // index = expenses.indexOf(expense);
+    // }
+    // }
+    // if (index != -1) {
+    // expenses.remove(index);
+    // }
   }
 
   public List<ExpenseType> getExpenseTypes() {
-
+    return expenseTypeRepository.findAll();
   }
 
 }

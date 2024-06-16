@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,14 +31,14 @@ public class ExpenseController {
     return service.addExpense(expense);
   }
 
-  @PutMapping("/expenses")
-  public Expense updateExpense(@RequestBody Expense expense) {
-    return service.updateExpense(expense);
+  @PutMapping("/expense-types/{expenseTypeId}/expenses")
+  public Expense updateExpense(@RequestBody Expense expense, @PathVariable Long expenseTypeId) {
+    return service.updateExpense(expense, expenseTypeId);
   }
 
   @GetMapping("/expense-types")
   public List<ExpenseType> getExpenseTypes() {
-
+    return service.getExpenseTypes();
   }
 
 }

@@ -3,6 +3,8 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Expense {
   private Timestamp timestamp;
   @ManyToOne
   @JoinColumn(name = "expense")
+  @JsonIgnore
   private ExpenseType expenseType;
 
   public Expense() {

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { authenticateApi } from "../Utilities/ApiClient";
+import { getExpenses } from "../Utilities/ApiClient";
 
 
 function Dashboard() {
   const [message, setMessage] = useState('');
   const setUp = async () => {
-    const response = await authenticateApi();
-    setMessage(response.token);
+    const response = await getExpenses();
+    // console.lgo(response)
   }
   useEffect(() => {
     setUp();

@@ -36,7 +36,6 @@ public class JwtController {
   private Logger logger = LoggerFactory.getLogger(JwtController.class);
 
   @PostMapping
-  @CrossOrigin
   public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
     this.doAuthenticate(request.getUsername(), request.getPassword());

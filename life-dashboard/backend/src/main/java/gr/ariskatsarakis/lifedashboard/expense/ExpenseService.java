@@ -40,15 +40,14 @@ public class ExpenseService {
       Expense e2 = opt.get();
       e2.setTimestamp(e.getTimestamp());
       e2.setMoney(e.getMoney());
-      // Optional<ExpenseType> expenseType =
-      // expenseTypeRepository.findById(expenseTypeId);
-      // if (!expenseType.isEmpty()) {
-      // e2.setExpenseType(expenseType.get());
-      // List<Expense> expenses = expenseType.get().getExpense();
-      // expenses.add(e2);
-      // expenseType.get().setExpense(expenses);
-      // expenseTypeRepository.save(expenseType.get());
-      // }
+      Optional<ExpenseType> expenseType = expenseTypeRepository.findById(expenseTypeId);
+      if (!expenseType.isEmpty()) {
+        e2.setExpenseType(expenseType.get());
+        List<Expense> expenses = expenseType.get().getExpense();
+        expenses.add(e2);
+        expenseType.get().setExpense(expenses);
+        expenseTypeRepository.save(expenseType.get());
+      }
 
       e2 = expenseRepository.save(e2);
       return e2;
@@ -86,4 +85,15 @@ public class ExpenseService {
     return expenseTypeRepository.findAll();
   }
 
+  public ExpenseType addExpenseType(ExpenseType expenseType) {
+    return expenseTypeRepository.save(expenseType);
+  }
+
+  public List<Expense> getExpenseByExpenseTypeId(Long expenseTypeId) {
+    Optional<ExpenseType> optional = expenseTypeRepository.findById(expenseTypeId);
+    if (optional.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense Type not found");
+    }
+    return optional.get().getExpense();
+  }
 }

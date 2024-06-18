@@ -1,5 +1,5 @@
 import { apiLinks } from "./Variables";
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 const name = 'katsar';
 const pass = 'test';
 
@@ -18,5 +18,7 @@ export const authenticateApi = async () => {
 export const getExpenses = async () => {
   const bearerResponse = await authenticateApi();
   console.log(bearerResponse.token);
+  const response = await axios.get(apiLinks.expensesLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
+  console.log(response);
 }
 

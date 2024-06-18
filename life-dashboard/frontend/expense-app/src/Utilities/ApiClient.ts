@@ -1,5 +1,7 @@
 import { apiLinks } from "./Variables";
-import axios from "axios";
+import { Expense } from "../interfaces/ExpenseInterfaces";
+import axios, { AxiosPromise } from "axios";
+import { Battery0Bar } from "@mui/icons-material";
 const name = 'katsar';
 const pass = 'test';
 
@@ -15,10 +17,9 @@ export const authenticateApi = async () => {
   return response.data;
 }
 
-export const getExpenses = async () => {
+export const getExpenses = async (): Promise<Expense[]> => {
   const bearerResponse = await authenticateApi();
-  console.log(bearerResponse.token);
-  const response = await axios.get(apiLinks.expensesLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  console.log(response);
+  const { data } = await axios.get<Expense[]>(apiLinks.expensesLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
+  return data;
 }
 

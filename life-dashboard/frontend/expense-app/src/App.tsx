@@ -8,6 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Dashboard from './Components/Dashboard';
+import { ExpenseComponent } from './Components/ExpenseComponent';
 
 
 
@@ -17,6 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Dashboard />} />
+          <Route path='/expenses' element={<ExpenseComponent />} />
 
         </Routes>
 

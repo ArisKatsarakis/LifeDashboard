@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Container, DropdownDivider } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { getExpenses, getExpenseTypes } from "../Utilities/ApiClient";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
-import { Expenses } from "./Expenses";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { ExpenseAmmount } from "./ExpenseAmmount";
-import { Divider } from "@mui/material";
 
 
 function Dashboard() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [expensesSum, setExpensesSum] = useState<number>(0);
   const setUp = async () => {
@@ -23,7 +20,6 @@ function Dashboard() {
         }
       }
     )
-    setExpenses(response);
     setExpensesSum(sum);
     setExpenseTypes(types);
   }

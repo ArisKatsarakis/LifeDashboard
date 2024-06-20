@@ -27,3 +27,13 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   const { data } = await axios.get<ExpenseType[]>(apiLinks.expenseTypeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
   return data;
 }
+
+export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Expense): Promise<Expense> => {
+  const bearerResponse = await authenticateApi();
+  const { data } = await axios.post<Expense>(
+    `http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
+    expense,
+    { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
+  )
+  return data;
+}

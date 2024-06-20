@@ -59,26 +59,10 @@ public class ExpenseService {
   }
 
   public Expense getExpenseById(Long expenseId) {
-    // for (Expense expense : expenses) {
-    // if (expense.getExpenseId() == expenseId) {
-    // return expense;
-    //
-    // }
-    // }
-    // return null;
     return null;
   }
 
   public void deleteExpense(Expense e) {
-    // int index = -1;
-    // for (Expense expense : expenses) {
-    // if (expense.getExpenseId() == e.getExpenseId()) {
-    // index = expenses.indexOf(expense);
-    // }
-    // }
-    // if (index != -1) {
-    // expenses.remove(index);
-    // }
   }
 
   public List<ExpenseType> getExpenseTypes() {

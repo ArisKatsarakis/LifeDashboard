@@ -80,4 +80,26 @@ public class ExpenseService {
     }
     return optional.get().getExpense();
   }
+
+  public Expense saveExpenseAddToExpenseType(Long expenseTypeId, Expense expense) {
+    Expense saved = expenseRepository.save(expense);
+    try {
+      Optional<ExpenseType> optional = expenseTypeRepository.findById(expenseTypeId);
+      if (optional.isPresent()) {
+
+        ExpenseType type = optional.get();
+        List<Expense> expenses = type.getExpense();
+        expenses.add(saved);
+        type.setExpense(expenses);
+        expenseTypeRepository.save(type);
+
+      } else {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense Type Not found");
+
+      }
+    } catch (Exception e) {
+      throw e;
+    }
+    return saved;
+  }
 }

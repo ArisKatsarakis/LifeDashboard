@@ -16,6 +16,9 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class ExpenseType {
 
+  /**
+   * TODO Add sum of expenses updated at every Adda
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long expenseTypeId;

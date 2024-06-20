@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, DropdownDivider } from "react-bootstrap";
 import { getExpenses, getExpenseTypes } from "../Utilities/ApiClient";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
 import { Expenses } from "./Expenses";
 import { ExpenseTypes } from "./ExpenseTypes";
+import { ExpenseAmmount } from "./ExpenseAmmount";
+import { Divider } from "@mui/material";
 
 
 function Dashboard() {
@@ -30,18 +32,17 @@ function Dashboard() {
 
   }, [])
   return (
+    //@TODO fix header
     <Container>
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
       </div>
-      <div style={{ border: '1px solid black', textAlign: 'center' }}>
-        <span style={{ border: '1px solid black', marginTop: '1rem', textAlign: 'center' }}>
-          Money Spent ${expensesSum}
-        </span>
-      </div>
-      <Expenses items={expenses} />
       <ExpenseTypes items={expenseTypes} />
-      <Button href="/expenses">Add Expense</Button>
+      <hr />
+      <ExpenseAmmount expensesSum={expensesSum} />
+      <div style={{ textAlign: 'center' }}>
+        <Button href="/expenses">Add Expense</Button>
+      </div>
     </Container >
   );
 

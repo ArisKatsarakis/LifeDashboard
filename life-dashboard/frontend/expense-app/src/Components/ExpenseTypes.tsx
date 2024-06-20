@@ -1,28 +1,21 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { ExpenseType } from "../interfaces/ExpenseInterfaces";
+import { Expenses } from "./Expenses";
 
 export function ExpenseTypes(props: { items: ExpenseType[] }) {
+
   return (
     <Container>
-      <Row style={{ textAlign: 'center' }}>
-        <h2>Expense Types</h2>
-      </Row>
-      <Row>
-        {props.items.map(
-          item => {
-            return (
-              <Col key={item.expenseTypeId}>
-                <ul>
-                  <li>ID: {item.expenseTypeId}</li>
-                  <li>Name: {item.expenseTypeName}</li>
-                  <li>Expenses: {JSON.stringify(item.expense)}</li>
-                </ul>
-              </Col>
-            )
-          }
-        )}
-      </Row>
-
+      {props.items.map(
+        item => {
+          return (
+            <Row key={item.expenseTypeId}>
+              <h2 style={{ textAlign: 'center' }}>Expense Type: {item.expenseTypeName}</h2>
+              {item.expense.length === 0 ? <span style={{ textAlign: 'center' }}>No Expenses</span> : <Expenses items={item.expense} />}
+            </Row>
+          )
+        }
+      )}
     </Container>
   )
 }

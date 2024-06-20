@@ -5,19 +5,22 @@ export function Expenses(props: { items: Expense[] }) {
 
   return (
     <Container >
-      <Row style={{ textAlign: 'center' }}>
-        <h2> Expenses </h2>
-      </Row>
       <Row style={{ border: '10px', borderColor: 'black', marginTop: '1rem' }}>
         {props.items.map(
           item => {
             return (
               <Col key={item.expenseId}>
-                <ul >
-                  <li>ID: {item.expenseId}</li>
-                  <li>Money: {item.money}</li>
-                  <li>Timestamp: {item.timestamp}</li>
-                </ul>
+                <div style={{ textAlign: 'center' }} >
+                  <span style={{ border: '1px solid black', color: 'white', background: 'red', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
+                    Expense Name
+                  </span>
+                  <span style={{ border: '1px solid black', color: 'white', background: 'red', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
+                    ${item.money} <br />
+                  </span>
+                  <span style={{ border: '1px dashed black', fontSize: '20px', marginTop: '1rem' }}>
+                    {item.timestamp?.split("T")[0]}
+                  </span>
+                </div>
               </Col>
             )
           }

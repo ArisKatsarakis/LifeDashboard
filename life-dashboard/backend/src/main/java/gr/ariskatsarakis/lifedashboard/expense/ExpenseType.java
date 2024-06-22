@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -16,9 +17,6 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class ExpenseType {
 
-  /**
-   * TODO Add sum of expenses updated at every Adda
-   */
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long expenseTypeId;
@@ -27,6 +25,7 @@ public class ExpenseType {
   @JoinColumn(name = "expenseType")
   private List<Expense> expense;
   private String expenseTypeName;
+  private BigDecimal expensesSum;
 
   public ExpenseType() {
 
@@ -55,4 +54,13 @@ public class ExpenseType {
   public void setExpenseTypeName(String expenseTypeName) {
     this.expenseTypeName = expenseTypeName;
   }
+
+  public BigDecimal getExpensesSum() {
+    return expensesSum;
+  }
+
+  public void setExpensesSum(BigDecimal expensesSum) {
+    this.expensesSum = expensesSum;
+  }
+
 }

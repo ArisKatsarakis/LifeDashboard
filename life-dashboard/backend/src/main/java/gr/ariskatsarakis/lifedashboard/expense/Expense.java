@@ -18,9 +18,6 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Expense {
 
-  /**
-   * TODO add expnese Name for takin notes
-   */
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long expenseId;

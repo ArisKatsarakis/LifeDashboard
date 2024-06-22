@@ -9,4 +9,5 @@ export interface ExpenseType {
   expenseTypeId: number | null;
   expense: Expense[];
   expenseTypeName: string | null;
+  expensesSum: number | null;
 }

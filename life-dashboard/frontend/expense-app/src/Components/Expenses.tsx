@@ -11,8 +11,8 @@ export function Expenses(props: { items: Expense[] }) {
             return (
               <Col key={item.expenseId}>
                 <div style={{ textAlign: 'center' }} >
-                  <span style={{ border: '1px solid black', color: 'white', background: 'red', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
-                    Expense Name
+                  <span style={{ border: '1px solid black', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
+                    {item.name}
                   </span>
                   <span style={{ border: '1px solid black', color: 'white', background: 'red', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
                     ${item.money} <br />

@@ -1,7 +1,9 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,5 +81,35 @@ public class ExpenseService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense Type not found");
     }
     return optional.get().getExpense();
+  }
+
+  public Expense saveExpenseAddToExpenseType(Long expenseTypeId, Expense expense) {
+    Expense saved = expenseRepository.save(expense);
+    try {
+      Optional<ExpenseType> optional = expenseTypeRepository.findById(expenseTypeId);
+      if (optional.isPresent()) {
+
+        ExpenseType type = optional.get();
+        List<Expense> expenses = type.getExpense();
+        expenses.add(saved);
+        type.setExpense(expenses);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Expense exp : expenses) {
+          sum = sum.add(exp.getMoney());
+        }
+        type.setExpensesSum(sum);
+        expenseTypeRepository.save(type);
+
+        logger.info("Expense added {} to expense type in {}", expense.getName(), type.getExpenseTypeName());
+        logger.info("SUM: {} Euros", type.getExpensesSum());
+
+      } else {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense Type Not found");
+
+      }
+    } catch (Exception e) {
+      throw e;
+    }
+    return saved;
   }
 }

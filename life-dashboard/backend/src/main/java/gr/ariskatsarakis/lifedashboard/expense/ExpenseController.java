@@ -53,4 +53,9 @@ public class ExpenseController {
     return service.getExpenseByExpenseTypeId(expenseTypeId);
   }
 
+  @PostMapping("/expense-types/{expenseTypeId}/expenses")
+  public Expense addExpeseAndAddToExpnseType(@PathVariable Long expenseTypeId, @RequestBody Expense expense) {
+    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    return service.saveExpenseAddToExpenseType(expenseTypeId, expense);
+  }
 }

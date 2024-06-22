@@ -23,6 +23,7 @@ public class Expense {
   private Long expenseId;
   private BigDecimal money;
   private Timestamp timestamp;
+  private String name;
   @ManyToOne
   @JoinColumn(name = "expense")
   @JsonIgnore
@@ -62,6 +63,14 @@ public class Expense {
 
   public void setExpenseType(ExpenseType expenseType) {
     this.expenseType = expenseType;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
 }

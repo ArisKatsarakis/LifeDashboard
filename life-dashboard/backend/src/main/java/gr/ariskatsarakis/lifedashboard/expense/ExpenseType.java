@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -24,6 +25,7 @@ public class ExpenseType {
   @JoinColumn(name = "expenseType")
   private List<Expense> expense;
   private String expenseTypeName;
+  private BigDecimal expensesSum;
 
   public ExpenseType() {
 
@@ -52,4 +54,13 @@ public class ExpenseType {
   public void setExpenseTypeName(String expenseTypeName) {
     this.expenseTypeName = expenseTypeName;
   }
+
+  public BigDecimal getExpensesSum() {
+    return expensesSum;
+  }
+
+  public void setExpensesSum(BigDecimal expensesSum) {
+    this.expensesSum = expensesSum;
+  }
+
 }

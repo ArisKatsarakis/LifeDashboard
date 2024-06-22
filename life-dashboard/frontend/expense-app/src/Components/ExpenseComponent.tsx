@@ -10,6 +10,7 @@ export function ExpenseComponent() {
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [type, setType] = useState<number>();
   const [money, setMoney] = useState<number>();
+  const [name, setName] = useState<string>();
   const [warningMessage, setWarningMessage] = useState<string>();
   const setUp = async () => {
     const types: ExpenseType[] = await getExpenseTypes();
@@ -18,24 +19,30 @@ export function ExpenseComponent() {
   useEffect(() => {
     setUp();
 
-  }, [])
+  }, []);
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const payload: Expense = {
       expenseId: null,
       money: null,
-      timestamp: null
+      timestamp: null,
+      name: null
     };
     console.log(type, money);
     payload.money = money;
+    payload.name = name;
     if (type != null) {
       const response = await addExpenseToExpenseType(type, payload);
       console.log(response);
       navigate('/');
+      window.location.reload();
     } else {
       setWarningMessage("Please choose an Expense Type");
     }
-  }
+  };
+
   return (
     <Container>
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
@@ -59,9 +66,10 @@ export function ExpenseComponent() {
           </Form.Select>
         </Form.Group>
         <InputGroup className="mb-3">
+          <InputGroup.Text>Name </InputGroup.Text>
+          <Form.Control type="text" value={name} onChange={event => setName(event.target.value)} />
           <InputGroup.Text>$</InputGroup.Text>
-          <Form.Control aria-label="Amount (to the nearest dollar)" type="number" inputMode="numeric" value={money} onChange={event => setMoney(parseInt(event.target.value))} />
-          <InputGroup.Text>.00</InputGroup.Text>
+          <Form.Control aria-label="Amount (to the nearest dollar)" type="number" inputMode="decimal" value={money} onChange={event => setMoney(parseInt(event.target.value))} />
         </InputGroup>
         <Form.Group style={{ marginTop: '1rem' }}>
           <Button type="submit">Save</Button>

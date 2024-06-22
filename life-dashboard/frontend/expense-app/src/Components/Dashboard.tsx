@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Modal } from "react-bootstrap";
 import { getExpenses, getExpenseTypes } from "../Utilities/ApiClient";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { ExpenseAmmount } from "./ExpenseAmmount";
+import { ExpenseComponent } from "./ExpenseComponent";
 
 
 function Dashboard() {
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [expensesSum, setExpensesSum] = useState<number>(0);
+  const [show, setShow] = useState<boolean>(false);
+
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
     const types: ExpenseType[] = await getExpenseTypes();
@@ -26,7 +29,16 @@ function Dashboard() {
   useEffect(() => {
     setUp();
 
-  }, [])
+  }, []);
+
+  const handleShow = () => {
+    setShow(!show);
+  }
+
+  const handleClose = () => {
+    setShow(false);
+  }
+
   return (
     //@TODO fix header
     <Container>
@@ -37,8 +49,16 @@ function Dashboard() {
       <hr />
       <ExpenseAmmount expensesSum={expensesSum} />
       <div style={{ textAlign: 'center' }}>
-        <Button href="/expenses">Add Expense</Button>
+        <Button onClick={handleShow} >Add Expense</Button>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <h2>Add Expenses</h2>
+        </Modal.Header>
+        <Modal.Body>
+          <ExpenseComponent />
+        </Modal.Body>
+      </Modal>
     </Container >
   );
 

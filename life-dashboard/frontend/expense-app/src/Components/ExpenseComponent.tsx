@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, InputGroup } from "react-bootstrap";
 import { ExpenseType, Expense } from "../interfaces/ExpenseInterfaces";
+import { useNavigate } from "react-router-dom";
 import { addExpenseToExpenseType, getExpenseTypes } from "../Utilities/ApiClient";
 
 export function ExpenseComponent() {
 
+  const navigate = useNavigate();
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [type, setType] = useState<number>();
   const [money, setMoney] = useState<number>();
@@ -29,6 +31,7 @@ export function ExpenseComponent() {
     if (type != null) {
       const response = await addExpenseToExpenseType(type, payload);
       console.log(response);
+      navigate('/');
     } else {
       setWarningMessage("Please choose an Expense Type");
     }
@@ -55,10 +58,11 @@ export function ExpenseComponent() {
             )}
           </Form.Select>
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Money: </Form.Label>
-          <Form.Control type="number" inputMode="numeric" value={money} onChange={event => setMoney(parseInt(event.target.value))} />
-        </Form.Group>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>$</InputGroup.Text>
+          <Form.Control aria-label="Amount (to the nearest dollar)" type="number" inputMode="numeric" value={money} onChange={event => setMoney(parseInt(event.target.value))} />
+          <InputGroup.Text>.00</InputGroup.Text>
+        </InputGroup>
         <Form.Group style={{ marginTop: '1rem' }}>
           <Button type="submit">Save</Button>
         </Form.Group>

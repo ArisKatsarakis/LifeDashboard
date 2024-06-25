@@ -43,6 +43,11 @@ public class ExpenseController {
     return service.getExpenseTypes();
   }
 
+  @GetMapping("/expense-types/{expenseTypeId}")
+  public ExpenseType getExpenseTypes(@PathVariable Long expenseTypeId) {
+    return service.getExpenseTypesById(expenseTypeId);
+  }
+
   @PostMapping("/expense-types")
   public ExpenseType addExpenseType(@RequestBody ExpenseType expenseType) {
     return service.addExpenseType(expenseType);

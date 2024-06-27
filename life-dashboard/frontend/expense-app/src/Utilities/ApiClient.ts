@@ -37,3 +37,15 @@ export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Ex
   )
   return data;
 }
+
+export const addExpenseType = async (expenseType: ExpenseType): Promise<ExpenseType> => {
+
+  const bearerResponse = await authenticateApi();
+  const { data } = await axios.post<ExpenseType>(
+    `http://localhost:8080/api/v1/expense-types`,
+    expenseType,
+    { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
+  )
+  return data;
+
+}

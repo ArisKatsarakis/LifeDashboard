@@ -3,7 +3,6 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,5 +110,14 @@ public class ExpenseService {
       throw e;
     }
     return saved;
+  }
+
+  public ExpenseType getExpenseTypesById(Long expenseTypeId) {
+    Optional<ExpenseType> opt = expenseTypeRepository.findById(expenseTypeId);
+    if (opt.isPresent()) {
+      return opt.get();
+    }
+    return null;
+
   }
 }

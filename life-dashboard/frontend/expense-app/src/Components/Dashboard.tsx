@@ -38,7 +38,6 @@ function Dashboard() {
   }, []);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {
-    // const id = event.currentTarget.getAttribute('id');
     console.log(event.currentTarget.getAttribute('id'));
     const id = event.currentTarget.getAttribute('id');
     if (id === 'add-expense') {
@@ -50,7 +49,7 @@ function Dashboard() {
   }
 
   const handleClose = () => {
-    // setShow(false);
+    setShow(false);
   }
 
   return (
@@ -61,7 +60,11 @@ function Dashboard() {
       </div>
       <div style={{ textAlign: 'center' }}>
         <h2>Income Now:</h2>
-        <h2>$ {income?.money}</h2>
+        <span>
+          <h2>$ {income?.money}</h2>
+          <h2>Last Updated: {income?.timestamp.split('T')[0]}  {income?.timestamp.split('T')[1].split('.')[0]}</h2>
+        </span>
+
       </div>
       <hr />
       <ExpenseTypes items={expenseTypes} />
@@ -71,8 +74,8 @@ function Dashboard() {
         <Row style={{ textAlign: 'center' }}>
           <Col xs={6}>
             <Button onClick={handleShow} id='add-expense' >Add Expense</Button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
+            <Modal show={show} onHide={handleClose} >
+              <Modal.Header closeButton>
                 <h2>Add Expenses</h2>
               </Modal.Header>
               <Modal.Body>
@@ -83,8 +86,8 @@ function Dashboard() {
           <Col xs={6}>
             <Button onClick={handleShow} id='add-expense-type' >Add Expense Type</Button>
             <Modal show={showExpenseType} onHide={handleClose}>
-              <Modal.Header>
-                <h2>Add Expenses</h2>
+              <Modal.Header closeButton>
+                <h2>Add Expense Type</h2>
               </Modal.Header>
               <Modal.Body>
                 <ExpenseTypeComponent />

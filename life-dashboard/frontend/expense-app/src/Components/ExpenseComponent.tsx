@@ -10,6 +10,7 @@ export function ExpenseComponent() {
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [type, setType] = useState<number>();
   const [money, setMoney] = useState<number>();
+  const [name, setName] = useState<string>();
   const [warningMessage, setWarningMessage] = useState<string>();
   const setUp = async () => {
     const types: ExpenseType[] = await getExpenseTypes();
@@ -30,6 +31,7 @@ export function ExpenseComponent() {
     };
     console.log(type, money);
     payload.money = money;
+    payload.name = name;
     if (type != null) {
       const response = await addExpenseToExpenseType(type, payload);
       console.log(response);
@@ -45,6 +47,7 @@ export function ExpenseComponent() {
         <Form.Group>
           {warningMessage ? <span style={{ color: 'red' }}>{warningMessage}</span> : <span></span>}
           <Form.Label>Type of Expense:</Form.Label>
+
           <Form.Select aria-label="Default select example" onChange={type => { setType(parseInt(type.target.value)) }}>
             <option>Select Expense Type</option>
             {expenseTypes.map(
@@ -56,6 +59,10 @@ export function ExpenseComponent() {
             )}
           </Form.Select>
         </Form.Group>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>Expense Description</InputGroup.Text>
+          <Form.Control aria-label="Amount (to the nearest dollar)" type="text" inputMode="text" value={name} onChange={event => setName(event.target.value)} />
+        </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text>$</InputGroup.Text>
           <Form.Control aria-label="Amount (to the nearest dollar)" type="number" inputMode="numeric" value={money} onChange={event => setMoney(parseInt(event.target.value))} />

@@ -1,5 +1,6 @@
 import { apiLinks } from "./Variables";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
+import { Income } from "../interfaces/IncomeInterfaces";
 import axios from "axios";
 const name = 'katsar';
 const pass = 'test';
@@ -26,6 +27,12 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   const bearerResponse = await authenticateApi();
   const { data } = await axios.get<ExpenseType[]>(apiLinks.expenseTypeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
   return data;
+}
+
+export const getIncome = async (): Promise<Income> => {
+  const bearerResponse = await authenticateApi();
+  const { data } = await axios.get<Income[]>(apiLinks.incomeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
+  return data[0];
 }
 
 export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Expense): Promise<Expense> => {

@@ -16,6 +16,8 @@ import gr.ariskatsarakis.lifedashboard.expense.Expense;
 import gr.ariskatsarakis.lifedashboard.expense.ExpenseRepository;
 import gr.ariskatsarakis.lifedashboard.expense.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.ExpenseTypeRepository;
+import gr.ariskatsarakis.lifedashboard.income.Income;
+import gr.ariskatsarakis.lifedashboard.income.IncomeRepository;
 
 @SpringBootApplication
 public class LifeDashboardApplication {
@@ -33,6 +35,9 @@ public class LifeDashboardApplication {
     @Autowired
     ExpenseRepository expenseRepository;
 
+    @Autowired
+    IncomeRepository incomeRepository;
+
     @Override
     public void run(String... args) throws Exception {
       ExpenseType expenseType = new ExpenseType();
@@ -49,6 +54,11 @@ public class LifeDashboardApplication {
       expenses.add(expense);
       expenseType.setExpense(expenses);
       expenseTypeRepository.save(expenseType);
+
+      Income income = new Income();
+      income.setMoney(BigDecimal.valueOf(1000L));
+      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+      incomeRepository.save(income);
     }
   }
 

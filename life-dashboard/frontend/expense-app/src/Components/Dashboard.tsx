@@ -1,11 +1,12 @@
 import { useEffect, useState, MouseEvent } from "react";
 import { Button, Container, Modal, Row, Col } from "react-bootstrap";
-import { getExpenses, getExpenseTypes } from "../Utilities/ApiClient";
+import { getExpenses, getExpenseTypes, getIncome } from "../Utilities/ApiClient";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { ExpenseAmmount } from "./ExpenseAmmount";
 import { ExpenseComponent } from "./ExpenseComponent";
 import { ExpenseTypeComponent } from "./ExpenseTypeComponent";
+import { Income } from "../interfaces/IncomeInterfaces";
 
 
 function Dashboard() {
@@ -13,10 +14,12 @@ function Dashboard() {
   const [expensesSum, setExpensesSum] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
   const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
+  const [income, setIncome] = useState<Income>();
 
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
     const types: ExpenseType[] = await getExpenseTypes();
+    const income: Income = await getIncome();
     let sum = 0;
     response.forEach(
       expense => {
@@ -27,6 +30,7 @@ function Dashboard() {
     )
     setExpensesSum(sum);
     setExpenseTypes(types);
+    setIncome(income);
   }
   useEffect(() => {
     setUp();
@@ -55,6 +59,11 @@ function Dashboard() {
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
       </div>
+      <div style={{ textAlign: 'center' }}>
+        <h2>Income Now:</h2>
+        <h2>$ {income?.money}</h2>
+      </div>
+      <hr />
       <ExpenseTypes items={expenseTypes} />
       <hr />
       <ExpenseAmmount expensesSum={expensesSum} />

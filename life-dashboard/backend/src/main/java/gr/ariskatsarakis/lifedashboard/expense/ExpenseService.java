@@ -42,6 +42,7 @@ public class ExpenseService {
     // TODO fix a repository to bring the latest image of the Income not a list
     List<Income> incomes = incomeRepository.findAll();
     logger.info("INCOMES SIZE IS : " + incomes.size());
+
     if (incomes.size() > 0) {
       logger.info("Added new Income ");
       Income income = incomes.get(0);
@@ -50,6 +51,7 @@ public class ExpenseService {
       income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
       incomeRepository.save(income);
     }
+
     return expenseAdded;
   }
 

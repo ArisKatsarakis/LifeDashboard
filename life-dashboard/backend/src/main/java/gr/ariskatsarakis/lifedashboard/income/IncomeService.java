@@ -27,6 +27,7 @@ public class IncomeService {
 
   public Income addIncome(Income income) {
     income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+
     if (checkIfIncomesExistForThisMonth(income) > 0) {
       throw new RuntimeException("Too many Incomes this month");
     }

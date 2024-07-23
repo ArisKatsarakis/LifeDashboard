@@ -1,6 +1,10 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import gr.ariskatsarakis.lifedashboard.income.Income;
+import gr.ariskatsarakis.lifedashboard.income.IncomeRepository;
 
 /**
  * ExpenseService
@@ -21,6 +28,9 @@ public class ExpenseService {
   ExpenseRepository expenseRepository;
 
   @Autowired
+  IncomeRepository incomeRepository;
+
+  @Autowired
   ExpenseTypeRepository expenseTypeRepository;
 
   public List<Expense> getExpense() {
@@ -28,7 +38,21 @@ public class ExpenseService {
   }
 
   public Expense addExpense(Expense e) {
-    return expenseRepository.save(e);
+    Expense expenseAdded = expenseRepository.save(e);
+    // TODO fix a repository to bring the latest image of the Income not a list
+    List<Income> incomes = incomeRepository.findAll();
+    logger.info("INCOMES SIZE IS : " + incomes.size());
+
+    if (incomes.size() > 0) {
+      logger.info("Added new Income ");
+      Income income = incomes.get(0);
+      BigDecimal currentMoney = income.getMoney().subtract(expenseAdded.getMoney());
+      income.setMoney(currentMoney);
+      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+      incomeRepository.save(income);
+    }
+
+    return expenseAdded;
   }
 
   public Expense updateExpense(Expense e, Long expenseTypeId) {
@@ -83,7 +107,7 @@ public class ExpenseService {
   }
 
   public Expense saveExpenseAddToExpenseType(Long expenseTypeId, Expense expense) {
-    Expense saved = expenseRepository.save(expense);
+    Expense saved = addExpense(expense);
     try {
       Optional<ExpenseType> optional = expenseTypeRepository.findById(expenseTypeId);
       if (optional.isPresent()) {

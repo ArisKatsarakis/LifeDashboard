@@ -24,7 +24,6 @@ public class LifeDashboardApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(LifeDashboardApplication.class, args);
-
   }
 
   @Component
@@ -40,6 +39,11 @@ public class LifeDashboardApplication {
 
     @Override
     public void run(String... args) throws Exception {
+      Income income = new Income();
+      income.setMoney(BigDecimal.valueOf(1000L));
+      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+
+      incomeRepository.save(income);
       ExpenseType expenseType = new ExpenseType();
       expenseType.setExpenseTypeName("Needs");
       expenseType = expenseTypeRepository.save(expenseType);
@@ -55,10 +59,6 @@ public class LifeDashboardApplication {
       expenseType.setExpense(expenses);
       expenseTypeRepository.save(expenseType);
 
-      Income income = new Income();
-      income.setMoney(BigDecimal.valueOf(1000L));
-      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-      incomeRepository.save(income);
     }
   }
 

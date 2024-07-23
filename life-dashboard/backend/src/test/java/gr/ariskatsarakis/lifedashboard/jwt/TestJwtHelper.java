@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.jwt;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ public class TestJwtHelper {
   private JwtHelper sut = new JwtHelper();
 
   WebConfig webConfig = new WebConfig();
+
   @Autowired
   private UserDetailsService userDetailsService = webConfig.userDetailsService();
 

@@ -56,7 +56,7 @@ public class LifeDashboardApplication {
       expenseTypeRepository.save(expenseType);
 
       Income income = new Income();
-      income.setMoney(BigDecimal.TEN);
+      income.setMoney(BigDecimal.valueOf(1000L));
       income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
       incomeRepository.save(income);
     }

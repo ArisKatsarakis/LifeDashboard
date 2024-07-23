@@ -45,4 +45,5 @@ public class IncomeService {
     incomeLogger.info(incomeRepository.getIncomesForMonth(start, end).toString());
     return incomeRepository.getIncomesForMonth(start, end);
   }
+
 }

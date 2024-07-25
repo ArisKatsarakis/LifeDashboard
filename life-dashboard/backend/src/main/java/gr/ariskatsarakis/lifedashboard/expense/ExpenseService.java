@@ -1,9 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +37,6 @@ public class ExpenseService {
 
   public Expense addExpense(Expense e) {
     Expense expenseAdded = expenseRepository.save(e);
-    // TODO fix a repository to bring the latest image of the Income not a list
     List<Income> incomes = incomeRepository.findAll();
     logger.info("INCOMES SIZE IS : " + incomes.size());
 
@@ -63,6 +60,7 @@ public class ExpenseService {
       }
 
       Expense e2 = opt.get();
+      BigDecimal currentMoney = e2.getMoney();
       e2.setTimestamp(e.getTimestamp());
       e2.setMoney(e.getMoney());
       Optional<ExpenseType> expenseType = expenseTypeRepository.findById(expenseTypeId);
@@ -74,6 +72,13 @@ public class ExpenseService {
         expenseTypeRepository.save(expenseType.get());
       }
 
+      List<Income> incomes = incomeRepository.findAll();
+      Income income = incomes.isEmpty() == false ? incomes.get(0) : null;
+      if (income != null) {
+        income.setMoney(income.getMoney().add(currentMoney.subtract(e2.getMoney())));
+      }
+      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+      incomeRepository.save(income);
       e2 = expenseRepository.save(e2);
       return e2;
     } catch (Exception exc) {

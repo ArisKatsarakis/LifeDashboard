@@ -2,8 +2,6 @@ package gr.ariskatsarakis.lifedashboard.jwt;
 
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

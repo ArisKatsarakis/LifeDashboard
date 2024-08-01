@@ -1,10 +1,8 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import gr.ariskatsarakis.lifedashboard.jwt.*;
+import org.springframework.test.web.servlet.MvcResult;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gr.ariskatsarakis.lifedashboard.jwt.JwtRequest;
+import gr.ariskatsarakis.lifedashboard.jwt.JwtResponse;
 
 /**
  * TestExpensesController
@@ -21,28 +24,38 @@ import gr.ariskatsarakis.lifedashboard.jwt.*;
 @AutoConfigureMockMvc
 public class TestExpensesController {
 
-  // @LocalServerPort
-  // private int port;
-  // @Autowired
-  // TestRestTemplate requestTemplate;
-
   @Autowired
   private MockMvc mockMvc;
 
   private String testUrl = "/api/v1/expenses";
 
+  private String authoriztionUrl = "/auth/login";
+
+  private ObjectMapper objectMapper = new ObjectMapper();
+
   @Test
   void testGetExpenses() throws Exception {
     JwtRequest input = new JwtRequest();
     input.setUsername("katsar");
-    input.setUsername("user");
-
-    this.mockMvc.perform(get(this.testUrl)).andDo(print()).andExpect(status().is(401));
-    mockMvc
+    input.setPassword("test");
+    MvcResult mvcResult = mockMvc
         .perform(
-            post("/auth/login")
+            post(authoriztionUrl)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(input.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-        .andDo(print());
+                .characterEncoding("utf-8"))
+        .andReturn();
+    JwtResponse response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), JwtResponse.class);
+
+    MvcResult mvcResExpense = mockMvc.perform(
+        get(testUrl)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + response.getToken()))
+        .andReturn();
+
+    Expense[] expenses = objectMapper.readValue(mvcResExpense.getResponse().getContentAsString(), Expense[].class);
+    for (Expense e : expenses) {
+      assertThat(e.getMoney().toString()).isEqualTo("20.00");
+    }
   }
 }

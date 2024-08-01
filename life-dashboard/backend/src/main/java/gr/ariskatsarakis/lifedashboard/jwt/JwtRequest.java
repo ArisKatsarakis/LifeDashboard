@@ -32,4 +32,9 @@ public class JwtRequest {
   public String getPassword() {
     return password;
   }
+
+  @Override
+  public String toString() {
+    return "{\"username\": \"" + this.username + "\",\"password\": \"" + this.password + "\"}";
+  }
 }

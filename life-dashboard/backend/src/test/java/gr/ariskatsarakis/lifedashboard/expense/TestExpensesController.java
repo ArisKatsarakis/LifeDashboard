@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,7 @@ import gr.ariskatsarakis.lifedashboard.jwt.JwtResponse;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestExpensesController {
 
   @Autowired
@@ -33,8 +36,11 @@ public class TestExpensesController {
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  @Test
-  void testGetExpenses() throws Exception {
+  private JwtResponse jwtResponse;
+
+  @BeforeAll
+  void setupCalls() throws Exception {
+
     JwtRequest input = new JwtRequest();
     input.setUsername("katsar");
     input.setPassword("test");
@@ -45,12 +51,15 @@ public class TestExpensesController {
                 .content(input.toString())
                 .characterEncoding("utf-8"))
         .andReturn();
-    JwtResponse response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), JwtResponse.class);
+    this.jwtResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), JwtResponse.class);
+  }
 
+  @Test
+  void testGetExpenses() throws Exception {
     MvcResult mvcResExpense = mockMvc.perform(
         get(testUrl)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + response.getToken()))
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
         .andReturn();
 
     Expense[] expenses = objectMapper.readValue(mvcResExpense.getResponse().getContentAsString(), Expense[].class);

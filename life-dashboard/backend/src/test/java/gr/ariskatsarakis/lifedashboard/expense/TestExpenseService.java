@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,9 @@ public class TestExpenseService {
     List<Expense> expenses = new ArrayList<>();
     expenses.add(testExpense);
     Mockito.when(expenseService.getExpense()).thenReturn(expenses);
-    System.out.println(this.expenseService.getExpense());
+
+    assertEquals(this.expenseService.getExpense().get(0).getMoney(), testExpense.getMoney());
+    assertEquals(this.expenseService.getExpense().get(0).getExpenseId(), testExpense.getExpenseId());
   }
 
 }

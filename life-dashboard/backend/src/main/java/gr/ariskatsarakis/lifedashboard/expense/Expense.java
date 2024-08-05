@@ -73,4 +73,8 @@ public class Expense {
     this.name = name;
   }
 
+  @Override
+  public String toString() {
+    return "{\"money\": " + this.money + ",\n \"name\": \"" + name + "\"}";
+  }
 }

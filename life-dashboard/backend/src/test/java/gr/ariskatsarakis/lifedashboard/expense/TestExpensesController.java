@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -64,7 +68,29 @@ public class TestExpensesController {
 
     Expense[] expenses = objectMapper.readValue(mvcResExpense.getResponse().getContentAsString(), Expense[].class);
     for (Expense e : expenses) {
-      assertThat(e.getMoney().toString()).isEqualTo("20.00");
+      if (e.getExpenseId().equals(20L)) {
+        assertThat(e.getMoney().toString()).isEqualTo("20.00");
+      }
     }
+  }
+
+  @Test
+  void testAddingExpenses() throws Exception {
+    Expense expense = new Expense();
+    expense.setName("Testing Expense");
+    expense.setMoney(BigDecimal.valueOf(40L));
+    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    MvcResult mvcResult = mockMvc.perform(
+        post(testUrl)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(expense.toString())
+            .header("Authorization", "Bearer " + jwtResponse.getToken())
+
+    ).andReturn();
+
+    System.out.println(mvcResult.getResponse().getContentAsString());
+    Expense result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+        Expense.class);
+    assertThat(result.getMoney()).isEqualTo(BigDecimal.valueOf(40L));
   }
 }

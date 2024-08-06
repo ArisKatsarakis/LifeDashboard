@@ -63,4 +63,10 @@ public class ExpenseType {
     this.expensesSum = expensesSum;
   }
 
+  @Override
+  public String toString() {
+    return "{\"expenseTypeName\": \"" + this.expenseTypeName + "\", \n \"expenseTypeId\": " + this.expenseTypeId
+        + " \n }";
+  }
+
 }

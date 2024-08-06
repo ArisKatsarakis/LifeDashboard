@@ -34,7 +34,8 @@ public class TestExpensesController {
   @Autowired
   private MockMvc mockMvc;
 
-  private String testUrl = "/api/v1/expenses";
+  private String expenseUrl = "/api/v1/expenses";
+  private String expenseTypeUrl = "/api/v1/expense-types";
 
   private String authoriztionUrl = "/auth/login";
 
@@ -42,8 +43,16 @@ public class TestExpensesController {
 
   private JwtResponse jwtResponse;
 
+  private Expense sample;
+
   @BeforeAll
   void setupCalls() throws Exception {
+
+    sample = new Expense();
+    sample.setExpenseId(101L);
+    sample.setMoney(BigDecimal.valueOf(40L));
+    sample.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    sample.setName("Sample Expense");
 
     JwtRequest input = new JwtRequest();
     input.setUsername("katsar");
@@ -58,39 +67,48 @@ public class TestExpensesController {
     this.jwtResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), JwtResponse.class);
   }
 
+  /**
+   *
+   * 1. Create Token - Done
+   * 2. Create Expense Type
+   * 3. Get Expense Type
+   * 4. Create expense for this expense type.
+   * 5. Get Expense Type and Expense
+   * 6. Update Expense
+   * 7. delete expense
+   * 8. delete expense type
+   */
   @Test
-  void testGetExpenses() throws Exception {
-    MvcResult mvcResExpense = mockMvc.perform(
-        get(testUrl)
+  void addExpenseAndExpenseType() throws Exception {
+    String name = "New Expense Type";
+    ExpenseType expType = new ExpenseType();
+    expType.setExpenseTypeName(name);
+    MvcResult result = mockMvc.perform(
+        post(expenseTypeUrl)
+            .header("Authorization", "Bearer " + jwtResponse.getToken())
             .contentType(MediaType.APPLICATION_JSON)
+            .content(expType.toString()))
+        .andReturn();
+    expType = objectMapper.readValue(result.getResponse().getContentAsString(), ExpenseType.class);
+    assertThat(expType.getExpenseTypeName()).isEqualTo(name);
+    String expensePointUrl = "/api/v1/expense-types/" + expType.getExpenseTypeId().toString() + "/expenses";
+    MvcResult expenseResult = mockMvc.perform(
+        post(expensePointUrl)
+            .header("Authorization", "Bearer " + jwtResponse.getToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(sample.toString()))
+        .andReturn();
+    System.out.println(expenseResult.getResponse().getContentAsString());
+    sample = objectMapper.readValue(expenseResult.getResponse().getContentAsString(), Expense.class);
+    MvcResult resultForGetting = mockMvc.perform(
+
+        get("/api/v1/expense-types/" + expType.getExpenseTypeId().toString())
             .header("Authorization", "Bearer " + jwtResponse.getToken()))
         .andReturn();
+    expType = objectMapper.readValue(resultForGetting.getResponse().getContentAsString(), ExpenseType.class);
 
-    Expense[] expenses = objectMapper.readValue(mvcResExpense.getResponse().getContentAsString(), Expense[].class);
-    for (Expense e : expenses) {
-      if (e.getExpenseId().equals(20L)) {
-        assertThat(e.getMoney().toString()).isEqualTo("20.00");
-      }
-    }
+    assertThat(expType.getExpense().get(0).getMoney().equals(sample.getMoney()));
+    assertThat(expType.getExpense().get(0).getName().equals(sample.getName()));
   }
 
-  @Test
-  void testAddingExpenses() throws Exception {
-    Expense expense = new Expense();
-    expense.setName("Testing Expense");
-    expense.setMoney(BigDecimal.valueOf(40L));
-    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    MvcResult mvcResult = mockMvc.perform(
-        post(testUrl)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(expense.toString())
-            .header("Authorization", "Bearer " + jwtResponse.getToken())
-
-    ).andReturn();
-
-    System.out.println(mvcResult.getResponse().getContentAsString());
-    Expense result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
-        Expense.class);
-    assertThat(result.getMoney()).isEqualTo(BigDecimal.valueOf(40L));
-  }
 }

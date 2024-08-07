@@ -3,6 +3,7 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -70,10 +71,10 @@ public class TestExpensesController {
   /**
    *
    * 1. Create Token - Done
-   * 2. Create Expense Type
-   * 3. Get Expense Type
-   * 4. Create expense for this expense type.
-   * 5. Get Expense Type and Expense
+   * 2. Create Expense Type - Done
+   * 3. Get Expense Type - Done
+   * 4. Create expense for this expense type. - Done
+   * 5. Get Expense Type and Expense - Done
    * 6. Update Expense
    * 7. delete expense
    * 8. delete expense type
@@ -101,7 +102,6 @@ public class TestExpensesController {
     System.out.println(expenseResult.getResponse().getContentAsString());
     sample = objectMapper.readValue(expenseResult.getResponse().getContentAsString(), Expense.class);
     MvcResult resultForGetting = mockMvc.perform(
-
         get("/api/v1/expense-types/" + expType.getExpenseTypeId().toString())
             .header("Authorization", "Bearer " + jwtResponse.getToken()))
         .andReturn();
@@ -109,6 +109,20 @@ public class TestExpensesController {
 
     assertThat(expType.getExpense().get(0).getMoney().equals(sample.getMoney()));
     assertThat(expType.getExpense().get(0).getName().equals(sample.getName()));
+
+    sample.setMoney(sample.getMoney().add(BigDecimal.valueOf(20L)));
+    MvcResult updateExpenseResult = mockMvc.perform(
+        put("/api/v1/expense-types/" + expType.getExpenseTypeId() + "/expenses")
+            .header("Authorization", "Bearer " + jwtResponse.getToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(sample.toString()))
+        .andReturn();
+
+    Expense updatedSample = objectMapper.readValue(updateExpenseResult.getResponse().getContentAsString(),
+        Expense.class);
+
+    assertThat(updatedSample.getMoney().equals(sample.getMoney()));
+    System.out.println(updatedSample.toString());
   }
 
 }

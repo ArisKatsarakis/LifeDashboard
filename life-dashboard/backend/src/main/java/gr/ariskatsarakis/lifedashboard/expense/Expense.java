@@ -75,6 +75,7 @@ public class Expense {
 
   @Override
   public String toString() {
-    return "{\"money\": " + this.money + ",\n \"name\": \"" + name + "\"}";
+    return "{ \"expenseId\": " + this.expenseId + ",\n\"money\": " + this.money + ",\n \"name\": \"" + name
+        + "\"}";
   }
 }

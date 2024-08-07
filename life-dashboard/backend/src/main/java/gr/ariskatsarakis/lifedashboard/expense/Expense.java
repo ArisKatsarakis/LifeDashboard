@@ -73,4 +73,9 @@ public class Expense {
     this.name = name;
   }
 
+  @Override
+  public String toString() {
+    return "{ \"expenseId\": " + this.expenseId + ",\n\"money\": " + this.money + ",\n \"name\": \"" + name
+        + "\"}";
+  }
 }

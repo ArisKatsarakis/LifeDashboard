@@ -92,7 +92,9 @@ public class ExpenseService {
     return null;
   }
 
-  public void deleteExpense(Expense e) {
+  public Expense deleteExpense(Long expenseId, Long expenseTypeId) {
+    expenseRepository.deleteById(expenseId);
+    return null;
   }
 
   public List<ExpenseType> getExpenseTypes() {

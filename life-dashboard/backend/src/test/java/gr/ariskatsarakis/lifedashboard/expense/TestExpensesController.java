@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,12 +10,15 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.apache.el.parser.AstOr;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -75,7 +79,7 @@ public class TestExpensesController {
    * 3. Get Expense Type - Done
    * 4. Create expense for this expense type. - Done
    * 5. Get Expense Type and Expense - Done
-   * 6. Update Expense
+   * 6. Update Expense - Done
    * 7. delete expense
    * 8. delete expense type
    */
@@ -122,7 +126,31 @@ public class TestExpensesController {
         Expense.class);
 
     assertThat(updatedSample.getMoney().equals(sample.getMoney()));
-    System.out.println(updatedSample.toString());
+
+    MvcResult mvcResultj = mockMvc
+        .perform(delete("/api/v1/expense-types/" + expType.getExpenseTypeId() + "/expenses/" + sample.getExpenseId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+    assertThat(mvcResultj.getResponse().getStatus()).isEqualTo(200);
+
+    // check if sample still exists
+    //
+    MvcResult stillExistsResult = mockMvc.perform(
+        get("/api/v1/expenses/" + sample.getExpenseId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    assertThat(stillExistsResult.getResponse().getStatus()).isEqualTo(404);
+
+    // check if exists in the expenseType
+    stillExistsResult = mockMvc.perform(
+        get("/api/v1/expense-types/" + expType.getExpenseTypeId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    expType = objectMapper.readValue(stillExistsResult.getResponse().getContentAsString(), ExpenseType.class);
+    assertThat(expType.getExpense().indexOf(sample)).isEqualTo(-1);
+
   }
 
 }

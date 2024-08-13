@@ -14,6 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -68,6 +69,7 @@ public class TestIncomeController {
 
     Income output = objectMapper.readValue(insertIncomeResult.getResponse().getContentAsString(), Income.class);
     assertThat(output.getIncomeType()).isEqualTo(novaIncome.getIncomeType());
+    assertThat(insertIncomeResult.getResponse().getStatus()).isEqualTo(201);
 
     Income athaliIncome = new Income();
     athaliIncome.setMoney(BigDecimal.valueOf(10000L));
@@ -87,11 +89,23 @@ public class TestIncomeController {
 
   @Test
   void getTestIncomes_test() throws Exception {
-    MvcResult getIncomeWithId1001Result = mockMvc.perform(
+    MvcResult getIncomesResult = mockMvc.perform(
         get("/api/v1/incomes")
             .header("Authorization", "Bearer " + jwtResponse.getToken()))
         .andReturn();
+    Income[] incomes = objectMapper.readValue(getIncomesResult.getResponse().getContentAsString(), Income[].class);
+    assertThat(getIncomesResult.getResponse().getStatus()).isEqualTo(200);
+    assertThat(incomes.length).isGreaterThan(0);
+  }
 
-    System.out.println(getIncomeWithId1001Result.getResponse().getContentAsString());
+  @Test
+  void test_notFoundAndOkResult() throws Exception {
+
+    MvcResult notFoundResult = mockMvc.perform(
+        get("/api/v1/incomes/404")
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    assertThat(notFoundResult.getResponse().getStatus()).isEqualTo(404);
   }
 }

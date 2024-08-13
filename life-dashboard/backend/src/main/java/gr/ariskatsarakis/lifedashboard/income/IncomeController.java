@@ -3,7 +3,10 @@ package gr.ariskatsarakis.lifedashboard.income;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +23,23 @@ public class IncomeController {
   private IncomeService incomeService;
 
   @GetMapping("/incomes")
-  public List<Income> getIncomes() {
-    return incomeService.getIncomes();
+  public ResponseEntity<List<Income>> getIncomes() {
+    ResponseEntity<List<Income>> incomes = new ResponseEntity<List<Income>>(incomeService.getIncomes(), HttpStatus.OK);
+    return incomes;
   }
 
   @PostMapping("/incomes")
-  public Income addIncome(@RequestBody Income income) {
-    return incomeService.addIncome(income);
+  public ResponseEntity<Income> addIncome(@RequestBody Income income) {
+    ResponseEntity<Income> incomeCreate = new ResponseEntity<Income>(incomeService.addIncome(income),
+        HttpStatus.CREATED);
+    return incomeCreate;
+  }
+
+  @GetMapping("/incomes/{incomeId}")
+  public ResponseEntity<Income> getIncomes(@PathVariable Long incomeId) {
+    Income income = incomeService.getIncomeById(incomeId);
+    ResponseEntity<Income> incomeResponse = new ResponseEntity<>(income,
+        income == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+    return incomeResponse;
   }
 }

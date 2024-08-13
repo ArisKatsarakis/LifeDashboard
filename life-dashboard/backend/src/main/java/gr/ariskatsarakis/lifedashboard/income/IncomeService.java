@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,15 @@ public class IncomeService {
   public Income addIncome(Income income) {
     income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
     return incomeRepository.save(income);
+  }
+
+  public Income getIncomeById(Long incomeId) {
+    Optional<Income> optional = incomeRepository.findById(incomeId);
+
+    if (optional.isPresent()) {
+      return optional.get();
+    }
+    return null;
   }
 
 }

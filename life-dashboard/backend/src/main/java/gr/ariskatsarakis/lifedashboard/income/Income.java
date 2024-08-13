@@ -19,8 +19,17 @@ public class Income {
   private Long incomeId;
   private BigDecimal money;
   private Timestamp timestamp;
+  private IncomeType incomeType;
 
   public Income() {
+  }
+
+  public void setIncomeType(IncomeType incomeType) {
+    this.incomeType = incomeType;
+  }
+
+  public IncomeType getIncomeType() {
+    return incomeType;
   }
 
   public void setTimestamp(Timestamp timestamp) {
@@ -47,4 +56,8 @@ public class Income {
     return money;
   }
 
+  @Override
+  public String toString() {
+    return "{ \"money\":  " + this.money + ",\n\"incomeType\": \"" + this.incomeType + "\"}";
+  }
 }

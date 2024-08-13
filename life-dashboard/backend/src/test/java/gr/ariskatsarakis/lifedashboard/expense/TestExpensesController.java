@@ -10,15 +10,12 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import org.apache.el.parser.AstOr;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -150,6 +147,25 @@ public class TestExpensesController {
 
     expType = objectMapper.readValue(stillExistsResult.getResponse().getContentAsString(), ExpenseType.class);
     assertThat(expType.getExpense().indexOf(sample)).isEqualTo(-1);
+
+    MvcResult deleteExpenseTypeResult = mockMvc.perform(
+        delete("/api/v1/expense-types/" + expType.getExpenseTypeId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    assertThat(deleteExpenseTypeResult.getResponse().getStatus()).isEqualTo(200);
+
+    MvcResult getExpensesTypesResult = mockMvc.perform(
+        get("/api/v1/expense-types")
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    ExpenseType[] expenseTypesAfterDelete = objectMapper
+        .readValue(getExpensesTypesResult.getResponse().getContentAsString(), ExpenseType[].class);
+
+    for (ExpenseType e : expenseTypesAfterDelete) {
+      assertThat(e).isNotEqualTo(expType);
+    }
 
   }
 

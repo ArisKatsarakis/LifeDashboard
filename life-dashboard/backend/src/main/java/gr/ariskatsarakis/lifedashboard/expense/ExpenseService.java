@@ -92,6 +92,15 @@ public class ExpenseService {
     return null;
   }
 
+  public ExpenseType deleteExpenseType(Long expenseTypeId) {
+    Optional<ExpenseType> expenseType = expenseTypeRepository.findById(expenseTypeId);
+    if (expenseType.isPresent()) {
+      logger.info("DELETEING EXPENSE TYPE WITH ID: " + expenseType.toString());
+      expenseTypeRepository.delete(expenseType.get());
+    }
+    return null;
+  }
+
   public Expense deleteExpense(Long expenseId, Long expenseTypeId) {
     expenseRepository.deleteById(expenseId);
     return null;

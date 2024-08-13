@@ -68,4 +68,9 @@ public class ExpenseController {
     return service.addExpenseType(expenseType);
   }
 
+  @DeleteMapping("/expense-types/{expenseTypeId}")
+  public ExpenseType deleteExpenseType(@PathVariable Long expenseTypeId) {
+    return service.deleteExpenseType(expenseTypeId);
+  }
+
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,22 @@ public class ExpenseController {
     return service.updateExpense(expense, expenseTypeId);
   }
 
+  @GetMapping("/expense-types/{expenseTypeId}/expenses")
+  public List<Expense> getExpensesByExpenseType(@PathVariable Long expenseTypeId) {
+    return service.getExpenseByExpenseTypeId(expenseTypeId);
+  }
+
+  @PostMapping("/expense-types/{expenseTypeId}/expenses")
+  public Expense addExpeseAndAddToExpnseType(@PathVariable Long expenseTypeId, @RequestBody Expense expense) {
+    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    return service.saveExpenseAddToExpenseType(expenseTypeId, expense);
+  }
+
+  @DeleteMapping("/expense-types/{expenseTypeId}/expenses/{expenseId}")
+  public Expense deleteExpense(@PathVariable Long expenseTypeId, @PathVariable Long expenseId) {
+    return service.deleteExpense(expenseId, expenseTypeId);
+  }
+
   @GetMapping("/expense-types")
   public List<ExpenseType> getExpenseTypes() {
     return service.getExpenseTypes();
@@ -51,15 +68,9 @@ public class ExpenseController {
     return service.addExpenseType(expenseType);
   }
 
-  @GetMapping("/expense-types/{expenseTypeId}/expenses")
-  public List<Expense> getExpensesByExpenseType(@PathVariable Long expenseTypeId) {
-    return service.getExpenseByExpenseTypeId(expenseTypeId);
-  }
-
-  @PostMapping("/expense-types/{expenseTypeId}/expenses")
-  public Expense addExpeseAndAddToExpnseType(@PathVariable Long expenseTypeId, @RequestBody Expense expense) {
-    expense.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    return service.saveExpenseAddToExpenseType(expenseTypeId, expense);
+  @DeleteMapping("/expense-types/{expenseTypeId}")
+  public ExpenseType deleteExpenseType(@PathVariable Long expenseTypeId) {
+    return service.deleteExpenseType(expenseTypeId);
   }
 
 }

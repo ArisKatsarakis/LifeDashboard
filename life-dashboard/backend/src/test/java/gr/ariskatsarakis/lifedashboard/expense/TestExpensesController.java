@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.expense;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -75,7 +76,7 @@ public class TestExpensesController {
    * 3. Get Expense Type - Done
    * 4. Create expense for this expense type. - Done
    * 5. Get Expense Type and Expense - Done
-   * 6. Update Expense
+   * 6. Update Expense - Done
    * 7. delete expense
    * 8. delete expense type
    */
@@ -122,7 +123,50 @@ public class TestExpensesController {
         Expense.class);
 
     assertThat(updatedSample.getMoney().equals(sample.getMoney()));
-    System.out.println(updatedSample.toString());
+
+    MvcResult mvcResultj = mockMvc
+        .perform(delete("/api/v1/expense-types/" + expType.getExpenseTypeId() + "/expenses/" + sample.getExpenseId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+    assertThat(mvcResultj.getResponse().getStatus()).isEqualTo(200);
+
+    // check if sample still exists
+    //
+    MvcResult stillExistsResult = mockMvc.perform(
+        get("/api/v1/expenses/" + sample.getExpenseId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    assertThat(stillExistsResult.getResponse().getStatus()).isEqualTo(404);
+
+    // check if exists in the expenseType
+    stillExistsResult = mockMvc.perform(
+        get("/api/v1/expense-types/" + expType.getExpenseTypeId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    expType = objectMapper.readValue(stillExistsResult.getResponse().getContentAsString(), ExpenseType.class);
+    assertThat(expType.getExpense().indexOf(sample)).isEqualTo(-1);
+
+    MvcResult deleteExpenseTypeResult = mockMvc.perform(
+        delete("/api/v1/expense-types/" + expType.getExpenseTypeId())
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    assertThat(deleteExpenseTypeResult.getResponse().getStatus()).isEqualTo(200);
+
+    MvcResult getExpensesTypesResult = mockMvc.perform(
+        get("/api/v1/expense-types")
+            .header("Authorization", "Bearer " + jwtResponse.getToken()))
+        .andReturn();
+
+    ExpenseType[] expenseTypesAfterDelete = objectMapper
+        .readValue(getExpensesTypesResult.getResponse().getContentAsString(), ExpenseType[].class);
+
+    for (ExpenseType e : expenseTypesAfterDelete) {
+      assertThat(e).isNotEqualTo(expType);
+    }
+
   }
 
 }

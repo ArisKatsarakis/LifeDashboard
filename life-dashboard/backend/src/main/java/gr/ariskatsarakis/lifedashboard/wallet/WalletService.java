@@ -69,6 +69,7 @@ public class WalletService {
   }
 
   public ResponseEntity<Wallet> getLastWallet() {
-    return new ResponseEntity<Wallet>(walletRepository.getLastAddedWallet(), HttpStatus.OK);
+    Wallet wallet = walletRepository.getLastAddedWallet();
+    return new ResponseEntity<Wallet>(wallet, wallet == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
   }
 }

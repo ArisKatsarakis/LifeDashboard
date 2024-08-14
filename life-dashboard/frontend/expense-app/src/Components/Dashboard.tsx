@@ -1,12 +1,13 @@
 import { useEffect, useState, MouseEvent } from "react";
 import { Button, Container, Modal, Row, Col } from "react-bootstrap";
-import { getExpenses, getExpenseTypes, getIncome } from "../Utilities/ApiClient";
+import { getExpenses, getExpenseTypes, getIncome, getLastWallet } from "../Utilities/ApiClient";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { ExpenseAmmount } from "./ExpenseAmmount";
 import { ExpenseComponent } from "./ExpenseComponent";
 import { ExpenseTypeComponent } from "./ExpenseTypeComponent";
 import { Income } from "../interfaces/IncomeInterfaces";
+import { Wallet } from "../interfaces/WalletInterfaces";
 
 
 function Dashboard() {
@@ -15,11 +16,13 @@ function Dashboard() {
   const [show, setShow] = useState<boolean>(false);
   const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
   const [income, setIncome] = useState<Income>();
+  const [lastWallet, setLastWallet] = useState<Wallet>();
 
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
     const types: ExpenseType[] = await getExpenseTypes();
     const income: Income = await getIncome();
+    const wallet: Wallet = await getLastWallet();
     let sum = 0;
     response.forEach(
       expense => {
@@ -31,6 +34,8 @@ function Dashboard() {
     setExpensesSum(sum);
     setExpenseTypes(types);
     setIncome(income);
+    setLastWallet(wallet);
+
   }
   useEffect(() => {
     setUp();

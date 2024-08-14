@@ -2,6 +2,7 @@ import { apiLinks } from "./Variables";
 import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
 import { Income } from "../interfaces/IncomeInterfaces";
 import axios from "axios";
+import { Wallet } from "../interfaces/WalletInterfaces";
 const name = 'katsar';
 const pass = 'test';
 
@@ -54,5 +55,19 @@ export const addExpenseType = async (expenseType: ExpenseType): Promise<ExpenseT
     { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
   )
   return data;
+}
+export const getLastWallet = async (): Promise<Wallet> => {
+  const bearerResponse = await authenticateApi();
+  try {
 
+    const { data } = await axios.get<Wallet>(
+      `http://localhost:8080/api/v1/last-wallet`,
+      { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
+    )
+
+    return data;
+  } catch (error) {
+    console.log("wallet not found");
+    return error as Wallet;
+  }
 }

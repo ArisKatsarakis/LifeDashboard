@@ -2,6 +2,7 @@ package gr.ariskatsarakis.lifedashboard.wallet;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,29 @@ public class WalletService {
   WalletRepository walletRepository;
 
   public Wallet addNewExpenseAtWallet(Expense e) {
-    // substract money or create new wallet with minus
-    // return the new wallet
     if (walletRepository.findAll().isEmpty()) {
-      return createFirstWallet(e);
+      return walletRepository.save(createFirstWallet(e));
     }
-    return null;
+    Wallet wallet = new Wallet();
+    Wallet lastWallet = walletRepository.getLastAddedWallet();
+    wallet.setMoneyNow(lastWallet.getMoneyNow().subtract(e.getMoney()));
+    wallet.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
+    wallet.setLastIncomeDate(e.getTimestamp());
+    wallet.setLastIncomeDate(lastWallet.getLastExpenseDate());
+    return walletRepository.save(wallet);
   }
 
   public Wallet addNewIncomeAtWallet(Income i) {
-    // add money or create a new wallet
-    // return the new wallet
-    return null;
+    if (walletRepository.findAll().isEmpty()) {
+      return walletRepository.save(createFirstWallet(i));
+    }
+    Wallet wallet = new Wallet();
+    Wallet lastWallet = walletRepository.getLastAddedWallet();
+    wallet.setMoneyNow(lastWallet.getMoneyNow().add(i.getMoney()));
+    wallet.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
+    wallet.setLastIncomeDate(i.getTimestamp());
+    wallet.setLastExpenseDate(lastWallet.getLastExpenseDate());
+    return walletRepository.save(wallet);
   }
 
   Wallet createFirstWallet(Object entry) {

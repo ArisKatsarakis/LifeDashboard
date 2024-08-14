@@ -2,10 +2,12 @@ package gr.ariskatsarakis.lifedashboard.wallet;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.lifedashboard.expense.Expense;
@@ -19,6 +21,10 @@ public class WalletService {
 
   @Autowired
   WalletRepository walletRepository;
+
+  public ResponseEntity<List<Wallet>> getAll() {
+    return new ResponseEntity(walletRepository.findAll(), HttpStatus.OK);
+  }
 
   public Wallet addNewExpenseAtWallet(Expense e) {
     if (walletRepository.findAll().isEmpty()) {
@@ -60,5 +66,9 @@ public class WalletService {
       wallet.setMoneyNow(wallet.getMoneyNow().add(i.getMoney()));
     }
     return wallet;
+  }
+
+  public ResponseEntity<Wallet> getLastWallet() {
+    return new ResponseEntity<Wallet>(walletRepository.getLastAddedWallet(), HttpStatus.OK);
   }
 }

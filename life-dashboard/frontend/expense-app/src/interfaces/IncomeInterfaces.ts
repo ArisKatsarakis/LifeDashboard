@@ -1,5 +1,6 @@
 export interface Income {
-  "incomeId": number;
+  "incomeId"?: number | null;
   "money": number;
-  "timestamp": string;
+  "timestamp"?: string | null;
+  'income_type': 0;
 }

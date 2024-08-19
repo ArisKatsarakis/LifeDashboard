@@ -71,3 +71,18 @@ export const getLastWallet = async (): Promise<Wallet> => {
     return error as Wallet;
   }
 }
+
+export const addIncome = async (income: Income): Promise<Income> => {
+  const bearerResponse = await authenticateApi();
+  try {
+    const { data } = await axios.post<Income>(
+      'http://localhost:8080/api/v1/incomes',
+      income,
+      { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
+
+    );
+    return data;
+  } catch (error) {
+    return error as Income;
+  }
+}

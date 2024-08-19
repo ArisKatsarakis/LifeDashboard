@@ -8,6 +8,7 @@ import { ExpenseComponent } from "./ExpenseComponent";
 import { ExpenseTypeComponent } from "./ExpenseTypeComponent";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { Wallet } from "../interfaces/WalletInterfaces";
+import { IncomeComponent } from "./IncomeComponent";
 
 
 function Dashboard() {
@@ -17,6 +18,7 @@ function Dashboard() {
   const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
   const [income, setIncome] = useState<Income>();
   const [lastWallet, setLastWallet] = useState<Wallet>();
+  const [showIncome, setShowIncome] = useState<boolean>(false);
 
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
@@ -50,6 +52,8 @@ function Dashboard() {
     }
     else if (id === 'add-expense-type') {
       setShowExpeseType(!showExpenseType);
+    } else if (id === 'add-income') {
+      setShowIncome(!showIncome);
     }
   }
 
@@ -67,8 +71,18 @@ function Dashboard() {
         <h2>Income Now:</h2>
         <span>
           <h2>$ {income?.money}</h2>
-          <h2>Last Updated: {income?.timestamp.split('T')[0]}  {income?.timestamp.split('T')[1].split('.')[0]}</h2>
         </span>
+        <div style={{ textAlign: 'center' }}>
+          <Button id='add-income' onClick={handleShow} variant="success">Add Income</Button>
+          <Modal show={showIncome} onHide={handleClose} >
+            <Modal.Header closeButton>
+              <h2>Add Expenses</h2>
+            </Modal.Header>
+            <Modal.Body>
+              <IncomeComponent />
+            </Modal.Body>
+          </Modal>
+        </div>
 
       </div>
       <hr />

@@ -30,6 +30,14 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   return data;
 }
 
+export const getExpenseTypesExpenses = async (expenseTypeId: number): Promise<Expense[]> => {
+  const bearerResponse = await authenticateApi();
+  const { data } = await axios.get<Expense[]>(`http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
+    { headers: { Authorization: `Bearer ${bearerResponse.token}` } }
+  );
+  return data;
+}
+
 export const getIncome = async (): Promise<Income[]> => {
   const bearerResponse = await authenticateApi();
   const { data } = await axios.get<Income[]>(apiLinks.incomeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
@@ -56,6 +64,8 @@ export const addExpenseType = async (expenseType: ExpenseType): Promise<ExpenseT
   )
   return data;
 }
+
+
 export const getLastWallet = async (): Promise<Wallet> => {
   const bearerResponse = await authenticateApi();
   try {

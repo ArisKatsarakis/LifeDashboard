@@ -1,9 +1,11 @@
 import { FormEvent, useState } from "react";
 import { Button, Container, Form, InputGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { addIncome } from "../Utilities/ApiClient";
 
 export function IncomeComponent() {
+  const navigate = useNavigate();
   const [money, setMoney] = useState<number>(0);
   const [incomeType, setIncomeType] = useState<string>('');
   const handleSubmit = async (event: FormEvent<HTMLElement>) => {
@@ -14,6 +16,8 @@ export function IncomeComponent() {
     };
     const response = await addIncome(payload);
     console.log(response);
+    navigate('/');
+    window.location.reload();
   }
   return (
     <Container>

@@ -11,8 +11,8 @@ import { Wallet } from "../interfaces/WalletInterfaces";
 import { IncomeComponent } from "./IncomeComponent";
 import { Incomes } from "./Incomes";
 
-
 function Dashboard() {
+
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [expensesSum, setExpensesSum] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
@@ -20,6 +20,16 @@ function Dashboard() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [lastWallet, setLastWallet] = useState<Wallet>();
   const [showIncome, setShowIncome] = useState<boolean>(false);
+
+  const styles = {
+    money: {
+      border: '1px solid black',
+      padding: '2px',
+      marginLeft: '1rem',
+      boxShadow: '0px 1px 1px 1px'
+    }
+  }
+
 
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
@@ -69,7 +79,8 @@ function Dashboard() {
         <h2>Expenses Counter</h2>
       </div>
       <div style={{ textAlign: 'center', fontSize: '3rem' }}>
-        <span style={{ border: '1px solid green', boxShadow: '1px 1px 1px 1px grey', textAlign: 'center' }}>{lastWallet?.moneyNow}$ :Money now</span>
+        <span>Money Now</span>
+        <span style={styles.money}>{lastWallet?.moneyNow}$ </span>
       </div>
       <div>
         <Incomes items={incomes} />

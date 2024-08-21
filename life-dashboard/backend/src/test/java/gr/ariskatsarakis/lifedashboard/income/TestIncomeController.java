@@ -73,7 +73,7 @@ public class TestIncomeController {
     Income athaliIncome = new Income();
     athaliIncome.setMoney(BigDecimal.valueOf(10000L));
     athaliIncome.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    athaliIncome.setIncomeType(IncomeType.ATHANLI);
+    athaliIncome.setIncomeType(IncomeType.ATHALI);
 
     MvcResult insertAthaliIncomeResult = mockMvc.perform(
         post("/api/v1/incomes")

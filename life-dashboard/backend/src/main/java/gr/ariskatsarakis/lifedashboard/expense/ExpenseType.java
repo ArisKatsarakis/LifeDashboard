@@ -3,6 +3,8 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class ExpenseType {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "expenseType")
+  @JsonIgnore
   private List<Expense> expense;
   private String expenseTypeName;
   private BigDecimal expensesSum;

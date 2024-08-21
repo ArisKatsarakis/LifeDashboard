@@ -9,6 +9,7 @@ import { ExpenseTypeComponent } from "./ExpenseTypeComponent";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { Wallet } from "../interfaces/WalletInterfaces";
 import { IncomeComponent } from "./IncomeComponent";
+import { Incomes } from "./Incomes";
 
 
 function Dashboard() {
@@ -16,14 +17,14 @@ function Dashboard() {
   const [expensesSum, setExpensesSum] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
   const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
-  const [income, setIncome] = useState<Income>();
+  const [incomes, setIncomes] = useState<Income[]>([]);
   const [lastWallet, setLastWallet] = useState<Wallet>();
   const [showIncome, setShowIncome] = useState<boolean>(false);
 
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
     const types: ExpenseType[] = await getExpenseTypes();
-    const income: Income = await getIncome();
+    const income: Income[] = await getIncome();
     const wallet: Wallet = await getLastWallet();
     let sum = 0;
     response.forEach(
@@ -35,7 +36,7 @@ function Dashboard() {
     )
     setExpensesSum(sum);
     setExpenseTypes(types);
-    setIncome(income);
+    setIncomes(income);
     setLastWallet(wallet);
 
   }
@@ -64,20 +65,17 @@ function Dashboard() {
   return (
     //@TODO fix header
     <Container>
-
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
       </div>
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center', fontSize: '3rem' }}>
         <span style={{ border: '1px solid green', boxShadow: '1px 1px 1px 1px grey', textAlign: 'center' }}>{lastWallet?.moneyNow}$ :Money now</span>
       </div>
-      <div style={{ textAlign: 'center' }}>
-        <h2>Income Now:</h2>
-        <span>
-          <h2>$ {income?.money}</h2>
-          <h2>Stream: {income?.incomeType}</h2>
-        </span>
-        <div style={{ textAlign: 'center' }}>
+      <div>
+        <Incomes items={incomes} />
+      </div>
+      <div>
+        <div style={{ marginTop: '1rem' }}>
           <Button id='add-income' onClick={handleShow} variant="success">Add Income</Button>
           <Modal show={showIncome} onHide={handleClose} >
             <Modal.Header closeButton>
@@ -90,13 +88,15 @@ function Dashboard() {
         </div>
       </div>
       <hr />
+      <div style={{ textAlign: 'center' }}>
+        <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }}>Add Expense</Button>
+        <ExpenseAmmount expensesSum={expensesSum} />
+        <Button onClick={handleShow} id='add-expense-type' >Add Expense Type</Button>
+      </div>
       <ExpenseTypes items={expenseTypes} />
-      <hr />
-      <ExpenseAmmount expensesSum={expensesSum} />
       <Container>
         <Row style={{ textAlign: 'center' }}>
           <Col xs={6}>
-            <Button onClick={handleShow} id='add-expense' >Add Expense</Button>
             <Modal show={show} onHide={handleClose} >
               <Modal.Header closeButton>
                 <h2>Add Expenses</h2>
@@ -107,7 +107,6 @@ function Dashboard() {
             </Modal>
           </Col>
           <Col xs={6}>
-            <Button onClick={handleShow} id='add-expense-type' >Add Expense Type</Button>
             <Modal show={showExpenseType} onHide={handleClose}>
               <Modal.Header closeButton>
                 <h2>Add Expense Type</h2>

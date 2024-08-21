@@ -30,10 +30,10 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   return data;
 }
 
-export const getIncome = async (): Promise<Income> => {
+export const getIncome = async (): Promise<Income[]> => {
   const bearerResponse = await authenticateApi();
   const { data } = await axios.get<Income[]>(apiLinks.incomeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  return data[0];
+  return data;
 }
 
 export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Expense): Promise<Expense> => {

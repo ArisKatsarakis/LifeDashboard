@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import gr.ariskatsarakis.lifedashboard.income.Income;
 import gr.ariskatsarakis.lifedashboard.income.IncomeRepository;
+import gr.ariskatsarakis.lifedashboard.wallet.WalletService;
 
 /**
  * ExpenseService
@@ -32,24 +32,16 @@ public class ExpenseService {
   @Autowired
   ExpenseTypeRepository expenseTypeRepository;
 
+  @Autowired
+  WalletService walletService;
+
   public List<Expense> getExpense() {
     return expenseRepository.findAll();
   }
 
   public Expense addExpense(Expense e) {
     Expense expenseAdded = expenseRepository.save(e);
-    List<Income> incomes = incomeRepository.findAll();
-    logger.info("INCOMES SIZE IS : " + incomes.size());
-
-    if (incomes.size() > 0) {
-      logger.info("Added new Income ");
-      Income income = incomes.get(0);
-      BigDecimal currentMoney = income.getMoney().subtract(expenseAdded.getMoney());
-      income.setMoney(currentMoney);
-      income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-      incomeRepository.save(income);
-    }
-
+    walletService.addNewExpenseAtWallet(expenseAdded);
     return expenseAdded;
   }
 

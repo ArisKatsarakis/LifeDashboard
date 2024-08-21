@@ -18,6 +18,7 @@ import gr.ariskatsarakis.lifedashboard.expense.ExpenseType;
 import gr.ariskatsarakis.lifedashboard.expense.ExpenseTypeRepository;
 import gr.ariskatsarakis.lifedashboard.income.Income;
 import gr.ariskatsarakis.lifedashboard.income.IncomeRepository;
+import gr.ariskatsarakis.lifedashboard.income.IncomeType;
 
 @SpringBootApplication
 public class LifeDashboardApplication {
@@ -42,7 +43,7 @@ public class LifeDashboardApplication {
       Income income = new Income();
       income.setMoney(BigDecimal.valueOf(1000L));
       income.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-
+      income.setIncomeType(IncomeType.NOVA);
       incomeRepository.save(income);
       ExpenseType expenseType = new ExpenseType();
       expenseType.setExpenseTypeName("Needs");

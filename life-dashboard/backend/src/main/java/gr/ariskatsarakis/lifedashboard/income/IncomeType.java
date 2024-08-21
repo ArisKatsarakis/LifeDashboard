@@ -5,5 +5,5 @@ package gr.ariskatsarakis.lifedashboard.income;
  */
 public enum IncomeType {
   NOVA,
-  ATHANLI
+  ATHALI
 }

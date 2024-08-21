@@ -64,13 +64,18 @@ function Dashboard() {
   return (
     //@TODO fix header
     <Container>
+
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <span style={{ border: '1px solid green', boxShadow: '1px 1px 1px 1px grey', textAlign: 'center' }}>{lastWallet?.moneyNow}$ :Money now</span>
       </div>
       <div style={{ textAlign: 'center' }}>
         <h2>Income Now:</h2>
         <span>
           <h2>$ {income?.money}</h2>
+          <h2>Stream: {income?.incomeType}</h2>
         </span>
         <div style={{ textAlign: 'center' }}>
           <Button id='add-income' onClick={handleShow} variant="success">Add Income</Button>
@@ -83,7 +88,6 @@ function Dashboard() {
             </Modal.Body>
           </Modal>
         </div>
-
       </div>
       <hr />
       <ExpenseTypes items={expenseTypes} />

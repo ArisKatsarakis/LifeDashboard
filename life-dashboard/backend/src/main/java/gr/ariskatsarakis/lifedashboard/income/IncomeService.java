@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.lifedashboard.wallet.WalletService;
@@ -26,8 +28,10 @@ public class IncomeService {
   @Autowired
   private WalletService walletService;
 
-  public List<Income> getIncomes() {
-    return incomeRepository.findAll();
+  public List<Income> getIncomes(Pageable pageable) {
+    return incomeRepository.findAll(PageRequest.of(
+        pageable.getPageNumber(),
+        pageable.getPageSize())).getContent();
   }
 
   public Income addIncome(Income income) {

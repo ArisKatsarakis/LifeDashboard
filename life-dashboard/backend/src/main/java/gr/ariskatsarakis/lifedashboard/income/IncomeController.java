@@ -3,6 +3,7 @@ package gr.ariskatsarakis.lifedashboard.income;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ public class IncomeController {
   private IncomeService incomeService;
 
   @GetMapping("/incomes")
-  public ResponseEntity<List<Income>> getIncomes() {
-    ResponseEntity<List<Income>> incomes = new ResponseEntity<List<Income>>(incomeService.getIncomes(), HttpStatus.OK);
+  public ResponseEntity<List<Income>> getIncomes(Pageable pageable) {
+    ResponseEntity<List<Income>> incomes = new ResponseEntity<List<Income>>(incomeService.getIncomes(pageable),
+        HttpStatus.OK);
     return incomes;
   }
 

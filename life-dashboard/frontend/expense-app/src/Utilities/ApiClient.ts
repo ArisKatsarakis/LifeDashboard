@@ -13,7 +13,6 @@ export const authenticateApi = async () => {
   };
 
   const response = await axios.post(apiLinks.authenticateLink, payload);
-  console.log(response);
   return response.data;
 }
 
@@ -27,6 +26,16 @@ export const getExpenses = async (): Promise<Expense[]> => {
 export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   const bearerResponse = await authenticateApi();
   const { data } = await axios.get<ExpenseType[]>(apiLinks.expenseTypeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
+  data.map(
+    async (item) => {
+      if (item.expenseTypeId != null) {
+        const arrayOfExpenses: Expense[] = await getExpenseTypesExpenses(item.expenseTypeId);
+        item.expense = arrayOfExpenses;
+        return item;
+      }
+
+    }
+  )
   return data;
 }
 

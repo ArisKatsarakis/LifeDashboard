@@ -8,10 +8,10 @@ export function Incomes(props: { items: Income[] }) {
         {props.items.map(
           item => {
             return (
-              <div key={item.incomeId} style={{ textAlign: 'center', border: '1px solid black', margin: '1rem' }} className={'col'}>
+              <div key={item.incomeId} style={{ textAlign: 'center', border: '1px solid black', margin: '1rem', boxShadow: '2px 1px 11px 0px', backgroundColor: '#85BB65' }} className={'col'}>
                 <span style={{ margin: '1rem', fontSize: '30px' }}>Stream: {item.incomeType}</span>
                 <hr />
-                <span style={{ fontSize: '30px', backgroundColor: 'gray' }}>$ {item.money}</span>
+                <span style={{ fontSize: '30px', color: 'white' }}>$ {item.money}</span>
               </div>
             )
           }

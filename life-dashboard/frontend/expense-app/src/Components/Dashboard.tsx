@@ -112,9 +112,9 @@ function Dashboard() {
       </div>
       <hr />
       <div style={{ textAlign: 'center' }}>
-        <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }}>Add Expense</Button>
+        <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }} variant='danger'>Add Expense</Button>
         <ExpenseAmmount expensesSum={expensesSum} />
-        <Button onClick={handleShow} id='add-expense-type' >Add Expense Type</Button>
+        <Button onClick={handleShow} id='add-expense-type' variant="danger">Add Expense Type</Button>
       </div>
       <ExpenseTypes items={expenseTypes} />
       <Container>

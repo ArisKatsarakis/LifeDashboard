@@ -25,7 +25,6 @@ public class ExpenseType {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "expenseType")
-  @JsonIgnore
   private List<Expense> expense;
   private String expenseTypeName;
   private BigDecimal expensesSum;

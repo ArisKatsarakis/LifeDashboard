@@ -10,8 +10,9 @@ import { Income } from "../interfaces/IncomeInterfaces";
 import { Wallet } from "../interfaces/WalletInterfaces";
 import { IncomeComponent } from "./IncomeComponent";
 import { Incomes } from "./Incomes";
+import { Header } from "./Header";
 
-function Dashboard() {
+function Dashboard(props: { username?: string }) {
 
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [expensesSum, setExpensesSum] = useState<number>(0);
@@ -27,8 +28,7 @@ function Dashboard() {
       marginLeft: '1rem',
       boxShadow: '0px 1px 1px 1px'
     }
-  }
-  const expenses = new Map();
+  };
   const [map, setMap] = useState<Map<number, Expense[]>>(new Map());
 
   const setUp = async () => {
@@ -43,7 +43,7 @@ function Dashboard() {
           sum += expense.money;
         }
       }
-    )
+    );
     setExpensesSum(sum);
     setExpenseTypes(types);
     console.log(expenseTypes);
@@ -57,7 +57,7 @@ function Dashboard() {
           console.log(map);
         }
       }
-    )
+    );
     setIncomes(income);
     setLastWallet(wallet);
 
@@ -87,6 +87,12 @@ function Dashboard() {
   return (
     //@TODO fix header
     <Container>
+      <Header />
+      <div>
+
+        <h2>{props.username}'s wallet</h2>
+      </div>
+
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
       </div>
@@ -142,6 +148,7 @@ function Dashboard() {
         </Row>
       </Container>
     </Container >
+
   );
 
 }

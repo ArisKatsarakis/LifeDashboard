@@ -3,8 +3,6 @@ package gr.ariskatsarakis.lifedashboard.expense;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 
 /**
  * ExpenseType
@@ -25,12 +24,12 @@ public class ExpenseType {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "expenseType")
+  @OrderBy("timestamp")
   private List<Expense> expense;
   private String expenseTypeName;
   private BigDecimal expensesSum;
 
   public ExpenseType() {
-
   }
 
   public List<Expense> getExpense() {

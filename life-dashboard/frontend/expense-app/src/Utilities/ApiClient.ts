@@ -6,11 +6,19 @@ import { Wallet } from "../interfaces/WalletInterfaces";
 const name = 'katsar';
 const pass = 'test';
 
-export const authenticateApi = async () => {
-  const payload = {
+export const authenticateApi = async (username?: string, password?: string) => {
+
+  let payload = {
     username: name,
     password: pass
   };
+  if (username != null && password != null) {
+    console.log(username, password)
+    payload = {
+      username: username,
+      password: password
+    };
+  }
 
   const response = await axios.post(apiLinks.authenticateLink, payload);
   return response.data;
@@ -37,6 +45,7 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
     }
   )
   return data;
+
 }
 
 export const getExpenseTypesExpenses = async (expenseTypeId: number): Promise<Expense[]> => {

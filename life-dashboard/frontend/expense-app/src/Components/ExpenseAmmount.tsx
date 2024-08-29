@@ -1,7 +1,9 @@
 export function ExpenseAmmount(props: { expensesSum: number }) {
   return (
-    <span style={{ border: '1px solid black', marginRight: '1rem', textAlign: 'center', padding: '5px', fontSize: '30px', borderRadius: '1rem' }}>
-      Money Spent ${props.expensesSum}
-    </span>
+    <div style={{ textAlign: 'center', border: '1px solid black', margin: '1rem', boxShadow: '2px 1px 11px 0px', backgroundColor: 'gold' }} className={'col'}>
+      <span style={{ margin: '1rem', fontSize: '30px' }}>
+        Money Spent ${props.expensesSum}
+      </span>
+    </div>
   )
 }

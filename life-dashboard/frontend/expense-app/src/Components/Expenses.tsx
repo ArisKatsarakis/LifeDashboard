@@ -1,31 +1,23 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { Expense } from "../interfaces/ExpenseInterfaces";
 
 export function Expenses(props: { items: Expense[] }) {
 
   return (
-    <Container >
-      <Row style={{ border: '10px', borderColor: 'black', marginTop: '1rem' }}>
+    <Container>
+      <Row>
         {props.items.map(
           item => {
             return (
-              <Col key={item.expenseId}>
-                <div style={{ textAlign: 'center' }} >
-                  <span style={{ border: '1px solid black', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
-                    {item.name}
-                  </span>
-                  <span style={{ border: '1px solid black', color: 'white', background: 'red', padding: '5px', textAlign: 'center', fontSize: '30px', borderRadius: '1rem' }}>
-                    ${item.money} <br />
-                  </span>
-                  <span style={{ border: '1px dashed black', fontSize: '20px', marginTop: '1rem' }}>
-                    {item.timestamp?.split("T")[0]}
-                  </span>
-                </div>
-              </Col>
+              <div key={item.expenseId} style={{ textAlign: 'center', border: '1px solid black', margin: '1rem', boxShadow: '2px 1px 11px 0px', backgroundColor: 'red' }} className={'col'}>
+                <span style={{ margin: '1rem', fontSize: '30px' }}>Name: {item.name}</span>
+                <hr />
+                <span style={{ fontSize: '30px', color: 'white' }}>$ {item.money}</span>
+              </div>
             )
           }
         )}
       </Row>
-    </Container >
+    </Container>
   )
 }

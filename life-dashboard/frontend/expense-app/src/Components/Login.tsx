@@ -1,20 +1,22 @@
 import { FormEvent, useState } from "react";
-import { Container, InputGroup, Row, Form, Button } from "react-bootstrap";
+import { Col, Container, InputGroup, Row, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { authenticateApi } from "../Utilities/ApiClient";
+import { useCookies } from "react-cookie";
 
 export function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [cookies, setCookies] = useCookies(['jsonToken']);
+
   const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent<HTMLElement>) => {
     event.preventDefault();
     const response = await authenticateApi(username, password);
     console.log(response);
     if (response != 'Credentials Invalid') {
-      document.cookie += `walletUser:${username}`;
-      console.log(document.cookie);
-      console.log('fksjdlfjlaskjdkjf');
+      setCookies('jsonToken', response.token);
+      window.location.reload();
       navigate('/');
     }
   }
@@ -36,9 +38,13 @@ export function Login() {
             }} />
           </InputGroup>
 
-          <InputGroup>
-            <Button type='submit' >Login </Button>
-          </InputGroup>
+          <Row style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <Col>
+              <Button type='submit' >Login </Button>
+              <Button> Register </Button>
+            </Col>
+          </Row>
+
         </Form>
       </Row>
     </Container>

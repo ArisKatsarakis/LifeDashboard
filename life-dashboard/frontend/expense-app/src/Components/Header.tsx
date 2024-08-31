@@ -1,14 +1,27 @@
-import { Container, Button } from "react-bootstrap"
-
+import { useEffect } from "react";
+import { Container, Button, Row, Col } from "react-bootstrap"
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 export function Header() {
+  const [cookies, setCookies] = useCookies(['jsonToken']);
+  const navigate = useNavigate();
+  const logoutFunction = () => {
+    setCookies('jsonToken', null);
+    window.location.reload();
+
+  };
+
   return (
     <Container style={{ border: '1px solid black', marginBottom: '1rem' }}>
-      <Button >
-        Login
-      </Button>
-      <Button style={{}}>
-        Register
-      </Button>
+      <Row>
+        <Col md='8'>
+        </Col>
+        <Col style={{ textAlign: 'right' }}>
+          <Button variant="danger" onClick={logoutFunction}>
+            Logout
+          </Button>
+        </Col>
+      </Row>
     </Container >
   );
 }

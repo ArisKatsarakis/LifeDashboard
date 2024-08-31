@@ -5,9 +5,7 @@ import axios from "axios";
 import { Wallet } from "../interfaces/WalletInterfaces";
 const name = 'katsar';
 const pass = 'test';
-
 export const authenticateApi = async (username?: string, password?: string) => {
-
   let payload = {
     username: name,
     password: pass

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -107,12 +108,18 @@ public class ExpenseService {
     return expenseTypeRepository.save(expenseType);
   }
 
-  public List<Expense> getExpenseByExpenseTypeId(Long expenseTypeId) {
+  public ResponseEntity<ExpenseTypeSum> getExpenseByExpenseTypeId(Long expenseTypeId) {
     Optional<ExpenseType> optional = expenseTypeRepository.findById(expenseTypeId);
+    ExpenseTypeSum expenseTypeSum = new ExpenseTypeSum();
     if (optional.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense Type not found");
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    return optional.get().getExpense();
+    expenseTypeSum.setExpenses(optional.get().getExpense());
+    expenseTypeSum.setExpenseSum(BigDecimal.ZERO);
+    for (Expense var : expenseTypeSum.getExpenses()) {
+      expenseTypeSum.setExpenseSum(expenseTypeSum.getExpenseSum().add(var.getMoney()));
+    }
+    return new ResponseEntity<>(expenseTypeSum, HttpStatus.OK);
   }
 
   public Expense saveExpenseAddToExpenseType(Long expenseTypeId, Expense expense) {

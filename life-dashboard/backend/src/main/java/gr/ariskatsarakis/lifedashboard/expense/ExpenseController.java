@@ -40,7 +40,7 @@ public class ExpenseController {
   }
 
   @GetMapping("/expense-types/{expenseTypeId}/expenses")
-  public List<Expense> getExpensesByExpenseType(@PathVariable Long expenseTypeId) {
+  public ResponseEntity<ExpenseTypeSum> getExpensesByExpenseType(@PathVariable Long expenseTypeId) {
     return service.getExpenseByExpenseTypeId(expenseTypeId);
   }
 

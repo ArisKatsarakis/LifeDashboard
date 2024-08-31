@@ -28,7 +28,7 @@ export function IncomeComponent() {
         </InputGroup>
         <InputGroup>
           <InputGroup.Text>Money Received: </InputGroup.Text>
-          <Form.Select value={incomeType} onChange={event => setIncomeType(event.target.value)}>
+          <Form.Select required={true} value={incomeType} onChange={event => setIncomeType(event.target.value)}>
             <option value={''}>Select Income Stream </option>
             <option value={"ATHALI"}>ATHALI</option>
             <option value={"NOVA"}>NOVA</option>

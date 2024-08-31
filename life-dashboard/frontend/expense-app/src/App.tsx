@@ -11,11 +11,18 @@ import { ExpenseComponent } from './Components/ExpenseComponent';
 import { FormEvent, useEffect, useState } from 'react';
 import { Row, Col, Container, Form, InputGroup, Button } from 'react-bootstrap';
 import { authenticateApi } from './Utilities/ApiClient';
+import { useCookies } from 'react-cookie';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 
 
 
 function App() {
+  const [username, setUsername] = useState<string>('');
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [cookies, setCookie] = useCookies(['jsonToken']);
+
+
   function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -25,11 +32,9 @@ function App() {
       const response = await authenticateApi(username, password);
       console.log(response);
       if (response != 'Credentials Invalid') {
-        document.cookie += `walletUser:${username}`;
-        console.log(document.cookie);
-        console.log('fksjdlfjlaskjdkjf');
         navigate('/');
         setAuthenticated(true);
+        setCookie('jsonToken', response.token);
       }
     }
     return (
@@ -58,12 +63,17 @@ function App() {
       </Container>
     )
   }
-  const [username, setUsername] = useState<string>('');
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const getToken = () => {
-    const cookie = document.cookie;
-    console.log(cookie);
-  }
+    console.log(cookies);
+    if (cookies.jsonToken != null) {
+      setAuthenticated(true);
+      console.log(jwtDecode(cookies.jsonToken));
+      const decodedJwt = jwtDecode<JwtPayload>(cookies.jsonToken);
+      setUsername(decodedJwt.sub == null ? '' : decodedJwt.sub);
+    } else {
+      setAuthenticated(false);
+    }
+  };
 
   useEffect(
     () => {
@@ -74,9 +84,10 @@ function App() {
     <Container>
       <BrowserRouter>
         {
-          authenticated === true ?
+          (authenticated === true)
+            ?
             < Routes >
-              <Route path='/' element={<Dashboard />} />
+              <Route path='/' element={<Dashboard username={username} />} />
               <Route path='/expenses' element={<ExpenseComponent />} />
             </Routes>
             :

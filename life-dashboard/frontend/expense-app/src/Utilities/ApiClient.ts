@@ -1,5 +1,5 @@
 import { apiLinks } from "./Variables";
-import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
+import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInterfaces";
 import { Income } from "../interfaces/IncomeInterfaces";
 import axios from "axios";
 import { Wallet } from "../interfaces/WalletInterfaces";
@@ -35,20 +35,19 @@ export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
   data.map(
     async (item) => {
       if (item.expenseTypeId != null) {
-        const arrayOfExpenses: Expense[] = await getExpenseTypesExpenses(item.expenseTypeId);
-        item.expense = arrayOfExpenses;
+        const arrayOfExpenses: ExpenseTypeSum = await getExpenseTypesExpenses(item.expenseTypeId);
+        item.expense = arrayOfExpenses.expenses;
         return item;
       }
-
     }
   )
   return data;
 
 }
 
-export const getExpenseTypesExpenses = async (expenseTypeId: number): Promise<Expense[]> => {
+export const getExpenseTypesExpenses = async (expenseTypeId: number): Promise<ExpenseTypeSum> => {
   const bearerResponse = await authenticateApi();
-  const { data } = await axios.get<Expense[]>(`http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
+  const { data } = await axios.get<ExpenseTypeSum>(`http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
     { headers: { Authorization: `Bearer ${bearerResponse.token}` } }
   );
   return data;

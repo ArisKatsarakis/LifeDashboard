@@ -11,3 +11,8 @@ export interface ExpenseType {
   expenseTypeName: string | null;
   expensesSum: number | null;
 }
+
+export interface ExpenseTypeSum {
+  expenseSum: number | null;
+  expenses: Expense[];
+}

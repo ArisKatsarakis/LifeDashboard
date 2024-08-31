@@ -1,7 +1,7 @@
 import { useEffect, useState, MouseEvent } from "react";
 import { Button, Container, Modal, Row, Col } from "react-bootstrap";
 import { getExpenses, getExpenseTypes, getExpenseTypesExpenses, getIncome, getLastWallet } from "../Utilities/ApiClient";
-import { Expense, ExpenseType } from "../interfaces/ExpenseInterfaces";
+import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { ExpenseAmmount } from "./ExpenseAmmount";
 import { ExpenseComponent } from "./ExpenseComponent";
@@ -50,9 +50,9 @@ function Dashboard(props: { username?: string }) {
     expenseTypes.forEach(
       async (expensetype) => {
         if (expensetype.expenseTypeId != null) {
-          const arrayOfExpenses: Expense[] = await getExpenseTypesExpenses(expensetype.expenseTypeId);
+          const arrayOfExpenses: ExpenseTypeSum = await getExpenseTypesExpenses(expensetype.expenseTypeId);
           const temp = map;
-          temp.set(expensetype.expenseTypeId, arrayOfExpenses);
+          temp.set(expensetype.expenseTypeId, arrayOfExpenses.expenses);
           setMap(temp);
           console.log(map);
         }

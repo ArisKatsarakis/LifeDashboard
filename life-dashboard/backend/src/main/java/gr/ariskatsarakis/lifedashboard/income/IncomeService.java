@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.lifedashboard.wallet.WalletService;
@@ -31,7 +32,8 @@ public class IncomeService {
   public List<Income> getIncomes(Pageable pageable) {
     return incomeRepository.findAll(PageRequest.of(
         pageable.getPageNumber(),
-        pageable.getPageSize())).getContent();
+        pageable.getPageSize(),
+        Sort.by("incomeType").descending())).getContent();
   }
 
   public Income addIncome(Income income) {

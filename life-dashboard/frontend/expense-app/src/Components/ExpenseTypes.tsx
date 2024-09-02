@@ -16,7 +16,7 @@ export function ExpenseTypes(props: { items: ExpenseType[] }) {
         {props.items.map(
           item => {
             return (
-              <Col style={{ border: '1px solid black' }}>
+              <Col style={{ border: '1px solid black' }} key={item.expenseTypeId}>
                 <h2>{item.expenseTypeName} ${item.expensesSum}</h2>
                 <Container>
                   <Row>
@@ -24,9 +24,8 @@ export function ExpenseTypes(props: { items: ExpenseType[] }) {
                       expense => {
                         if (item.expensesSum != null && expense.money != null) {
                           const widthPercentage = (100 / item.expensesSum) * expense.money;
-                          return <Col style={{ width: `${widthPercentage}%`, border: '1px solid black' }}>{expense.money}</Col>
+                          return <Col style={{ width: `${widthPercentage}%`, border: '1px solid black' }} key={expense.expenseId}>{expense.money}</Col>
                         }
-
                       }
                     )}
                   </Row>

@@ -1,22 +1,25 @@
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { Income } from "../interfaces/IncomeInterfaces";
 
 export function Incomes(props: { items: Income[] }) {
   return (
-    <div className="container">
+    <Container>
       <h2>INCOMES</h2>
-      <div className="row">
-        {props.items.map(
+      <Row style={{ border: '1px solid black' }}>
+        {props.items.filter(item => item.incomeType === 'NOVA').map(
           item => {
-            return (
-              <div key={item.incomeId} style={{ textAlign: 'center', border: '1px solid black', margin: '1rem', boxShadow: '2px 1px 11px 0px', backgroundColor: '#85BB65' }} className={'col'}>
-                <span style={{ margin: '1rem', fontSize: '30px' }}>Stream: {item.incomeType}</span>
-                <hr />
-                <span style={{ fontSize: '30px', color: 'white' }}>$ {item.money}</span>
-              </div>
-            )
+            return <Col key={item.incomeId}>{item.money}  {item.incomeType}</Col>
           }
         )}
-      </div>
-    </div>
+      </Row>
+      <Row style={{ border: '1px solid black' }}>
+        {props.items.filter(item => item.incomeType === 'ATHALI').map(
+          item => {
+            return <Col key={item.incomeId}>{item.money} {item.incomeType}</Col>
+          }
+        )}
+      </Row>
+    </Container>
   )
 }

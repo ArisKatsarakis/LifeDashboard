@@ -12,40 +12,29 @@ export function ExpenseTypes(props: { items: ExpenseType[] }) {
   )
   return (
     <Container>
-      <Row>
-        {props.items.map(
-          item => {
-            return (
-              <Col style={{ border: '1px solid black' }} key={item.expenseTypeId}>
-                <h2>{item.expenseTypeName} ${item.expensesSum}</h2>
-                <Container>
-                  <Row>
-                    {item.expense.map(
-                      expense => {
-                        if (item.expensesSum != null && expense.money != null) {
-                          const widthPercentage = (100 / item.expensesSum) * expense.money;
-                          return <Col style={{ width: `${widthPercentage}%`, border: '1px solid black' }} key={expense.expenseId}>{expense.money}</Col>
-                        }
+      {props.items.map(
+        item => {
+          return (
+            <Row style={{ border: '1px solid black' }} key={item.expenseTypeId}>
+              <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
+              <Container>
+                <Row>
+                  {item.expense.map(
+                    expense => {
+                      if (item.expensesSum != null && expense.money != null) {
+                        const widthPercentage = Math.floor((12 / item.expensesSum) * expense.money);
+                        /*if > 0.5 use Math.ceil if < 0.5 use Math.Floor*/
+                        return <Col md={widthPercentage} style={{ border: '1px solid black' }} key={expense.expenseId}>{expense.money}</Col>
                       }
-                    )}
-                  </Row>
+                    }
+                  )}
+                </Row>
+              </Container>
+            </Row>
+          )
+        }
+      )}
 
-                </Container>
-              </Col>
-            )
-          }
-        )}
-      </Row>
-      {/* {props.items.map( */}
-      {/*   item => { */}
-      {/*     return ( */}
-      {/*       <Row key={item.expenseTypeId}> */}
-      {/*         <h2 style={{ textAlign: 'center' }}>Expense Type: {item.expenseTypeName}</h2> */}
-      {/*         {item.expense.length === 0 ? <span>No Expenses</span> : <Expenses items={item.expense} />} */}
-      {/*       </Row> */}
-      {/*     ) */}
-      {/*   } */}
-      {/* )} */}
     </Container>
   )
 }

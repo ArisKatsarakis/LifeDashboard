@@ -60,11 +60,10 @@ function Dashboard(props: { username?: string }) {
     );
     setIncomes(income);
     setLastWallet(wallet);
-
   }
+
   useEffect(() => {
     setUp();
-
   }, []);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {
@@ -88,20 +87,13 @@ function Dashboard(props: { username?: string }) {
     //@TODO fix header
     <Container>
       <Header />
-      <div>
 
+      <div>
         <h2>{props.username}'s wallet</h2>
       </div>
 
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
-      </div>
-      <div style={{ textAlign: 'center', fontSize: '3rem' }}>
-        <span>Money Now</span>
-        <span style={styles.money}>{lastWallet?.moneyNow}$ </span>
-      </div>
-      <div>
-        <Incomes items={incomes} />
       </div>
       <div>
         <div style={{ marginTop: '1rem' }}>
@@ -116,11 +108,26 @@ function Dashboard(props: { username?: string }) {
           </Modal>
         </div>
       </div>
+      <div style={{ textAlign: 'center', fontSize: '3rem' }}>
+        <span>Money Now</span>
+        <span style={styles.money}>{lastWallet?.moneyNow}$ </span>
+      </div>
+      <div>
+        <Incomes items={incomes} />
+      </div>
       <hr />
-      <div style={{ textAlign: 'center' }}>
+      <div style={{}} className='container'>
         <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }} variant='danger'>Add Expense</Button>
-        <ExpenseAmmount expensesSum={expensesSum} />
         <Button onClick={handleShow} id='add-expense-type' variant="danger">Add Expense Type</Button>
+        <Row md='6' style={{ textAlign: 'center' }}>
+          <Col md='3'>
+          </Col>
+          <Col md='6'>
+            <ExpenseAmmount expensesSum={expensesSum} />
+          </Col>
+          <Col md='3'>
+          </Col>
+        </Row>
       </div>
       <ExpenseTypes items={expenseTypes} />
       <Container>

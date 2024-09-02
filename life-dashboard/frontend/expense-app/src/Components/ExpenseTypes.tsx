@@ -18,7 +18,7 @@ export function ExpenseTypes(props: { items: ExpenseType[] }) {
             <Row style={{ border: '1px solid black' }} key={item.expenseTypeId}>
               <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
               <Container>
-                <Row>
+                <Row style={{ background: 'red', color: 'white' }}>
                   {item.expense.map(
                     expense => {
                       if (item.expensesSum != null && expense.money != null) {
@@ -34,7 +34,6 @@ export function ExpenseTypes(props: { items: ExpenseType[] }) {
           )
         }
       )}
-
     </Container>
   )
 }

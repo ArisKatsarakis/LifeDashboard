@@ -5,7 +5,8 @@ export function Incomes(props: { items: Income[] }) {
   return (
     <Container>
       <h2>INCOMES</h2>
-      <Row style={{ border: '1px solid black' }}>
+      <Row style={{ boxShadow: '2px 0px 8px 3px', border: '1px solid black' }}>
+
         <h2>Nova</h2>
         {props.items.filter(item => item.incomeType === 'NOVA').map(
           item => {

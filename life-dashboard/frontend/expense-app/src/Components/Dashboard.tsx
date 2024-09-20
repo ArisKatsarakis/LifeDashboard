@@ -3,12 +3,8 @@ import { Button, Container, Modal, Row, Col } from "react-bootstrap";
 import { getExpenses, getExpenseTypes, getExpenseTypesExpenses, getIncome, getLastWallet } from "../Utilities/ApiClient";
 import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
-import { ExpenseAmmount } from "./ExpenseAmmount";
-import { ExpenseComponent } from "./ExpenseComponent";
-import { ExpenseTypeComponent } from "./ExpenseTypeComponent";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { Wallet } from "../interfaces/WalletInterfaces";
-import { IncomeComponent } from "./IncomeComponent";
 import { Incomes } from "./Incomes";
 import { Header } from "./Header";
 
@@ -16,19 +12,8 @@ function Dashboard(props: { username?: string }) {
 
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
   const [expensesSum, setExpensesSum] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(false);
-  const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [lastWallet, setLastWallet] = useState<Wallet>();
-  const [showIncome, setShowIncome] = useState<boolean>(false);
-  const styles = {
-    money: {
-      border: '1px solid black',
-      padding: '2px',
-      marginLeft: '1rem',
-      boxShadow: '0px 1px 1px 1px'
-    }
-  };
   const [map, setMap] = useState<Map<number, Expense[]>>(new Map());
 
   const setUp = async () => {
@@ -66,22 +51,7 @@ function Dashboard(props: { username?: string }) {
     setUp();
   }, []);
 
-  const handleShow = (event: MouseEvent<HTMLElement>) => {
-    console.log(event.currentTarget.getAttribute('id'));
-    const id = event.currentTarget.getAttribute('id');
-    if (id === 'add-expense') {
-      setShow(!show);
-    }
-    else if (id === 'add-expense-type') {
-      setShowExpeseType(!showExpenseType);
-    } else if (id === 'add-income') {
-      setShowIncome(!showIncome);
-    }
-  }
 
-  const handleClose = () => {
-    setShow(false);
-  }
 
   return (
     //@TODO fix header
@@ -92,44 +62,7 @@ function Dashboard(props: { username?: string }) {
       </div>
       <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
-      <div style={{}} className='container'>
-        <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }} variant='danger'>Add Expense</Button>
-        <Button onClick={handleShow} id='add-expense-type' variant="danger">Add Expense Type</Button>
-        <Row md='6' style={{ textAlign: 'center' }}>
-          <Col md='3'>
-          </Col>
-          <Col md='6'>
-            <ExpenseAmmount expensesSum={expensesSum} />
-          </Col>
-          <Col md='3'>
-          </Col>
-        </Row>
-      </div>
-      <ExpenseTypes items={expenseTypes} />
-      <Container>
-        <Row style={{ textAlign: 'center' }}>
-          <Col xs={6}>
-            <Modal show={show} onHide={handleClose} >
-              <Modal.Header closeButton>
-                <h2>Add Expenses</h2>
-              </Modal.Header>
-              <Modal.Body>
-                <ExpenseComponent />
-              </Modal.Body>
-            </Modal>
-          </Col>
-          <Col xs={6}>
-            <Modal show={showExpenseType} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <h2>Add Expense Type</h2>
-              </Modal.Header>
-              <Modal.Body>
-                <ExpenseTypeComponent />
-              </Modal.Body>
-            </Modal>
-          </Col>
-        </Row>
-      </Container>
+      <ExpenseTypes items={expenseTypes} expensesSum={expensesSum} />
     </Container >
 
   );

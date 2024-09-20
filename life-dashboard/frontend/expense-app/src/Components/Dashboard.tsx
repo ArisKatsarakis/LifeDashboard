@@ -90,9 +90,6 @@ function Dashboard(props: { username?: string }) {
       <div>
         <h2>{props.username}'s wallet</h2>
       </div>
-      <div style={{ border: '1px solid black', textAlign: 'center' }}>
-        <h2>Expenses Counter</h2>
-      </div>
       <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
       <div style={{}} className='container'>

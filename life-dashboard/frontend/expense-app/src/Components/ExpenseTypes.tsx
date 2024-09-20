@@ -32,19 +32,23 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
   }
 
   return (
-    <Container>
-
+    <Container style={{ background: '#f50057' }}>
       <Row>
-        <Col>
-          <Button onClick={handleShow} id='add-expense' style={{ fontSize: '15px', lineHeight: '32px', verticalAlign: 'top' }} variant='danger'>Add Expense</Button>
+        <Col style={{ textAlign: 'center' }}>
+          <h2>EXPENSES</h2>
         </Col>
-        <Col md='6' style={{ verticalAlign: 'top', textAlign: 'center', border: '1px solid black', margin: '1rem', boxShadow: '2px 1px 11px 0px', backgroundColor: 'gold', lineHeight: '32px', fontSize: '30px' }}>
+      </Row>
+      <Row style={{ lineHeight: '30px', verticalAlign: 'top', marginBottom: '1rem' }}>
+        <Col md='3' style={{ textAlign: 'center' }}>
+          <Button onClick={handleShow} id='add-expense' style={{}} variant='danger'>Add Expense</Button>
+        </Col>
+        <Col md='6' style={{ verticalAlign: 'top', textAlign: 'center', border: '1px solid black', boxShadow: '2px 1px 11px 0px', backgroundColor: 'gold', lineHeight: '32px', fontSize: '30px' }}>
           <span style={{ verticalAlign: 'top' }}>
             Money Spent ${props.expensesSum}
           </span>
         </Col>
-        <Col>
-          <Button onClick={handleShow} id='add-expense-type' variant="danger" style={{ fontSize: '15px', lineHeight: '32px', verticalAlign: 'top' }}>Add Expense Type</Button>
+        <Col md='3' style={{ textAlign: 'center' }}>
+          <Button onClick={handleShow} id='add-expense-type' variant="danger" style={{}}>Add Exp Type</Button>
         </Col>
       </Row>
 
@@ -54,13 +58,13 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
             <Row style={{ border: '1px solid black' }} key={item.expenseTypeId}>
               <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
               <Container>
-                <Row style={{ background: 'red', color: 'white' }}>
+                <Row style={{ background: '#f50057', color: 'white' }}>
                   {item.expense.map(
                     expense => {
                       if (item.expensesSum != null && expense.money != null) {
                         const widthPercentage = Math.floor((12 / item.expensesSum) * expense.money);
                         /*if > 0.5 use Math.ceil if < 0.5 use Math.Floor*/
-                        return <Col md={widthPercentage} style={{ border: '1px solid black' }} key={expense.expenseId}>{expense.money}</Col>
+                        return <Col md={widthPercentage} style={{ border: '1px solid black' }} key={expense.expenseId}>{expense.name} : {expense.money}</Col>
                       }
                     }
                   )}

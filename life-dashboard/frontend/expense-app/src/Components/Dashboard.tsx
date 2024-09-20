@@ -87,34 +87,13 @@ function Dashboard(props: { username?: string }) {
     //@TODO fix header
     <Container>
       <Header />
-
       <div>
         <h2>{props.username}'s wallet</h2>
       </div>
-
       <div style={{ border: '1px solid black', textAlign: 'center' }}>
         <h2>Expenses Counter</h2>
       </div>
-      <div>
-        <div style={{ marginTop: '1rem' }}>
-          <Button id='add-income' onClick={handleShow} variant="success">Add Income</Button>
-          <Modal show={showIncome} onHide={handleClose} >
-            <Modal.Header closeButton>
-              <h2>Add Expenses</h2>
-            </Modal.Header>
-            <Modal.Body>
-              <IncomeComponent />
-            </Modal.Body>
-          </Modal>
-        </div>
-      </div>
-      <div style={{ textAlign: 'center', fontSize: '3rem' }}>
-        <span>Money Now</span>
-        <span style={styles.money}>{lastWallet?.moneyNow}$ </span>
-      </div>
-      <div>
-        <Incomes items={incomes} />
-      </div>
+      <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
       <div style={{}} className='container'>
         <Button onClick={handleShow} id='add-expense' style={{ marginRight: '1rem' }} variant='danger'>Add Expense</Button>

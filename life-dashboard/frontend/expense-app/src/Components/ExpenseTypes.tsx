@@ -32,7 +32,7 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
   }
 
   return (
-    <Container style={{ background: '#f50057' }}>
+    <Container style={{ background: 'white', border: '1px solid black', boxShadow: '1px 1px 1px 1px' }}>
       <Row>
         <Col style={{ textAlign: 'center' }}>
           <h2>EXPENSES</h2>
@@ -55,20 +55,30 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
       {props.items.map(
         item => {
           return (
-            <Row style={{ border: '1px solid black' }} key={item.expenseTypeId}>
-              <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
+            <Row style={{ marginTop: '4px' }}>
+              <Col md={3} />
+              <Col md={6} style={{ background: 'white', borderRadius: '1rem', border: '1px solid black', textAlign: 'center', marginBottom: '10px' }}>
+                <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
+              </Col>
+              <Col md={3} />
               <Container>
-                <Row style={{ background: '#f50057', color: 'white' }}>
-                  {item.expense.map(
-                    expense => {
-                      if (item.expensesSum != null && expense.money != null) {
-                        const widthPercentage = Math.floor((12 / item.expensesSum) * expense.money);
-                        /*if > 0.5 use Math.ceil if < 0.5 use Math.Floor*/
-                        return <Col md={widthPercentage} style={{ border: '1px solid black' }} key={expense.expenseId}>{expense.name} : {expense.money}</Col>
-                      }
-                    }
-                  )}
-                </Row>
+                {item.expense.map(
+                  expense => {
+                    return (
+                      <Row style={{ background: '#f50057', color: 'black' }}>
+                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
+                          Name: {expense.name}
+                        </Col>
+                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
+                          Cost: {expense.money}$
+                        </Col>
+                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
+                          Date: {expense.timestamp}
+                        </Col>
+                      </Row>
+                    );
+                  }
+                )}
               </Container>
             </Row>
           )

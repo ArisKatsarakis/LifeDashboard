@@ -18,11 +18,13 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
       border: '1px solid black',
       padding: '2px',
       marginLeft: '1rem',
-      boxShadow: '0px 1px 1px 1px'
+      boxShadow: '4px 1px 3px 3px',
+      borderRadius: '1rem',
+      background: 'white'
     }
   };
-
   return (
+
     <Container style={{ background: '#5ce65c', border: '1px solid black', boxShadow: '2px 0px 8px 3px' }}>
       <Row>
         <Col md={12} style={{ textAlign: 'center' }}>
@@ -66,7 +68,8 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
           }
         )}
       </Row>
-      <Row style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px', marginTop: '10px' }}>
+
+      <Row style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px', marginTop: '10px', textAlign: 'center' }}>
         <h2>Athali</h2>
       </Row>
       {props.items.filter(item => item.incomeType === 'ATHALI').map(
@@ -85,6 +88,7 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
           )
         }
       )}
+
     </Container>
   )
 }

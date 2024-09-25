@@ -32,7 +32,7 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
   }
 
   return (
-    <Container style={{ background: 'white', border: '1px solid black', boxShadow: '1px 1px 1px 1px' }}>
+    <Container style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px' }}>
       <Row>
         <Col style={{ textAlign: 'center' }}>
           <h2>EXPENSES</h2>

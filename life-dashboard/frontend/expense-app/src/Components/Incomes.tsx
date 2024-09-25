@@ -25,7 +25,7 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
   };
   return (
 
-    <Container style={{ background: '#5ce65c', border: '1px solid black', boxShadow: '2px 0px 8px 3px' }}>
+    <Container style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px' }}>
       <Row>
         <Col md={12} style={{ textAlign: 'center' }}>
           <h2>INCOMES</h2>
@@ -54,11 +54,11 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
         {props.items.filter(item => item.incomeType === 'NOVA').map(
           item => {
             return (
-              <Row>
+              <Row style={{ marginTop: '1rem' }}>
                 <Col md={2} />
                 <Col
                   key={item.incomeId}
-                  style={{ border: '1px solid black', background: 'white', color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '3px', borderRadius: '1rem' }}
+                  style={{ border: '1px solid black', background: '#5ce65c', color: 'white', textAlign: 'center', fontSize: '20px', borderRadius: '1rem' }}
                 >
                   ${item.money} @:{item.timestamp}
                 </Col>
@@ -75,11 +75,11 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
       {props.items.filter(item => item.incomeType === 'ATHALI').map(
         item => {
           return (
-            <Row>
+            <Row style={{ marginTop: '5px', marginBottom: '5px' }}>
               <Col md={2} />
               <Col
                 key={item.incomeId}
-                style={{ border: '1px solid black', background: 'green', color: 'white', textAlign: 'center', fontSize: '20px', marginTop: '3px', borderRadius: '1rem' }}
+                style={{ border: '1px solid black', background: '#5ce65c', color: 'white', textAlign: 'center', fontSize: '20px', marginTop: '3px', borderRadius: '1rem' }}
               >
                 ${item.money} @:{item.timestamp}
               </Col>

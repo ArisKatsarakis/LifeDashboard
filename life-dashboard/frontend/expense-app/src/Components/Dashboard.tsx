@@ -56,10 +56,7 @@ function Dashboard(props: { username?: string }) {
   return (
     //@TODO fix header
     <Container>
-      <Header />
-      <div>
-        <h2>{props.username}'s wallet</h2>
-      </div>
+      <Header username={props?.username ? props.username : ''} />
       <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
       <ExpenseTypes items={expenseTypes} expensesSum={expensesSum} />

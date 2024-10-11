@@ -37,6 +37,7 @@ public class ExpenseController {
   @PutMapping("/expense-types/{expenseTypeId}/expenses")
   public Expense updateExpense(@RequestBody Expense expense, @PathVariable Long expenseTypeId) {
     return service.updateExpense(expense, expenseTypeId);
+
   }
 
   @GetMapping("/expense-types/{expenseTypeId}/expenses")

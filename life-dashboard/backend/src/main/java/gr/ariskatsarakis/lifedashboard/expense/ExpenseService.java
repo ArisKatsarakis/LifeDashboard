@@ -40,8 +40,8 @@ public class ExpenseService {
     return expenseRepository.findAll();
   }
 
-  public Expense addExpense(Expense e) {
-    Expense expenseAdded = expenseRepository.save(e);
+  public Expense addExpense(Expense expense) {
+    Expense expenseAdded = expenseRepository.save(expense);
     walletService.addNewExpenseAtWallet(expenseAdded);
     return expenseAdded;
   }

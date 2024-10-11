@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap"
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 export function Header(props: { username: string }) {
   const [cookies, setCookies] = useCookies(['jsonToken']);
-  const navigate = useNavigate();
   const logoutFunction = () => {
     setCookies('jsonToken', null);
     window.location.reload();

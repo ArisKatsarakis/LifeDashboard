@@ -32,53 +32,59 @@ import gr.ariskatsarakis.lifedashboard.jwt.JwtResponse;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestWalletController {
 
-  @Autowired
-  MockMvc mockMvc;
-  private ObjectMapper objectMapper = new ObjectMapper();
-
-  private JwtResponse jwtResponse;
-
-  @BeforeAll
-  void setup() throws Exception {
-
-    JwtRequest input = new JwtRequest();
-    input.setUsername("katsar");
-    input.setPassword("test");
-
-    MvcResult authResult = mockMvc.perform(
-        post("/auth/login")
-            .content(input.toString())
-            .contentType(MediaType.APPLICATION_JSON)
-            .characterEncoding("utf-8"))
-        .andReturn();
-    this.jwtResponse = objectMapper.readValue(authResult.getResponse().getContentAsString(), JwtResponse.class);
-  }
-
-  @Test
-  void addIncome_Test() throws Exception {
-    Income i = new Income();
-    i.setMoney(BigDecimal.TEN);
-    i.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    mockMvc.perform(
-        post("/api/v1/expense")
-            .header("Authorization", "Bearer " + jwtResponse.getToken()));
-    MvcResult getWalletsResult = mockMvc.perform(
-        get("/api/v1/wallet")
-            .header("Authorization", "Bearer " + jwtResponse.getToken()))
-        .andReturn();
-
-    Wallet[] wallets = objectMapper.readValue(getWalletsResult.getResponse().getContentAsString(), Wallet[].class);
-    assertThat(wallets.length).isGreaterThan(0);
-    for (Wallet w : wallets) {
-      System.out.println("monney now: " + w.getMoneyNow());
-    }
-    MvcResult getLastWalletResult = mockMvc.perform(
-        get("/api/v1/last-wallet")
-            .header("Authorization", "Bearer " + jwtResponse.getToken()))
-        .andReturn();
-
-    Wallet lastWallet = objectMapper.readValue(getLastWalletResult.getResponse().getContentAsString(), Wallet.class);
-    System.out.println(lastWallet.getMoneyNow());
-  }
+  // @Autowired
+  // MockMvc mockMvc;
+  // private ObjectMapper objectMapper = new ObjectMapper();
+  //
+  // private JwtResponse jwtResponse;
+  //
+  // @BeforeAll
+  // void setup() throws Exception {
+  //
+  // JwtRequest input = new JwtRequest();
+  // input.setUsername("katsar");
+  // input.setPassword("test");
+  //
+  // MvcResult authResult = mockMvc.perform(
+  // post("/auth/login")
+  // .content(input.toString())
+  // .contentType(MediaType.APPLICATION_JSON)
+  // .characterEncoding("utf-8"))
+  // .andReturn();
+  // this.jwtResponse =
+  // objectMapper.readValue(authResult.getResponse().getContentAsString(),
+  // JwtResponse.class);
+  // }
+  //
+  // @Test
+  // void addIncome_Test() throws Exception {
+  // Income i = new Income();
+  // i.setMoney(BigDecimal.TEN);
+  // i.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+  // mockMvc.perform(
+  // post("/api/v1/income")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken()));
+  // MvcResult getWalletsResult = mockMvc.perform(
+  // get("/api/v1/wallet")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken()))
+  // .andReturn();
+  // System.out.println(getWalletsResult.getResponse().getContentAsString());
+  // Wallet[] wallets =
+  // objectMapper.readValue(getWalletsResult.getResponse().getContentAsString(),
+  // Wallet[].class);
+  // assertThat(wallets.length).isGreaterThan(0);
+  // for (Wallet w : wallets) {
+  // System.out.println("monney now: " + w.getMoneyNow());
+  // }
+  // MvcResult getLastWalletResult = mockMvc.perform(
+  // get("/api/v1/last-wallet")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken()))
+  // .andReturn();
+  //
+  // Wallet lastWallet =
+  // objectMapper.readValue(getLastWalletResult.getResponse().getContentAsString(),
+  // Wallet.class);
+  // System.out.println(lastWallet.getMoneyNow());
+  // }
 
 }

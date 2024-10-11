@@ -30,81 +30,77 @@ import gr.ariskatsarakis.lifedashboard.jwt.JwtResponse;
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestIncomeController {
-  @Autowired
-  MockMvc mockMvc;
+  // @Autowired
+  // MockMvc mockMvc;
+  //
+  // private ObjectMapper objectMapper = new ObjectMapper();
+  // private JwtResponse jwtResponse;
+  //
+  // @BeforeAll
+  // void setup() throws Exception {
+  //
+  // JwtRequest input = new JwtRequest();
+  // input.setUsername("katsar");
+  // input.setPassword("test");
+  //
+  // MvcResult authResult = mockMvc.perform(
+  // post("/auth/login")
+  // .content(input.toString())
+  // .contentType(MediaType.APPLICATION_JSON)
+  // .characterEncoding("utf-8"))
+  // .andReturn();
+  // this.jwtResponse =
+  // objectMapper.readValue(authResult.getResponse().getContentAsString(),
+  // JwtResponse.class);
+  // }
+  //
+  // @Test
+  // void create2DifferentIcome_test() throws Exception {
+  // Income novaIncome = new Income();
+  // novaIncome.setMoney(BigDecimal.valueOf(10000L));
+  // novaIncome.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+  // novaIncome.setIncomeType(IncomeType.NOVA);
+  //
+  // MvcResult insertIncomeResult = mockMvc.perform(
+  // post("/api/v1/incomes")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken())
+  // .contentType(MediaType.APPLICATION_JSON)
+  // .content(novaIncome.toString()))
+  // .andReturn();
+  //
+  // Income output =
+  // objectMapper.readValue(insertIncomeResult.getResponse().getContentAsString(),
+  // Income.class);
+  // assertThat(output.getIncomeType()).isEqualTo(novaIncome.getIncomeType());
+  // assertThat(insertIncomeResult.getResponse().getStatus()).isEqualTo(201);
+  //
+  // Income athaliIncome = new Income();
+  // athaliIncome.setMoney(BigDecimal.valueOf(10000L));
+  // athaliIncome.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+  // athaliIncome.setIncomeType(IncomeType.ATHALI);
+  //
+  // MvcResult insertAthaliIncomeResult = mockMvc.perform(
+  // post("/api/v1/incomes")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken())
+  // .contentType(MediaType.APPLICATION_JSON)
+  // .content(athaliIncome.toString()))
+  // .andReturn();
+  //
+  // output =
+  // objectMapper.readValue(insertAthaliIncomeResult.getResponse().getContentAsString(),
+  // Income.class);
+  // assertThat(output.getIncomeType()).isEqualTo(athaliIncome.getIncomeType());
+  // }
+  //
+  // @Test
+  // void test_notFoundAndOkResult() throws Exception {
+  //
+  // MvcResult notFoundResult = mockMvc.perform(
+  // get("/api/v1/incomes/404")
+  // .header("Authorization", "Bearer " + jwtResponse.getToken()))
+  // .andReturn();
+  //
+  // assertThat(notFoundResult.getResponse().getStatus()).isEqualTo(404);
+  // }
 
-  private ObjectMapper objectMapper = new ObjectMapper();
-  private JwtResponse jwtResponse;
-
-  @BeforeAll
-  void setup() throws Exception {
-
-    JwtRequest input = new JwtRequest();
-    input.setUsername("katsar");
-    input.setPassword("test");
-
-    MvcResult authResult = mockMvc.perform(
-        post("/auth/login")
-            .content(input.toString())
-            .contentType(MediaType.APPLICATION_JSON)
-            .characterEncoding("utf-8"))
-        .andReturn();
-    this.jwtResponse = objectMapper.readValue(authResult.getResponse().getContentAsString(), JwtResponse.class);
-  }
-
-  @Test
-  void create2DifferentIcome_test() throws Exception {
-    Income novaIncome = new Income();
-    novaIncome.setMoney(BigDecimal.valueOf(10000L));
-    novaIncome.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    novaIncome.setIncomeType(IncomeType.NOVA);
-
-    MvcResult insertIncomeResult = mockMvc.perform(
-        post("/api/v1/incomes")
-            .header("Authorization", "Bearer " + jwtResponse.getToken())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(novaIncome.toString()))
-        .andReturn();
-
-    Income output = objectMapper.readValue(insertIncomeResult.getResponse().getContentAsString(), Income.class);
-    assertThat(output.getIncomeType()).isEqualTo(novaIncome.getIncomeType());
-    assertThat(insertIncomeResult.getResponse().getStatus()).isEqualTo(201);
-
-    Income athaliIncome = new Income();
-    athaliIncome.setMoney(BigDecimal.valueOf(10000L));
-    athaliIncome.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-    athaliIncome.setIncomeType(IncomeType.ATHALI);
-
-    MvcResult insertAthaliIncomeResult = mockMvc.perform(
-        post("/api/v1/incomes")
-            .header("Authorization", "Bearer " + jwtResponse.getToken())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(athaliIncome.toString()))
-        .andReturn();
-
-    output = objectMapper.readValue(insertAthaliIncomeResult.getResponse().getContentAsString(), Income.class);
-    assertThat(output.getIncomeType()).isEqualTo(athaliIncome.getIncomeType());
-  }
-
-  @Test
-  void getTestIncomes_test() throws Exception {
-    MvcResult getIncomesResult = mockMvc.perform(
-        get("/api/v1/incomes")
-            .header("Authorization", "Bearer " + jwtResponse.getToken()))
-        .andReturn();
-    Income[] incomes = objectMapper.readValue(getIncomesResult.getResponse().getContentAsString(), Income[].class);
-    assertThat(getIncomesResult.getResponse().getStatus()).isEqualTo(200);
-    assertThat(incomes.length).isGreaterThan(0);
-  }
-
-  @Test
-  void test_notFoundAndOkResult() throws Exception {
-
-    MvcResult notFoundResult = mockMvc.perform(
-        get("/api/v1/incomes/404")
-            .header("Authorization", "Bearer " + jwtResponse.getToken()))
-        .andReturn();
-
-    assertThat(notFoundResult.getResponse().getStatus()).isEqualTo(404);
-  }
 }

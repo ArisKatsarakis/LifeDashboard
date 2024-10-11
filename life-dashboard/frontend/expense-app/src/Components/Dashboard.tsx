@@ -57,6 +57,19 @@ function Dashboard(props: { username?: string }) {
     //@TODO fix header
     <Container>
       <Header username={props?.username ? props.username : ''} />
+      <Container style={{ border: '1px solid black', marginBottom: '2rem' }}>
+        <Row >
+          <Col md={12} style={{ textAlign: 'center' }}>
+            <h2>Goal of this Month</h2>
+          </Col>
+          <Col md={6} style={{ border: '1px solid black' }}>
+            <h2>You can spend: $20</h2>
+          </Col>
+          <Col md={6}>
+            <h2>You have spend: $20</h2>
+          </Col>
+        </Row>
+      </Container>
       <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
       <ExpenseTypes items={expenseTypes} expensesSum={expensesSum} />

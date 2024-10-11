@@ -13,21 +13,21 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       retries: 5
-  mvn:
-   depends_on:
-       postgresdb:
-            condition: service_healthy
-
-   build: ./backend
-   env_file: .env
-   ports:
-     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-  react:
-    depends_on:
-        - mvn
-    build: ./frontend
-    ports:
-        - '3000:3000'
+  #  depends_on:
+      # mvn:
+  #      postgresdb:
+  #           condition: service_healthy
+  #
+  #  build: ./backend
+  #  env_file: .env
+  #  ports:
+  #    - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+  # react:
+  #   depends_on:
+  #       - mvn
+  #   build: ./frontend
+  #   ports:
+  #       - '3000:3000'
 volumes:
   db:
     driver: local

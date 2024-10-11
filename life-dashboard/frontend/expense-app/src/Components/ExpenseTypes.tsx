@@ -13,7 +13,7 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
     () => {
       console.log("Expense Types")
       console.log(props.items)
-    }, []
+    },
   )
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {

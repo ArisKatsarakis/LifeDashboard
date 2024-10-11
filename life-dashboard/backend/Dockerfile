@@ -12,4 +12,4 @@ RUN mvn clean package -DskipTests
 FROM openjdk:19
 COPY --from=build /home/app/target/*.jar /usr/local/lib/demo.jar
 EXPOSE 8080
-ENTRYPOINT ["mvn","spring-boot:run"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]

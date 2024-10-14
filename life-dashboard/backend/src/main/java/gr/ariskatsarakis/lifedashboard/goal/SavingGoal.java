@@ -2,12 +2,14 @@ package gr.ariskatsarakis.lifedashboard.goal;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 /**
  * SavingGoal
@@ -22,6 +24,10 @@ public class SavingGoal {
   private BigDecimal target;
   private Timestamp startDate;
   private Timestamp endDate;
+
+  @OneToMany
+  @JoinColumn(name = "savingGoal")
+  List<DailyExpenseGoal> dailyGoals;
 
   public SavingGoal() {
   }
@@ -58,10 +64,18 @@ public class SavingGoal {
     return target;
   }
 
+  public void setDailyGoals(List<DailyExpenseGoal> dailyGoals) {
+    this.dailyGoals = dailyGoals;
+  }
+
+  public List<DailyExpenseGoal> getDailyGoals() {
+    return dailyGoals;
+  }
+
   @Override
   public String toString() {
     return "SavingGoal [savingGoalId=" + savingGoalId + ", target=" + target + ", startDate=" + startDate + ", endDate="
-        + endDate + "]";
+        + endDate + ", dailyGoals=" + dailyGoals + "]";
   }
 
 }

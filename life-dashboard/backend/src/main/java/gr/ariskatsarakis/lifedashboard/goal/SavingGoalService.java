@@ -60,4 +60,9 @@ public class SavingGoalService {
     dailyExpenseGoalRepository.save(dailyExpenseGoal);
 
   }
+
+  public ResponseEntity<List<SavingGoal>> findAllSavingGoals() {
+    ResponseEntity<List<SavingGoal>> savingGoals = new ResponseEntity<>(savingGoalRepository.findAll(), HttpStatus.OK);
+    return savingGoals;
+  }
 }

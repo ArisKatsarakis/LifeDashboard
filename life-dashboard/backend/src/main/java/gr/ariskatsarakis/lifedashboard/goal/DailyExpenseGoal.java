@@ -3,6 +3,8 @@ package gr.ariskatsarakis.lifedashboard.goal;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class DailyExpenseGoal {
   private BigDecimal moneyGoal;
 
   @ManyToOne
+  @JsonIgnore
   SavingGoal savingGoal;
 
   public void setDailyExpenseGoalId(Long dailyExpenseGoalId) {

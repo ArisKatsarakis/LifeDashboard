@@ -36,21 +36,28 @@ public class SavingGoalService {
     Long days = Duration.between(savingGoal.getStartDate().toLocalDateTime(), savingGoal.getEndDate().toLocalDateTime())
         .toDays();
     savingGoalRepository.save(savingGoal);
+    BigDecimal dailySpendingTarget = walletMoney.subtract(savingGoal.getTarget());
+    dailySpendingTarget = dailySpendingTarget.divide(BigDecimal.valueOf(days));
     for (int i = 0; i < days; i++) {
-      createDailyGoalsforSavingGoal(savingGoal, i);
+      createDailyGoalsforSavingGoal(savingGoal, i, dailySpendingTarget);
     }
 
     List<DailyExpenseGoal> dailyGoals = dailyExpenseGoalRepository.findBySavingGoalId(savingGoal);
     savingGoal.setDailyGoals(dailyGoals);
-    return new ResponseEntity(savingGoalRepository.save(savingGoal), HttpStatus.OK);
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    ResponseEntity<SavingGoal> responseOfService = new ResponseEntity(savingGoalRepository.save(savingGoal),
+        HttpStatus.OK);
+    return responseOfService;
 
   }
 
-  private void createDailyGoalsforSavingGoal(SavingGoal savingGoal, int day) {
+  private void createDailyGoalsforSavingGoal(SavingGoal savingGoal, int day, BigDecimal moneyGoal) {
     DailyExpenseGoal dailyExpenseGoal = new DailyExpenseGoal();
     dailyExpenseGoal.setRegardingDay(savingGoal.getStartDate().toLocalDateTime().toLocalDate().plusDays(day));
-    dailyExpenseGoal.setMoneyGoal(BigDecimal.TEN);
+    dailyExpenseGoal.setMoneyGoal(moneyGoal);
     dailyExpenseGoal.setSavingGoal(savingGoal);
     dailyExpenseGoalRepository.save(dailyExpenseGoal);
+
   }
 }

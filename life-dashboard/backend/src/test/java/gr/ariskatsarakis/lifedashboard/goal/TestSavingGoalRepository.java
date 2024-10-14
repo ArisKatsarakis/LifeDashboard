@@ -38,7 +38,7 @@ public class TestSavingGoalRepository {
   @Test
   void test_createNewSavingGoal() throws Exception {
     Wallet wallet = new Wallet();
-    wallet.setMoneyNow(BigDecimal.valueOf(29999L));
+    wallet.setMoneyNow(BigDecimal.valueOf(3100L));
     wallet.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
 
     walletRepository.save(wallet);
@@ -49,7 +49,7 @@ public class TestSavingGoalRepository {
     savingGoalService.dailyExpenseGoalRepository = dailyExpenseGoalRepository;
 
     SavingGoal savingGoal = new SavingGoal();
-    savingGoal.setTarget(BigDecimal.TEN);
+    savingGoal.setTarget(BigDecimal.valueOf(100L));
     savingGoal.setStartDate(Timestamp.valueOf(LocalDateTime.now()));
     Timestamp endDate = Timestamp.valueOf(LocalDateTime.now().plusDays(30));
     savingGoal.setEndDate(endDate);
@@ -59,6 +59,7 @@ public class TestSavingGoalRepository {
     List<SavingGoal> savingGoals = sut.findAll();
     assertEquals(1, savingGoals.size(), "size is equal  not!!!!");
     assertEquals(30, savingGoal.getDailyGoals().size());
+    assertEquals(BigDecimal.valueOf(100), savingGoal.getDailyGoals().get(0).getMoneyGoal());
 
   }
 }

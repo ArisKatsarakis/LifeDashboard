@@ -58,7 +58,9 @@ public class TestSavingGoalRepository {
     List<SavingGoal> savingGoals = sut.findAll();
     assertEquals(1, savingGoals.size(), "size is equal  not!!!!");
     assertEquals(30, savingGoal.getDailyGoals().size());
-    assertEquals(BigDecimal.valueOf(100), savingGoal.getDailyGoals().get(0).getMoneyGoal());
-
+    for (DailyExpenseGoal expenseGoal : savingGoal.getDailyGoals()) {
+      assertEquals(expenseGoal.getMoneyGoal(), BigDecimal.valueOf(100L));
+    }
   }
+
 }

@@ -28,6 +28,9 @@ public class SavingGoalService {
 
   public ResponseEntity<SavingGoal> createSavingGoal(SavingGoal savingGoal) {
     Wallet lastWallet = walletRepository.getLastAddedWallet();
+    if (lastWallet == null) {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
     if (lastWallet.getMoneyNow().compareTo(savingGoal.getTarget()) == -1) {
       return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
     }

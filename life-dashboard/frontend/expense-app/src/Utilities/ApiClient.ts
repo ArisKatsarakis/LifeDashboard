@@ -3,6 +3,7 @@ import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInter
 import { Income } from "../interfaces/IncomeInterfaces";
 import axios from "axios";
 import { Wallet } from "../interfaces/WalletInterfaces";
+import { SavingGoal } from "../interfaces/SavingGoalInterfaces";
 const name = 'katsar';
 const pass = 'test';
 export const authenticateApi = async (username?: string, password?: string) => {
@@ -109,5 +110,19 @@ export const addIncome = async (income: Income): Promise<Income> => {
     return data;
   } catch (error) {
     return error as Income;
+  }
+}
+
+
+export const getSavingGoals = async (): Promise<SavingGoal[]> => {
+  const bearerResponse = await authenticateApi();
+  try {
+    const { data } = await axios.get<SavingGoal[]>(
+      'http://localhost:8080/api/v1/saving-goals',
+      { headers: { Authorization: `Bearer ${bearerResponse.token}` } }
+    );
+    return data;
+  } catch (error) {
+    return error as SavingGoal[];
   }
 }

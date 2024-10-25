@@ -1,12 +1,14 @@
-import { useEffect, useState, MouseEvent } from "react";
-import { Button, Container, Modal, Row, Col } from "react-bootstrap";
-import { getExpenses, getExpenseTypes, getExpenseTypesExpenses, getIncome, getLastWallet } from "../Utilities/ApiClient";
+import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import { getExpenses, getExpenseTypes, getExpenseTypesExpenses, getIncome, getLastWallet, getSavingGoals } from "../Utilities/ApiClient";
 import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInterfaces";
 import { ExpenseTypes } from "./ExpenseTypes";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { Wallet } from "../interfaces/WalletInterfaces";
 import { Incomes } from "./Incomes";
 import { Header } from "./Header";
+import { SavingGoal } from "../interfaces/SavingGoalInterfaces";
+import SavingGoals from "./SavingGoal";
 
 function Dashboard(props: { username?: string }) {
 
@@ -15,12 +17,14 @@ function Dashboard(props: { username?: string }) {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [lastWallet, setLastWallet] = useState<Wallet>();
   const [map, setMap] = useState<Map<number, Expense[]>>(new Map());
-
+  const [savings, setSavings] = useState<SavingGoal[]>([]);
   const setUp = async () => {
     const response: Expense[] = await getExpenses();
     const types: ExpenseType[] = await getExpenseTypes();
     const income: Income[] = await getIncome();
     const wallet: Wallet = await getLastWallet();
+    const sGoals: SavingGoal[] = await getSavingGoals();
+
     let sum = 0;
     response.forEach(
       expense => {
@@ -45,6 +49,7 @@ function Dashboard(props: { username?: string }) {
     );
     setIncomes(income);
     setLastWallet(wallet);
+    setSavings(sGoals);
   }
 
   useEffect(() => {
@@ -57,19 +62,7 @@ function Dashboard(props: { username?: string }) {
     //@TODO fix header
     <Container>
       <Header username={props?.username ? props.username : ''} />
-      <Container style={{ border: '1px solid black', marginBottom: '2rem' }}>
-        <Row >
-          <Col md={12} style={{ textAlign: 'center' }}>
-            <h2>Goal of this Month</h2>
-          </Col>
-          <Col md={6} style={{ border: '1px solid black' }}>
-            <h2>You can spend: $20</h2>
-          </Col>
-          <Col md={6}>
-            <h2>You have spend: $20</h2>
-          </Col>
-        </Row>
-      </Container>
+      <SavingGoals savingGoals={savings} />
       <Incomes items={incomes} lastWallet={lastWallet?.moneyNow ? lastWallet?.moneyNow : 0} />
       <hr />
       <ExpenseTypes items={expenseTypes} expensesSum={expensesSum} />

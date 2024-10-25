@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * SavingGoalController
  */
 @RestController
-@RequestMapping("/api/v1/sasving-goals")
+@RequestMapping("/api/v1/saving-goals")
 public class SavingGoalController {
 
   @Autowired

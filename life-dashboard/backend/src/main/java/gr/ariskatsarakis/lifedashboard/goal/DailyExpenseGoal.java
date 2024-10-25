@@ -1,7 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.goal;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,7 +20,7 @@ public class DailyExpenseGoal {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long dailyExpenseGoalId;
-  private LocalDate regardingDay;
+  private Timestamp regardingDay;
   private DailyExpenseGoalStatus status;
   private BigDecimal moneyGoal;
 
@@ -34,14 +34,6 @@ public class DailyExpenseGoal {
 
   public Long getDailyExpenseGoalId() {
     return dailyExpenseGoalId;
-  }
-
-  public void setRegardingDay(LocalDate regardingDay) {
-    this.regardingDay = regardingDay;
-  }
-
-  public LocalDate getRegardingDay() {
-    return regardingDay;
   }
 
   public void setStatus(DailyExpenseGoalStatus status) {
@@ -68,10 +60,17 @@ public class DailyExpenseGoal {
     return savingGoal;
   }
 
+  public Timestamp getRegardingDay() {
+    return regardingDay;
+  }
+
+  public void setRegardingDay(Timestamp regardingDay) {
+    this.regardingDay = regardingDay;
+  }
+
   @Override
   public String toString() {
     return "DailyExpenseGoal [dailyExpenseGoalId=" + dailyExpenseGoalId + ", regardingDay=" + regardingDay + ", status="
         + status + ", moneyGoal=" + moneyGoal + "]";
   }
-
 }

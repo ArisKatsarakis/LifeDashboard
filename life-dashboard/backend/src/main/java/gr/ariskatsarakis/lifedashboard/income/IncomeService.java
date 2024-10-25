@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +18,6 @@ import gr.ariskatsarakis.lifedashboard.wallet.WalletService;
  */
 @Service
 public class IncomeService {
-
-  private Logger incomeLogger = LoggerFactory.getLogger(IncomeService.class);
 
   @Autowired
   private IncomeRepository incomeRepository;

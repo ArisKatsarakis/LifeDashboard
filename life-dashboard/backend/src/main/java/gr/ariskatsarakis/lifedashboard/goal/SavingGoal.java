@@ -2,6 +2,7 @@ package gr.ariskatsarakis.lifedashboard.goal;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -74,8 +75,14 @@ public class SavingGoal {
 
   @Override
   public String toString() {
-    return "SavingGoal [savingGoalId=" + savingGoalId + ", target=" + target + ", startDate=" + startDate + ", endDate="
-        + endDate + ", dailyGoals=" + dailyGoals + "]";
+    DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+    return new StringBuilder()
+        .append("{ ")
+        .append("\"target\":" + target + ",")
+        .append("\"startDate\":\"" + startDate.toLocalDateTime().format(formatter) + "\",")
+        .append("\"endDate\":\"" + endDate.toLocalDateTime().format(formatter) + "\"")
+        .append(" }")
+        .toString();
   }
 
 }

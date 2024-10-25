@@ -11,16 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.lifedashboard.expense.Expense;
+import gr.ariskatsarakis.lifedashboard.goal.SavingGoalService;
 import gr.ariskatsarakis.lifedashboard.income.Income;
 
 /**
  * WalletService
+ * TODO fix return only ResponseEntity
  */
 @Service
 public class WalletService {
 
   @Autowired
   WalletRepository walletRepository;
+
+  @Autowired
+  SavingGoalService savingGoalService;
 
   public ResponseEntity<List<Wallet>> getAll() {
     return new ResponseEntity(walletRepository.findAll(), HttpStatus.OK);
@@ -36,7 +41,9 @@ public class WalletService {
     wallet.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
     wallet.setLastIncomeDate(e.getTimestamp());
     wallet.setLastIncomeDate(lastWallet.getLastExpenseDate());
-    return walletRepository.save(wallet);
+    Wallet updateWallet = walletRepository.save(wallet);
+    savingGoalService.updateDailyExpenseGoalwithExpense(e);
+    return updateWallet;
   }
 
   public Wallet addNewIncomeAtWallet(Income i) {
@@ -49,7 +56,9 @@ public class WalletService {
     wallet.setDateCreated(Timestamp.valueOf(LocalDateTime.now()));
     wallet.setLastIncomeDate(i.getTimestamp());
     wallet.setLastExpenseDate(lastWallet.getLastExpenseDate());
-    return walletRepository.save(wallet);
+    Wallet updateWallet = walletRepository.save(wallet);
+    savingGoalService.recalculateDailySavingGoal(updateWallet);
+    return updateWallet;
   }
 
   Wallet createFirstWallet(Object entry) {

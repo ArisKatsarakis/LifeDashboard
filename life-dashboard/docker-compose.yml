@@ -12,9 +12,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
-      retries: 5
+      retries: 5432
+  # mvn:
   #  depends_on:
-      # mvn:
   #      postgresdb:
   #           condition: service_healthy
   #

@@ -42,6 +42,7 @@ public class IncomeController {
     Income income = incomeService.getIncomeById(incomeId);
     ResponseEntity<Income> incomeResponse = new ResponseEntity<>(income,
         income == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+
     return incomeResponse;
   }
 }

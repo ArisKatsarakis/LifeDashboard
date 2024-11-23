@@ -3,7 +3,9 @@ package gr.ariskatsarakis.lifedashboard.goal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,7 @@ public class TestSavingGoal {
     DailyExpenseGoal goal = new DailyExpenseGoal();
     goal.setMoneyGoal(BigDecimal.TEN);
     goal.setStatus(DailyExpenseGoalStatus.PENDING);
-    goal.setRegardingDay(LocalDate.now());
+    goal.setRegardingDay(Timestamp.valueOf(LocalDateTime.now()));
 
     goal = repository.save(goal);
     List<DailyExpenseGoal> goals = repository.findAll();

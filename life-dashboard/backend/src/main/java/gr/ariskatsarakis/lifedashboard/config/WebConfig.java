@@ -32,7 +32,7 @@ public class WebConfig {
   @Bean
   public DataSource dataSource() {
     DataSource ds = DataSourceBuilder.create()
-        .url("jdbc:postgresql://localhost:5438/postgres")
+        .url("jdbc:postgresql://postgresdb:5432/postgres")
         .username("postgres")
         .password("postgres")
         .build();

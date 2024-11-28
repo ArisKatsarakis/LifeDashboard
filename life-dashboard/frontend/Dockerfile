@@ -5,9 +5,7 @@ WORKDIR /app
 COPY ./expense-app/package.json package.json
 COPY ./expense-app/package-lock.json package-lock.json
 
-RUN npm install 
-
-
 COPY ./expense-app/ .
 
+EXPOSE 3000
 CMD [ "npm", "run", "start" ]

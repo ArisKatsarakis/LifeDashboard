@@ -10,8 +10,6 @@ import { Header } from "./Header";
 import { SavingGoal } from "../interfaces/SavingGoalInterfaces";
 import SavingGoals from "./SavingGoal";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MicExternalOn } from "@mui/icons-material";
-import { textAlign } from "@mui/system";
 
 function Dashboard(props: { username?: string }) {
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octomber', 'November', 'December']

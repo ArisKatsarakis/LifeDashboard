@@ -9,12 +9,6 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
   const [showExpenseType, setShowExpeseType] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
 
-  useEffect(
-    () => {
-      console.log("Expense Types")
-      console.log(props.items)
-    },
-  )
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {
     console.log(event.currentTarget.getAttribute('id'));
@@ -61,25 +55,6 @@ export function ExpenseTypes(props: { items: ExpenseType[], expensesSum: number 
                 <h2> ${item.expensesSum} {item.expenseTypeName} </h2>
               </Col>
               <Col md={3} />
-              <Container>
-                {item.expense.map(
-                  expense => {
-                    return (
-                      <Row style={{ background: '#f50057', color: 'black' }}>
-                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
-                          Name: {expense.name}
-                        </Col>
-                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
-                          Cost: {expense.money}$
-                        </Col>
-                        <Col style={{ textAlign: 'center', border: '1px solid black' }}>
-                          Date: {expense.timestamp}
-                        </Col>
-                      </Row>
-                    );
-                  }
-                )}
-              </Container>
             </Row>
           )
         }

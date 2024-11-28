@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import { Income } from "../interfaces/IncomeInterfaces";
 import { IncomeComponent } from "./IncomeComponent";
@@ -23,6 +23,7 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
       background: 'white'
     }
   };
+
   return (
 
     <Container style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px' }}>
@@ -68,26 +69,6 @@ export function Incomes(props: { items: Income[], lastWallet: number }) {
           }
         )}
       </Row>
-
-      <Row style={{ border: '1px solid black', boxShadow: '2px 0px 8px 3px', marginTop: '10px', textAlign: 'center' }}>
-        <h2>Athali</h2>
-      </Row>
-      {props.items.filter(item => item.incomeType === 'ATHALI').map(
-        item => {
-          return (
-            <Row style={{ marginTop: '5px', marginBottom: '5px' }}>
-              <Col md={2} />
-              <Col
-                key={item.incomeId}
-                style={{ border: '1px solid black', background: '#5ce65c', color: 'white', textAlign: 'center', fontSize: '20px', marginTop: '3px', borderRadius: '1rem' }}
-              >
-                ${item.money} @:{item.timestamp}
-              </Col>
-              <Col md={2} />
-            </Row>
-          )
-        }
-      )}
 
     </Container>
   )

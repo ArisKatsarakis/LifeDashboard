@@ -60,6 +60,14 @@ export const getIncome = async (): Promise<Income[]> => {
   return data;
 }
 
+
+export const getMontlyIncomes = async (month: number): Promise<Income[]> => {
+  const bearerResponse = await authenticateApi();
+  month++;
+  const { data } = await axios.get<Income[]>(apiLinks.montlyIncomeLink + month, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
+  return data;
+}
+
 export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Expense): Promise<Expense> => {
   const bearerResponse = await authenticateApi();
   const { data } = await axios.post<Expense>(

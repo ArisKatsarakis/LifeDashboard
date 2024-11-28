@@ -45,4 +45,11 @@ public class IncomeController {
 
     return incomeResponse;
   }
+
+  @GetMapping("/incomes/month/{month}")
+  public ResponseEntity<List<Income>> getMonthlyIncomes(@PathVariable Integer month) {
+    ResponseEntity<List<Income>> monthlyIncomeResponse = new ResponseEntity<>(incomeService.getMonthlyIncomes(month),
+        HttpStatus.OK);
+    return monthlyIncomeResponse;
+  }
 }

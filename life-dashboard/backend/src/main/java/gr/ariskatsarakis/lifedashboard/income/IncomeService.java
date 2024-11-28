@@ -47,4 +47,9 @@ public class IncomeService {
     return null;
   }
 
+  public List<Income> getMonthlyIncomes(Integer month) {
+    List<Income> monthlyIncomes = incomeRepository.findByMonth(month);
+    return monthlyIncomes;
+  }
+
 }

@@ -10,10 +10,10 @@ export function Header(props: { username: string }) {
   };
 
   return (
-    <Container style={{ border: '1px solid black', marginBottom: '1rem' }}>
+    <Container style={{ marginBottom: '1rem' }} fluid>
       <Row>
         <Col md='8'>
-          <h2>{props.username}'s wallet</h2>
+          <h2> Hello {props.username}</h2>
         </Col>
         <Col style={{ textAlign: 'right' }}>
           <Button variant="danger" onClick={logoutFunction}>

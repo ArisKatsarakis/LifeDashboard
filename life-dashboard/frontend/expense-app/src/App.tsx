@@ -11,7 +11,6 @@ import { useCookies } from 'react-cookie';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import { Dashboard } from './Components/Dashboard';
-import { ExpenseComponent } from './Components/ExpenseComponent';
 import { Login } from './Components/Login';
 
 
@@ -47,7 +46,6 @@ function App() {
             ?
             < Routes >
               <Route path='/' element={<Dashboard username={username} />} />
-              <Route path='/expenses' element={<ExpenseComponent />} />
             </Routes>
             :
             <Login />

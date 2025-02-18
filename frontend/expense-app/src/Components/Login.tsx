@@ -41,7 +41,7 @@ export function Login() {
           <Row style={{ textAlign: 'center', marginTop: '1rem' }}>
             <Col>
               <Button type='submit' >Login </Button>
-              <Button> Register </Button>
+              <Button href="/register"> Register </Button>
             </Col>
           </Row>
 

@@ -5,7 +5,8 @@ const apiLinks = {
   expensesLink: `${backendLink}/api/v1/expenses`,
   expenseTypeLink: `${backendLink}/api/v1/expense-types`,
   incomeLink: `${backendLink}/api/v1/incomes`,
-  montlyIncomeLink: `${backendLink}/api/v1/incomes/month/`
+  montlyIncomeLink: `${backendLink}/api/v1/incomes/month/`,
+  registrationLink: `${backendLink}/api/v1/registration`
 }
 
 export { apiLinks }

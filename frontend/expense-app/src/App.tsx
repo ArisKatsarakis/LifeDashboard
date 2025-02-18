@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import { Dashboard } from './Components/Dashboard';
 import { Login } from './Components/Login';
+import { Register } from './Components/Register';
 
 
 
@@ -48,7 +49,10 @@ function App() {
               <Route path='/' element={<Dashboard username={username} />} />
             </Routes>
             :
-            <Login />
+            <Routes>
+              <Route path='/' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+            </Routes>
         }
       </BrowserRouter >
     </Container >

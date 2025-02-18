@@ -3,6 +3,15 @@ package gr.ariskatsarakis.lifedashboard.registration;
 public class RegistrationRequest {
   private String username;
   private String password;
+  private String email;
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
   public RegistrationRequest() {
   }
@@ -26,6 +35,11 @@ public class RegistrationRequest {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  @Override
+  public String toString() {
+    return "RegistrationRequest [username=" + username + ", password=" + password + ", email=" + email + "]";
   }
 
 }

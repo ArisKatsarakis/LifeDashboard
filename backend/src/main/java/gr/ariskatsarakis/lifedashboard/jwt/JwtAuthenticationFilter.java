@@ -25,57 +25,57 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-  private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
+	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
 
-  @Autowired
-  private JwtHelper jwtHelper;
+	@Autowired
+	private JwtHelper jwtHelper;
 
-  @Autowired
-  private UserDetailsService UserDetailsService;
+	@Autowired
+	private UserDetailsService UserDetailsService;
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-    String requestHeader = request.getHeader("Authorization");
-    String username = null;
-    String token = null;
-    logger.info(requestHeader);
-    if (requestHeader != null && requestHeader.startsWith("Bearer")) {
-      token = requestHeader.substring(7);
-      try {
-        username = this.jwtHelper.getUsernameFromToken(token);
-      } catch (IllegalArgumentException e) {
-        logger.info("Illegal Argument exception while fetcing the user name");
-        e.printStackTrace();
-      } catch (ExpiredJwtException e) {
-        logger.info("Given Jwt token is expired !!");
-        e.printStackTrace();
-      } catch (MalformedJwtException e) {
-        logger.info("Some changed has done in token !! Invalid token");
-        e.printStackTrace();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+		String requestHeader = request.getHeader("Authorization");
+		String username = null;
+		String token = null;
+		logger.info(requestHeader);
+		if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+			token = requestHeader.substring(7);
+			try {
+				username = this.jwtHelper.getUsernameFromToken(token);
+			} catch (IllegalArgumentException e) {
+				logger.info("Illegal Argument exception while fetcing the user name");
+				e.printStackTrace();
+			} catch (ExpiredJwtException e) {
+				logger.info("Given Jwt token is expired !!");
+				e.printStackTrace();
+			} catch (MalformedJwtException e) {
+				logger.info("Some changed has done in token !! Invalid token");
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-    } else {
-      logger.info("Invalid Header value");
-    }
+		} else {
+			logger.info("Invalid Header value");
+		}
 
-    logger.info("Username used {}", username);
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = this.UserDetailsService.loadUserByUsername(username);
-      Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
-      if (validateToken) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-            userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-      } else {
-        logger.info("Validation fails !! ");
-      }
-    }
-    filterChain.doFilter(request, response);
-  }
+		logger.info("Username used {}", username);
+		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			UserDetails userDetails = this.UserDetailsService.loadUserByUsername(username);
+			Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
+			if (validateToken) {
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+						userDetails.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			} else {
+				logger.info("Validation fails !! ");
+			}
+		}
+		filterChain.doFilter(request, response);
+	}
 
 }

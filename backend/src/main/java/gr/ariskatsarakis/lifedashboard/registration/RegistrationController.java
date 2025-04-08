@@ -17,24 +17,24 @@ import gr.ariskatsarakis.lifedashboard.user.AppUserRepository;
 import gr.ariskatsarakis.lifedashboard.user.AppUserService;
 
 @RestController
-@RequestMapping("api/v1/registration")
+@RequestMapping("api/v1/register")
 public class RegistrationController {
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-  @Autowired
-  private AppUserRepository appUserRepository;
-  @Autowired
-  private AppUserService appUserService;
+	@Autowired
+	private AppUserRepository appUserRepository;
+	@Autowired
+	private AppUserService appUserService;
 
-  @PostMapping
-  public ResponseEntity<RegistrationResponse> registerUser(@RequestBody RegistrationRequest request) {
-    // check if user exists
-    Optional<AppUser> optionalUser = appUserRepository.findByUsername(request.getUsername());
-    if (optionalUser.isEmpty()) {
-      return appUserService.registerUser(request);
-    }
+	@PostMapping
+	public ResponseEntity<RegistrationResponse> registerUser(@RequestBody RegistrationRequest request) {
+		// check if user exists
+		Optional<AppUser> optionalUser = appUserRepository.findByUsername(request.getUsername());
+		if (optionalUser.isEmpty()) {
+			return appUserService.registerUser(request);
+		}
 
-    return new ResponseEntity<RegistrationResponse>(new RegistrationResponse("user already exists "), HttpStatus.FOUND);
-  }
+		return new ResponseEntity<RegistrationResponse>(new RegistrationResponse("user already exists "), HttpStatus.FOUND);
+	}
 }

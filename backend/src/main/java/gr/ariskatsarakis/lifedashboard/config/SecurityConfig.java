@@ -25,44 +25,45 @@ import lombok.AllArgsConstructor;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final AppUserService appUserService;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
-  private final JwtAuthenticationFilter filter;
-  private final JwtAutenticationEntryPoint point;
+	private final AppUserService appUserService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final JwtAuthenticationFilter filter;
+	private final JwtAutenticationEntryPoint point;
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests((auth) -> {
-          auth.requestMatchers("/api/v*/registration/**", "/api/v*/registration/confirm/**", "/auth/login/**")
-              .permitAll();
-          auth.anyRequest().authenticated();
-        }).addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-        .exceptionHandling(ex -> ex.authenticationEntryPoint(point));
-    return http.build();
-  }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+				.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests((auth) -> {
+					auth.requestMatchers("/api/v*/registration/**", "/api/v*/registration/confirm/**", "/auth/login/**",
+							"api/v*/register")
+							.permitAll();
+					auth.anyRequest().authenticated();
+				}).addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+				.exceptionHandling(ex -> ex.authenticationEntryPoint(point));
+		return http.build();
+	}
 
-  @Bean
-  public DaoAuthenticationProvider daoAuthenticationProvider() {
-    DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-    daoAuthenticationProvider.setUserDetailsService(appUserService);
-    daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-    return daoAuthenticationProvider;
-  }
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(appUserService);
+		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+		return daoAuthenticationProvider;
+	}
 
-  @Bean
-  public AuthenticationManager authenticationManager(
-      UserDetailsService userDetailsService,
-      PasswordEncoder passwordEncoder) {
+	@Bean
+	public AuthenticationManager authenticationManager(
+			UserDetailsService userDetailsService,
+			PasswordEncoder passwordEncoder) {
 
-    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setUserDetailsService(appUserService);
-    authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-    return new ProviderManager(authenticationProvider);
-  }
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(appUserService);
+		authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+		return new ProviderManager(authenticationProvider);
+	}
 
-  public AppUserService getAppUserService() {
-    return appUserService;
-  }
+	public AppUserService getAppUserService() {
+		return appUserService;
+	}
 }

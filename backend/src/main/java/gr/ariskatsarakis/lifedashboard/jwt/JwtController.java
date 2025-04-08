@@ -23,44 +23,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth/login")
 public class JwtController {
 
-  @Autowired
-  private UserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-  @Autowired
-  private AuthenticationManager manager;
+	@Autowired
+	private AuthenticationManager manager;
 
-  @Autowired
-  private JwtHelper jwtHelper;
+	@Autowired
+	private JwtHelper jwtHelper;
 
-  private Logger logger = LoggerFactory.getLogger(JwtController.class);
+	private Logger logger = LoggerFactory.getLogger(JwtController.class);
 
-  @PostMapping
-  public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
+	@PostMapping
+	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
-    this.doAuthenticate(request.getUsername(), request.getPassword());
-    UserDetails userdetails = userDetailsService.loadUserByUsername(request.getUsername());
-    String token = this.jwtHelper.generateToken(userdetails);
+		this.doAuthenticate(request.getUsername(), request.getPassword());
+		UserDetails userdetails = userDetailsService.loadUserByUsername(request.getUsername());
+		String token = this.jwtHelper.generateToken(userdetails);
 
-    JwtResponse response = new JwtResponse(userdetails.getUsername(), token);
+		JwtResponse response = new JwtResponse(userdetails.getUsername(), token);
 
-    logger.info("Token for user: {}", token);
-    return new ResponseEntity<>(response, HttpStatus.OK);
-  }
+		logger.info("Token for user: {}", token);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
-  private void doAuthenticate(String username, String password) {
-    logger.info("authentication ");
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-        password);
-    try {
-      manager.authenticate(authenticationToken);
-    } catch (BadCredentialsException e) {
-      throw new BadCredentialsException("Invalid Username or Password ! ");
-    }
+	private void doAuthenticate(String username, String password) {
+		logger.info("authentication ");
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+				password);
+		try {
+			manager.authenticate(authenticationToken);
+		} catch (BadCredentialsException e) {
+			throw new BadCredentialsException("Invalid Username or Password ! ");
+		}
 
-  }
+	}
 
-  @ExceptionHandler(BadCredentialsException.class)
-  public String exceptionHandler() {
-    return "Credentials Invalid";
-  }
+	@ExceptionHandler(BadCredentialsException.class)
+	public String exceptionHandler() {
+		return "Credentials Invalid";
+	}
 }

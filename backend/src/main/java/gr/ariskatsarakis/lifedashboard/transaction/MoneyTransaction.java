@@ -14,28 +14,28 @@ import lombok.ToString;
 @ToString
 public class MoneyTransaction {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private Long transactionId;
-  private BigDecimal money;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long transactionId;
+	private BigDecimal money;
 
-  public MoneyTransaction() {
-  }
+	public MoneyTransaction() {
+	}
 
-  public Long getTransactionId() {
-    return transactionId;
-  }
+	public Long getTransactionId() {
+		return transactionId;
+	}
 
-  public void setTransactionId(Long transactionId) {
-    this.transactionId = transactionId;
-  }
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
+	}
 
-  public BigDecimal getMoney() {
-    return money;
-  }
+	public BigDecimal getMoney() {
+		return money;
+	}
 
-  public void setMoney(BigDecimal money) {
-    this.money = money;
-  }
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
 
 }

@@ -2,10 +2,13 @@ package gr.ariskatsarakis.lifedashboard.transaction;
 
 import java.math.BigDecimal;
 
+import gr.ariskatsarakis.lifedashboard.user.AppUser;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.ToString;
 
@@ -18,6 +21,8 @@ public class MoneyTransaction {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long transactionId;
 	private BigDecimal money;
+	@ManyToOne
+	private AppUser appUser;
 
 	public MoneyTransaction() {
 	}

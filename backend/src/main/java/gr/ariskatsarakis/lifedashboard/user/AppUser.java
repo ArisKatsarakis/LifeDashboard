@@ -2,17 +2,21 @@ package gr.ariskatsarakis.lifedashboard.user;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import gr.ariskatsarakis.lifedashboard.transaction.MoneyTransaction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,6 +42,9 @@ public class AppUser implements UserDetails {
 	private AppUserRole appUserRole;
 	private Boolean locked = false;
 	private Boolean enabled = false;
+
+	@OneToMany
+	private List<MoneyTransaction> transactions;
 
 	public AppUser(String name, String username, String lastName, String password, String email,
 			AppUserRole appUserRole) {

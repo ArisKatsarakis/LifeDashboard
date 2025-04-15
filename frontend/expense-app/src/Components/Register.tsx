@@ -15,10 +15,31 @@ export function Register() {
     console.log(`username ${username}`);
     console.log(`password ${password}`);
     const payload = {
+      "username": username,
+      "password": password
+    };
 
+
+    try {
+      const response = await axios.post(apiLinks.registrationLink, payload, {
+	headers: { 'Content-Type': 'application/json' },
+      });
+      console.log('Success:', response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+	// Now TypeScript knows it's an AxiosError
+	if (error.response) {
+	  console.error('Server error:', error.response.status, error.response.data);
+	} else if (error.request) {
+	  console.error('No response received:', error.request);
+	} else {
+	  console.error('Axios error:', error.message);
+	}
+      } else {
+	// Some other error — not related to Axios
+	console.error('Unexpected error:', error);
+      }
     }
-    const response = await axios.post(apiLinks.registrationLink, payload);
-    console.log(response);
   }
 
   const navigateBack = () => {

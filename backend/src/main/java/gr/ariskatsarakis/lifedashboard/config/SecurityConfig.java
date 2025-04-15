@@ -34,9 +34,10 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(csrf -> csrf.disable())
+				.cors().and()
 				.authorizeHttpRequests((auth) -> {
 					auth.requestMatchers("/api/v*/registration/**", "/api/v*/registration/confirm/**", "/auth/login/**",
-							"api/v*/register")
+							"/api/v*/register/**")
 							.permitAll();
 					auth.anyRequest().authenticated();
 				}).addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

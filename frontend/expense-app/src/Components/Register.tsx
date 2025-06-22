@@ -8,7 +8,7 @@ export function Register() {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const [message, setMessage] = useState<string>("");
   const handleSubmit = async function (event: FormEvent<HTMLElement>) {
     event.preventDefault();
     console.log(`Email ${email}`);
@@ -25,6 +25,8 @@ export function Register() {
 	headers: { 'Content-Type': 'application/json' },
       });
       console.log('Success:', response.data);
+      setMessage("Success");
+      navigate('/');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
 	// Now TypeScript knows it's an AxiosError
@@ -39,6 +41,7 @@ export function Register() {
 	// Some other error — not related to Axios
 	console.error('Unexpected error:', error);
       }
+      setMessage('Error Occured');
     }
   }
 
@@ -70,6 +73,9 @@ export function Register() {
             <Button type="submit" >Register</Button>
           </Form.Group>
         </Form>
+      </Row>
+      <Row>
+	  <h2> {message === "" ? "":message} </h2>
       </Row>
     </Container>
   )

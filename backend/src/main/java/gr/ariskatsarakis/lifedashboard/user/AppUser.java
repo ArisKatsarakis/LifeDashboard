@@ -41,7 +41,7 @@ public class AppUser implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;
 	private Boolean locked = false;
-	private Boolean enabled = false;
+	private Boolean enabled = true;
 
 	@OneToMany
 	private List<MoneyTransaction> transactions;
@@ -79,7 +79,7 @@ public class AppUser implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return locked;
+		return !locked;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package gr.ariskatsarakis.lifedashboard.user;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.lifedashboard.registration.RegistrationRequest;
@@ -22,14 +25,19 @@ public class AppUserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return appUserRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("not found"));
-
+		Optional<AppUser> userDetails = appUserRepository.findByUsername(username);
+		if (userDetails.isPresent()) {
+			return userDetails.get();
+		}
+		return null;
 	}
 
 	// TODO fix this finish the registration.
 	public ResponseEntity<RegistrationResponse> registerUser(RegistrationRequest request) {
 		logger.debug(String.format("Request inboud: %s", request.toString()));
+		BCryptPasswordEncoder pEncoder = new BCryptPasswordEncoder();
 
+		request.setPassword(pEncoder.encode(request.getPassword()));
 		AppUser appUser = new AppUser("name", request.getUsername(), "lastName", request.getPassword(), request.getEmail(),
 				AppUserRole.ADMIN);
 		appUserRepository.save(appUser);

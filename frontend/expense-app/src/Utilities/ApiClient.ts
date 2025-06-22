@@ -19,6 +19,8 @@ export const authenticateApi = async (username?: string, password?: string) => {
     };
   }
 
+  console.log(apiLinks.authenticateLink);
+  console.log(payload);
   const response = await axios.post(apiLinks.authenticateLink, payload);
   return response.data;
 }

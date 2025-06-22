@@ -1,5 +1,6 @@
 package gr.ariskatsarakis.lifedashboard.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +26,8 @@ import lombok.AllArgsConstructor;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	private final AppUserService appUserService;
+	@Autowired
+	private AppUserService appUserService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final JwtAuthenticationFilter filter;
 	private final JwtAutenticationEntryPoint point;
@@ -36,7 +38,10 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.cors().and()
 				.authorizeHttpRequests((auth) -> {
-					auth.requestMatchers("/api/v*/registration/**", "/api/v*/registration/confirm/**", "/auth/login/**",
+					auth.requestMatchers(
+							"/api/v*/registration/**",
+							"/api/v*/registration/confirm/**",
+							"/auth/login/**",
 							"/api/v*/register/**")
 							.permitAll();
 					auth.anyRequest().authenticated();
@@ -48,7 +53,7 @@ public class SecurityConfig {
 	@Bean
 	public DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setUserDetailsService(appUserService);
+		daoAuthenticationProvider.setUserDetailsService(getAppUserService());
 		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
 		return daoAuthenticationProvider;
 	}
@@ -59,7 +64,7 @@ public class SecurityConfig {
 			PasswordEncoder passwordEncoder) {
 
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(appUserService);
+		authenticationProvider.setUserDetailsService(getAppUserService());
 		authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
 		return new ProviderManager(authenticationProvider);
 	}

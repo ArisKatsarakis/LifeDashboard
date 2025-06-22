@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LifeDashboardApplication {
 
   public static void main(String[] args) {
+
+
     SpringApplication.run(LifeDashboardApplication.class, args);
   }
 

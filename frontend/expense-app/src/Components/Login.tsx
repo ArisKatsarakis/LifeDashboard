@@ -14,7 +14,7 @@ export function Login() {
     event.preventDefault();
     const response = await authenticateApi(username, password);
     console.log(response);
-    if (response != 'Credentials Invalid') {
+    if (response !=='Credentials Invalid') {
       setCookies('jsonToken', response.token);
       window.location.reload();
       navigate('/');

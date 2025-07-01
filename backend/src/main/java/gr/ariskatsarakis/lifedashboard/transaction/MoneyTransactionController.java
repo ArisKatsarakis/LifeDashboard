@@ -32,7 +32,8 @@ public class MoneyTransactionController {
 	private JwtHelper jwtHelper;
 
 	@GetMapping("api/v1/transactions")
-	public ResponseEntity<List<MoneyTransaction>> getTransactions(@RequestHeader(name = "Authorization") String token) {
+	public ResponseEntity<List<MoneyTransactionDTO>> getTransactions(
+			@RequestHeader(name = "Authorization") String token) {
 		MoneyTransaction mt = new MoneyTransaction();
 
 		token = token.substring(7);
@@ -44,8 +45,8 @@ public class MoneyTransactionController {
 		}
 
 		mt.setMoney(BigDecimal.TEN);
-		List<MoneyTransaction> transactions = new ArrayList<>();
-		transactions.add(mt);
-		return new ResponseEntity<>(transactions, HttpStatus.OK);
+		List<MoneyTransactionDTO> dtos = new ArrayList<>();
+		dtos.add(new MoneyTransactionDTO(mt));
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 }

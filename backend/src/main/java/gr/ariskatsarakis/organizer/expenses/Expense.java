@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import gr.ariskatsarakis.organizer.wallet.Wallet;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Service
@@ -24,6 +27,10 @@ public class Expense {
 	private BigDecimal money;
 	@JsonFormat(pattern = "dd/MM/yy")
 	private Date dateCreated;
+
+	@ManyToOne
+	@JoinColumn(name = "wallet_id", nullable = true)
+	private Wallet wallet;
 
 	public Long getExpenseId() {
 		return expenseId;
@@ -58,6 +65,14 @@ public class Expense {
 		sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
 		sb.append("}");
 		return sb.toString();
+	}
+
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
 	}
 
 }

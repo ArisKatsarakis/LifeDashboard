@@ -1,7 +1,7 @@
 package gr.ariskatsarakis.organizer.expenses;
 
 import java.util.List;
-
+import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * ExpenseController
  */
-
 @RestController
 @RequestMapping("api/v1/expenses")
 @CrossOrigin
@@ -23,7 +22,7 @@ public class ExpenseController {
 
 	private ExpenseService expenseService;
 
-	private Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public ExpenseController(ExpenseService expenseService) {
 		this.expenseService = expenseService;

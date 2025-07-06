@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import org.slf4j.LoggerFactory;
+import gr.ariskatsarakis.organizer.wallet.Wallet;
 
 /**
  * ExpenseService
@@ -32,7 +33,7 @@ public class ExpenseService {
 		return fromExpenseToDTO(expense);
 	}
 
-	private ExpenseDTO fromExpenseToDTO(Expense expense) {
+	public ExpenseDTO fromExpenseToDTO(Expense expense) {
 		ExpenseDTO dto = new ExpenseDTO();
 
 		dto.setExpenseId(expense.getExpenseId());
@@ -63,4 +64,9 @@ public class ExpenseService {
 		e.setDateCreated(dto.getDateCreated());
 		return e;
 	}
+
+	public List<Expense> fetchByWallet(Wallet wallet) {
+		return expenseRepository.findByWallet(wallet);
+	}
+
 }

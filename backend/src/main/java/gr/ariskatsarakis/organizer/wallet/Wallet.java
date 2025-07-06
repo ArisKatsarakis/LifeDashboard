@@ -1,0 +1,72 @@
+package gr.ariskatsarakis.organizer.wallet;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import gr.ariskatsarakis.organizer.expenses.Expense;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+/**
+ * Wallet
+ */
+@Entity
+@Table(name = "user_wallet")
+public class Wallet {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long walletId;
+	@OneToMany
+	@JoinColumn(name = "wallet_id")
+	private List<Expense> expenses;
+	private BigDecimal totalExpenses;
+	private BigDecimal totalPending;
+
+	public BigDecimal getTotalPending() {
+		return totalPending;
+	}
+
+	public void setTotalPending(BigDecimal totalPending) {
+		this.totalPending = totalPending;
+	}
+
+	private String walletName;
+
+	public Long getWalletId() {
+		return walletId;
+	}
+
+	public void setWalletId(Long walletId) {
+		this.walletId = walletId;
+	}
+
+	public List<Expense> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(List<Expense> expenses) {
+		this.expenses = expenses;
+	}
+
+	public BigDecimal getTotalExpenses() {
+		return totalExpenses;
+	}
+
+	public void setTotalExpenses(BigDecimal totalExpenses) {
+		this.totalExpenses = totalExpenses;
+	}
+
+	public String getWalletName() {
+		return walletName;
+	}
+
+	public void setWalletName(String walletName) {
+		this.walletName = walletName;
+	}
+}

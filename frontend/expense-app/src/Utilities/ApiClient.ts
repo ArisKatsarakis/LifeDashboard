@@ -1,5 +1,6 @@
 import axios from "axios"
 import { expenseDTO } from "../interfaces/ExpenseDTO"
+import { Wallet } from "../interfaces/Wallet";
 import { apiLinks } from "./Variables"
 
 const fetchExpenses = async (): Promise<expenseDTO[]> => {
@@ -13,5 +14,11 @@ const addExpense = async (payload: expenseDTO): Promise<expenseDTO> => {
 }
 
 
+const fetchWallets = async (): Promise<Wallet[]> => {
+	const { data } = await axios.get(apiLinks.walletsLink);
+	return data;
+}
 
-export { fetchExpenses, addExpense }
+
+
+export { fetchExpenses, addExpense, fetchWallets }

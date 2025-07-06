@@ -1,58 +1,44 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import axios from "axios";
-import { Income } from "../interfaces/IncomeInterfaces";
-export function Dashboard(props: { username?: string }) {
+import { useEffect, useState } from "react";
+import { Button, Container, Row } from "react-bootstrap";
+import { expenseDTO, User } from "../interfaces/ExpenseDTO";
+import { fetchExpenses } from "../Utilities/ApiClient";
+import { ExpenseAdd } from "./ExpenseAdd";
 
-	const navigate = useNavigate();
-	const [cookies, setCookies] = useCookies(['jsonToken']);
-	const [transactions, setTransactions] = useState<Income[]>([]);
-	console.log(cookies);
-	const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octomber', 'November', 'December']
+export const Dashboard = (props: { user: User | null }) => {
+	const [expenses, setExpenses] = useState<expenseDTO[]>([]);
+	const [editMode, setEditMode] = useState<boolean>(false);
+	const initialize = async function() {
+		const e = await fetchExpenses();
+		setExpenses(e);
+	}
 
+	const handleAdd = function() {
+		setEditMode(true);
+	}
 
-	const balance = {
-		current: 4324.49
-	};
-
-	const handleLogout = () => {
-		setCookies('jsonToken', null);
-		window.location.reload();
-		navigate('/');
-	};
-
-	const getTransactions = async () => {
-
-		const response = await axios.get<Income[]>('http://localhost:8080/api/v1/transactions', {
-			headers: {
-				Authorization: 'Bearer ' + cookies.jsonToken
-			}
-		});
-		setTransactions(response.data);
-
-	};
-
-	useEffect(
-		() => {
-			getTransactions();
-		}, []
-	);
-
+	useEffect(() => {
+		initialize();
+	}, []);
 	return (
 		<Container>
-			{
-				transactions.map(
-					(t) => {
+			<Row>
+				<h2> Expenses </h2>
+				{
+					expenses.map((e) => {
 						return (
-							<h2> Money: {t.money} </h2>
+							<div key={e.expenseId}>
+								Money: {e.money},
+								Date: {e.dateCreated}
+							</div>
 						)
-					}
-				)
+					})
+				}
+			</Row>
+			<Row>
+				<Button variant="warning" onClick={handleAdd}> Add </Button>
+				{editMode ? <ExpenseAdd /> : <hr />}
+			</Row>
 
-			}
-		</Container >
-	);
+		</Container>
+	)
 }
-

@@ -1,34 +1,47 @@
 import { useEffect, useState } from "react"
-import { Container } from "react-bootstrap"
+import { Button, Col, Container, Row } from "react-bootstrap"
 import { Wallet } from "../interfaces/Wallet"
 import { fetchWallets } from "../Utilities/ApiClient";
+import { WalletAdd } from "./WalletAdd";
 
 export const WalletDisplay = () => {
 	const [wallets, setWallets] = useState<Wallet[]>([]);
+	const [editMode, setEditMode] = useState<boolean>(false);
 	const initialize = async () => {
 		const data = await fetchWallets();
 		setWallets(data);
 	}
 
 
+	const handleToglle = async () => {
+		setEditMode(true);
+	}
+
 	useEffect(() => {
 		initialize();
 	}, [])
 	return (
 		<Container>
-			<h2> Choose Wallet </h2>
-			{
-				wallets.length == 0 ? <h2> No Wallets added </h2> : <hr />
-			}
-			{
-				wallets.map((w) => {
-					return (
-						<span key={w.walletId} className="bg-success p-2 border-2">
-							<a href={`/wallet/${w.walletId}`} > Name:{w.walletName} Pending: {w.totalPending} </a>
-						</span>
-					)
-				})
-			}
+			<Row>
+				<h2> Choose Wallet </h2>
+				{
+					wallets.length == 0 ? <h2> No Wallets added </h2> : <hr />
+				}
+
+				{
+					wallets.map((w) => {
+						return (
+							<Col md={4} className="mt-2 mb-2">
+								<span key={w.walletId} className="bg-success p-2 border-2">
+									<a href={`/wallet/${w.walletId}`} className="link-light"> Name:{w.walletName} Pending: {w.totalPending} </a>
+								</span>
+							</Col>
+						)
+					})
+				}
+			</Row>
+			<Button variant="success" onClick={handleToglle}> Add Wallet </Button>
+			{editMode ? <WalletAdd /> : <hr />}
 		</Container>
 	)
 }

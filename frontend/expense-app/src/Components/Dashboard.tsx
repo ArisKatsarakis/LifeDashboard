@@ -6,13 +6,17 @@ import { fetchExpenses } from "../Utilities/ApiClient";
 import { ExpenseAdd } from "./ExpenseAdd";
 
 export const Dashboard = (props: { user: User | null }) => {
+	const { id } = useParams();
+	const [walletId, setWalletId] = useState<number>(0);
 	const [expenses, setExpenses] = useState<expenseDTO[]>([]);
 	const [totalExpenses, setTotalExpenses] = useState<number>(0);
 	const [expenseMode, setExpenseMode] = useState<boolean>(false);
 
-	const { id } = useParams();
 	const initialize = async function() {
-		const e = await fetchExpenses();
+		if (id !== undefined) {
+			setWalletId(parseInt(id));
+		}
+		const e = await fetchExpenses(walletId);
 		let sum = 0;
 		for (let i = 0; i < e.length; i++) {
 			sum += e[i].money;

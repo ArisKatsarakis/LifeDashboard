@@ -5,7 +5,7 @@ const Header = (props: { loggedIn: boolean }) => {
 		<Container style={{ borderBottom: '1px solid black' }} fluid>
 			<Row>
 				<Col md='6' style={{}}>
-					<h2> Expense App </h2>
+					<a href="/" className="link-secondary"> <h2> Expense App </h2> </a>
 				</Col>
 				<Col md='6' style={{ textAlign: 'right' }} className="mt-2">
 					<Button variant="success" >Login </Button>

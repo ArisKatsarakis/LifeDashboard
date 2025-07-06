@@ -3,7 +3,11 @@ import { expenseDTO } from "../interfaces/ExpenseDTO"
 import { Wallet } from "../interfaces/Wallet";
 import { apiLinks } from "./Variables"
 
-const fetchExpenses = async (): Promise<expenseDTO[]> => {
+const fetchExpenses = async (walletId?: number): Promise<expenseDTO[]> => {
+	if (walletId !== undefined) {
+
+		return fetchWalletExpenses(walletId);
+	}
 	const { data } = await axios.get<expenseDTO[]>(apiLinks.expensesLink);
 	return data;
 }
@@ -19,6 +23,17 @@ const fetchWallets = async (): Promise<Wallet[]> => {
 	return data;
 }
 
+const fetchWalletExpenses = async (walletId: number): Promise<expenseDTO[]> => {
+	const url = apiLinks.walletsLink + '/' + walletId + '/expenses';
+	const { data } = await axios.get<expenseDTO[]>(url);
+	return data;
+}
+
+const createWallet = async (wallet: Wallet): Promise<Wallet> => {
+	const { data } = await axios.post(apiLinks.walletsLink, wallet);
+	return data;
+}
 
 
-export { fetchExpenses, addExpense, fetchWallets }
+
+export { fetchExpenses, addExpense, fetchWallets, createWallet }

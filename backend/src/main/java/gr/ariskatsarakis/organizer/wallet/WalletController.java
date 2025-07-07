@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.expenses.ExpenseDTO;
 import gr.ariskatsarakis.organizer.expenses.ExpenseService;
+import gr.ariskatsarakis.organizer.incomes.IncomeDTO;
 
 /**
  * WalletController
@@ -53,6 +54,7 @@ public class WalletController {
 			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		logger.info(String.format("Quering expenses for walletId: %d", walletId));
+
 		List<Expense> expenses = expenseService.fetchByWallet(wallet);
 		return new ResponseEntity<>(expenseService.toListExpenseDtos(expenses), HttpStatus.OK);
 	}
@@ -65,6 +67,16 @@ public class WalletController {
 			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(walletService.addWalletExpense(wallet, expense), HttpStatus.OK);
+	}
+
+	@PostMapping("/{walletId}/incomes")
+	public ResponseEntity<IncomeDTO> addWalletIncomes(@PathVariable Long walletId, @RequestBody IncomeDTO dto) {
+		Wallet wallet = walletService.fetchWallet(walletId);
+		if (wallet == null) {
+			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(walletService.addWalletIncome(wallet, dto), HttpStatus.OK);
 	}
 
 }

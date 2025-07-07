@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.expenses.ExpenseDTO;
 import gr.ariskatsarakis.organizer.expenses.ExpenseService;
+import gr.ariskatsarakis.organizer.incomes.Income;
+import gr.ariskatsarakis.organizer.incomes.IncomeDTO;
+import gr.ariskatsarakis.organizer.incomes.IncomeService;
 
 /**
  * WalletService
@@ -18,12 +21,13 @@ import gr.ariskatsarakis.organizer.expenses.ExpenseService;
 public class WalletService {
 
 	private WalletRepository walletRepository;
-
+	private IncomeService incomeService;
 	private ExpenseService expenseService;
 
-	public WalletService(WalletRepository walletRepository, ExpenseService expenseService) {
+	public WalletService(WalletRepository walletRepository, ExpenseService expenseService, IncomeService incomeService) {
 		this.walletRepository = walletRepository;
 		this.expenseService = expenseService;
+		this.incomeService = incomeService;
 	}
 
 	public WalletDTO addWallet(WalletDTO wallet) {
@@ -56,6 +60,10 @@ public class WalletService {
 		dto.setWalletId(w.getWalletId());
 		dto.setWalletName(w.getWalletName());
 		dto.setTotalPending(w.getTotalPending());
+		dto.setIncomes(w.getIncomes());
+		dto.setExpenses(w.getExpenses());
+		dto.setTotalExpenses(w.getTotalExpenses());
+		dto.setTotalIncomes(w.getTotalIncomes());
 		return dto;
 	}
 
@@ -80,9 +88,34 @@ public class WalletService {
 		Expense e = expenseService.fromDTOToExpense(expense);
 		e.setWallet(wallet);
 		wallet.setTotalPending(wallet.getTotalPending().subtract(e.getMoney()));
-		walletRepository.save(wallet);
+		wallet.setTotalExpenses(
+				wallet.getTotalExpenses() != null
+						? wallet.getTotalExpenses().add(e.getMoney())
+						: e.getMoney());
 		expenseService.addExpense(e);
+
+		List<Expense> walletExpenses = wallet.getExpenses() != null ? wallet.getExpenses() : new ArrayList<>();
+		walletExpenses.add(e);
+		wallet.setExpenses(walletExpenses);
+		walletRepository.save(wallet);
 		return expenseService.fromExpenseToDTO(e);
+	}
+
+	public IncomeDTO addWalletIncome(Wallet wallet, IncomeDTO dto) {
+		Income i = incomeService.fromDTOToIncome(dto);
+		i.setWallet(wallet);
+		i = incomeService.addIncome(i);
+		wallet.setTotalPending(wallet.getTotalPending().add(i.getMoney()));
+		wallet.setTotalIncomes(
+				wallet.getTotalIncomes() != null
+						? wallet.getTotalIncomes().add(i.getMoney())
+						: i.getMoney());
+
+		List<Income> walletIncomes = wallet.getIncomes() != null ? wallet.getIncomes() : new ArrayList<>();
+		walletIncomes.add(i);
+		wallet.setIncomes(walletIncomes);
+		walletRepository.save(wallet);
+		return incomeService.fromIncomeToDTO(i);
 	}
 
 }

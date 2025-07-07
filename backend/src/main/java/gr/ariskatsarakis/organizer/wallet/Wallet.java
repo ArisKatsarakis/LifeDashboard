@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import gr.ariskatsarakis.organizer.expenses.Expense;
+import gr.ariskatsarakis.organizer.incomes.Income;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,12 @@ public class Wallet {
 	@OneToMany
 	@JoinColumn(name = "wallet_id")
 	private List<Expense> expenses;
+
+	@OneToMany
+	@JoinColumn(name = "wallet_id")
+	private List<Income> incomes;
 	private BigDecimal totalExpenses;
+	private BigDecimal totalIncomes;
 	private BigDecimal totalPending;
 
 	public BigDecimal getTotalPending() {
@@ -68,5 +74,21 @@ public class Wallet {
 
 	public void setWalletName(String walletName) {
 		this.walletName = walletName;
+	}
+
+	public List<Income> getIncomes() {
+		return incomes;
+	}
+
+	public void setIncomes(List<Income> incomes) {
+		this.incomes = incomes;
+	}
+
+	public BigDecimal getTotalIncomes() {
+		return totalIncomes;
+	}
+
+	public void setTotalIncomes(BigDecimal totalIncomes) {
+		this.totalIncomes = totalIncomes;
 	}
 }

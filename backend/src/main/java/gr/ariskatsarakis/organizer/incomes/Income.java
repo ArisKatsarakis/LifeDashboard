@@ -1,9 +1,7 @@
-package gr.ariskatsarakis.organizer.expenses;
+package gr.ariskatsarakis.organizer.incomes;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,14 +15,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Service
+/**
+ * Income
+ */
 @Entity
-@Table(name = "user_expenses")
-/*** TODO Add User for each expense **/
-public class Expense {
+@Table(name = "user_incomes")
+public class Income {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long expenseId;
+	private Long incomeId;
 	private BigDecimal money;
 	@JsonFormat(pattern = "dd/MM/yy")
 	private Date dateCreated;
@@ -34,12 +34,12 @@ public class Expense {
 	@JsonIgnore
 	private Wallet wallet;
 
-	public Long getExpenseId() {
-		return expenseId;
+	public Long getIncomeId() {
+		return incomeId;
 	}
 
-	public void setExpenseId(Long expenseId) {
-		this.expenseId = expenseId;
+	public void setIncomeId(Long incomeId) {
+		this.incomeId = incomeId;
 	}
 
 	public BigDecimal getMoney() {
@@ -56,17 +56,6 @@ public class Expense {
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(String.format("\n\texpenseId:%d,", this.expenseId.longValue()));
-		sb.append(String.format("\n\tmoney:%d,", this.money.longValue()));
-		sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
-		sb.append("}");
-		return sb.toString();
 	}
 
 	public Wallet getWallet() {

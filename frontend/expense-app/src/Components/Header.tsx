@@ -8,8 +8,8 @@ const Header = (props: { loggedIn: boolean }) => {
 					<a href="/" className="link-secondary"> <h2> Expense App </h2> </a>
 				</Col>
 				<Col md='6' style={{ textAlign: 'right' }} className="mt-2">
-					<Button variant="success" >Login </Button>
-					<Button variant="danger" > Register </Button>
+					<Button variant="success" href="/login" >Login </Button>
+					<Button variant="danger" href="/register"> Register </Button>
 				</Col>
 			</Row>
 		</Container >

@@ -13,6 +13,8 @@ export const WalletDisplay = () => {
 	}
 
 
+	/** TODO  fix the dashboard so you add expenses to respective wallets */
+	/** TODO  add Incomes in backend and frontend */
 	const handleToglle = async () => {
 		setEditMode(true);
 	}

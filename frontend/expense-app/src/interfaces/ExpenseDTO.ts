@@ -6,3 +6,9 @@ export interface expenseDTO {
 export interface User {
 	loggedin: boolean
 }
+
+export interface IncomeDTO {
+	incomeId: number | null,
+	money: number,
+	dateCreated: string,
+}

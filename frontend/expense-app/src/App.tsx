@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Dashboard } from './Components/Dashboard';
 import { Header } from './Components/Header';
+import { Login } from './Components/Login';
+import { Register } from './Components/Register';
 import { WalletDisplay } from './Components/Wallets';
 
 
@@ -13,6 +15,8 @@ function App() {
 			<Routes>
 				<Route path='/' element={<WalletDisplay />} />
 				<Route path='/wallet/:id' element={<Dashboard user={null} />} />
+				<Route path='/login' element={<Login />} />
+				<Route path='/register' element={<Register />} />
 			</Routes>
 
 		</BrowserRouter>

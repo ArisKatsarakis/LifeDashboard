@@ -1,27 +1,25 @@
-import React from "react";
-import { Button, Col, Container, Form, FormControl, FormGroup, FormLabel, InputGroup, Row } from "react-bootstrap"
-import { useNavigate } from "react-router-dom";
-import { expenseDTO } from "../interfaces/ExpenseDTO";
-import { addExpense } from "../Utilities/ApiClient";
+import { Button, Col, Form, FormControl, FormGroup, FormLabel, Row } from "react-bootstrap"
+import { IncomeDTO } from "../interfaces/ExpenseDTO";
+import { createIncome } from "../Utilities/ApiClient";
 
-
-export const ExpenseAdd = (props: { walletId: number }) => {
-	const navigate = useNavigate();
-	const handleCancel = () => {
-		window.location.reload();
-	}
+export const IncomeAdd = function(props: { walletId: number }) {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.target as typeof e.target & {
 			money: { value: number },
 			dateCreated: { value: string }
 		}
-		const payload: expenseDTO = {
-			expenseId: null,
+		const payload: IncomeDTO = {
+			incomeId: null,
 			money: target.money.value,
 			dateCreated: target.dateCreated.value
 		}
-		const response = await addExpense(payload, props.walletId);
+		const resp = await createIncome(payload, props.walletId);
+		console.log(resp)
+		window.location.reload();
+	}
+
+	const handleCancel = () => {
 		window.location.reload();
 	}
 	return (

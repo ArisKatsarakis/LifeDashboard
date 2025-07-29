@@ -12,7 +12,7 @@ public class IncomeDTO {
 
 	private Long incomeId;
 	private BigDecimal money;
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreated;
 
 	public Long getIncomeId() {

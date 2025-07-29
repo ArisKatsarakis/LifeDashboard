@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ExpenseDTO {
 	private Long expenseId;
 	private BigDecimal money;
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreated;
 
 	public Long getExpenseId() {

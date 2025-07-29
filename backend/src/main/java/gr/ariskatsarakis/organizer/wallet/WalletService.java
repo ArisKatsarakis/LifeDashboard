@@ -118,4 +118,27 @@ public class WalletService {
 		return incomeService.fromIncomeToDTO(i);
 	}
 
+	public List<IncomeDTO> fetchWalletIncomes(Wallet wallet) {
+		List<Income> incomes = wallet.getIncomes();
+		List<IncomeDTO> dtos = new ArrayList<>();
+		for (Income income : incomes) {
+			dtos.add(incomeService.fromIncomeToDTO(income));
+		}
+		return dtos;
+	}
+
+	public SingleWalletDTO fetchWalletByWalletId(Long walletId) {
+		SingleWalletDTO dto = new SingleWalletDTO();
+		Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
+		if (optionalWallet.isPresent()) {
+			dto.setTotalExpenses(optionalWallet.get().getTotalExpenses());
+			dto.setTotalIncomes(optionalWallet.get().getTotalIncomes());
+			dto.setWalletId(optionalWallet.get().getWalletId());
+			dto.setTotalPending(optionalWallet.get().getTotalPending());
+			dto.setWalletName(optionalWallet.get().getWalletName());
+			return dto;
+		}
+		return null;
+	}
+
 }

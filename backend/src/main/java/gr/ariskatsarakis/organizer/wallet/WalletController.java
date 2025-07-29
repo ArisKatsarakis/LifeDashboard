@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.classic.html.HTMLLayout;
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.expenses.ExpenseDTO;
 import gr.ariskatsarakis.organizer.expenses.ExpenseService;
@@ -42,6 +43,15 @@ public class WalletController {
 		return new ResponseEntity<>(walletService.fetchWallets(), HttpStatus.OK);
 	}
 
+	@GetMapping("/{walletId}")
+	public ResponseEntity<SingleWalletDTO> fetchWalletById(@PathVariable Long walletId) {
+		SingleWalletDTO dto = walletService.fetchWalletByWalletId(walletId);
+		if (dto == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+
 	@PostMapping
 	public ResponseEntity<WalletDTO> addWallet(@RequestBody WalletDTO walletDTO) {
 		return new ResponseEntity<>(walletService.addWallet(walletDTO), HttpStatus.OK);
@@ -51,7 +61,7 @@ public class WalletController {
 	public ResponseEntity<List<ExpenseDTO>> fetchWalletExpenses(@PathVariable Long walletId) {
 		Wallet wallet = walletService.fetchWallet(walletId);
 		if (wallet == null) {
-			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		logger.info(String.format("Quering expenses for walletId: %d", walletId));
 
@@ -64,7 +74,7 @@ public class WalletController {
 			@RequestBody ExpenseDTO expense) {
 		Wallet wallet = walletService.fetchWallet(walletId);
 		if (wallet == null) {
-			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(walletService.addWalletExpense(wallet, expense), HttpStatus.OK);
 	}
@@ -73,10 +83,21 @@ public class WalletController {
 	public ResponseEntity<IncomeDTO> addWalletIncomes(@PathVariable Long walletId, @RequestBody IncomeDTO dto) {
 		Wallet wallet = walletService.fetchWallet(walletId);
 		if (wallet == null) {
-			new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(walletService.addWalletIncome(wallet, dto), HttpStatus.OK);
+		return new ResponseEntity<>(
+				walletService.addWalletIncome(wallet, dto),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/{walletId}/incomes")
+	public ResponseEntity<List<IncomeDTO>> fetchWalletIncomes(@PathVariable Long walletId) {
+		Wallet wallet = walletService.fetchWallet(walletId);
+		if (wallet == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(walletService.fetchWalletIncomes(wallet), HttpStatus.OK);
 	}
 
 }

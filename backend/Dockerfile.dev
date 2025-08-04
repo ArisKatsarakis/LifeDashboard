@@ -2,7 +2,7 @@ FROM maven:3.9.9-amazoncorretto-17-alpine  AS build
 WORKDIR /home/app
 
 COPY ./pom.xml /home/app/pom.xml
-COPY ./src/main/java/gr/ariskatsarakis/lifedashboard/LifeDashboardApplication.java /home/app/src/main/java/gr/ariskatsarakis/lifedashboard/LifeDashboardApplication.java
+COPY ./src/main/java/gr/ariskatsarakis/lifedashboard/OrganizerApplication.java /home/app/src/main/java/gr/ariskatsarakis/lifedashboard/OrganizerApplication.java
 
 RUN mvn clean install 
 

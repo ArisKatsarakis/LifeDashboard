@@ -22,59 +22,67 @@ import jakarta.persistence.Table;
 @Table(name = "user_expenses")
 /*** TODO Add User for each expense **/
 public class Expense {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long expenseId;
-	private BigDecimal money;
-	@JsonFormat(pattern = "dd/MM/yy")
-	private Date dateCreated;
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        private Long expenseId;
+        private BigDecimal money;
+        @JsonFormat(pattern = "dd/MM/yy")
+        private Date dateCreated;
+        @ManyToOne
+        @JoinColumn(name = "wallet_id", nullable = true)
+        @JsonIgnore
+        private Wallet wallet;
 
-	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = true)
-	@JsonIgnore
-	private Wallet wallet;
+        private String name;
 
-	public Long getExpenseId() {
-		return expenseId;
-	}
+        public String getName() {
+                return name;
+        }
 
-	public void setExpenseId(Long expenseId) {
-		this.expenseId = expenseId;
-	}
+        public void setName(String name) {
+                this.name = name;
+        }
 
-	public BigDecimal getMoney() {
-		return money;
-	}
+        public Long getExpenseId() {
+                return expenseId;
+        }
 
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
+        public void setExpenseId(Long expenseId) {
+                this.expenseId = expenseId;
+        }
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+        public BigDecimal getMoney() {
+                return money;
+        }
 
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+        public void setMoney(BigDecimal money) {
+                this.money = money;
+        }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(String.format("\n\texpenseId:%d,", this.expenseId.longValue()));
-		sb.append(String.format("\n\tmoney:%d,", this.money.longValue()));
-		sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
-		sb.append("}");
-		return sb.toString();
-	}
+        public Date getDateCreated() {
+                return dateCreated;
+        }
 
-	public Wallet getWallet() {
-		return wallet;
-	}
+        public void setDateCreated(Date dateCreated) {
+                this.dateCreated = dateCreated;
+        }
 
-	public void setWallet(Wallet wallet) {
-		this.wallet = wallet;
-	}
+        public Wallet getWallet() {
+                return wallet;
+        }
 
+        public void setWallet(Wallet wallet) {
+                this.wallet = wallet;
+        }
+
+        @Override
+        public String toString() {
+                StringBuilder sb = new StringBuilder();
+                sb.append("{");
+                sb.append(String.format("\n\texpenseId:%d,", this.expenseId.longValue()));
+                sb.append(String.format("\n\tmoney:%d,", this.money.longValue()));
+                sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
+                sb.append("}");
+                return sb.toString();
+        }
 }

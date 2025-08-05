@@ -29,7 +29,11 @@ public class UserInfoService implements UserDetailsService {
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 Optional<UserInfo> userInfo = repository.findByEmail(username);
                 if (userInfo.isEmpty()) {
-                        throw new UsernameNotFoundException("User not found with email: " + username);
+                        logger.info("User not found with email: " + username);
+                        userInfo = repository.findByName(username);
+                        if (userInfo.isEmpty()) {
+                                throw new UsernameNotFoundException("User not found");
+                        }
                 }
                 UserInfoDetails user = new UserInfoDetails(userInfo.get());
                 User userDetails = new User(user.getUsername(), user.getPassword(), user.getAuthorities());

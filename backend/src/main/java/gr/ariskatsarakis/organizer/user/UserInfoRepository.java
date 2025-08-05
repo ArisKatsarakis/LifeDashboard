@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 
-        // Email Query for users;
+        // Email Query for users using email
         Optional<UserInfo> findByEmail(String email);
+
+        // Email Query for users using username
+        Optional<UserInfo> findByName(String name);
 
 }

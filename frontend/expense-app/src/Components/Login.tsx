@@ -1,9 +1,23 @@
-import { Button, Container, Form, FormGroup, FormLabel } from "react-bootstrap";
+import { useState } from "react";
+import {
+	Button,
+	Container,
+	Form,
+	FormGroup,
+	FormLabel,
+	Row,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import type { LoginInput } from "../interfaces/LoginInput";
+import { login } from "../Utilities/LoginClient";
 
 export const Login = () => {
+	const [errorMessage, setErrorMessage] = useState<string>("");
+	const navigate = useNavigate();
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		setErrorMessage("");
 		const target = event.target as typeof event.target & {
 			username: { value: string };
 			password: { value: string };
@@ -14,7 +28,17 @@ export const Login = () => {
 			password: target.password.value,
 		};
 
-		console.log(payload);
+		try {
+			const response = await login(payload);
+			window.localStorage.setItem(
+				"jwt",
+				response.jwtToken !== null ? response.jwtToken : "",
+			);
+			navigate("/wallets");
+		} catch (error: any) {
+			setErrorMessage("Bad Credentials");
+			console.log(error);
+		}
 	};
 
 	return (
@@ -36,6 +60,13 @@ export const Login = () => {
 				</FormGroup>
 				<Button type="submit"> Login </Button>
 			</Form>
+			{errorMessage !== "" ? (
+				<Row>
+					{<h2 className="text-danger mt-2"> Error: {errorMessage} </h2>}
+				</Row>
+			) : (
+				<Row></Row>
+			)}
 		</Container>
 	);
 };

@@ -41,7 +41,6 @@ export const Dashboard = () => {
 		setExpenses(exp);
 		const income = await fetchIncomes(walletId);
 		setIncomes(income);
-
 		const wl = await fetchSingleWallet(walletId);
 		setWalet(wl);
 	};

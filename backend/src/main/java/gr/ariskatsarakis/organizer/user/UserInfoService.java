@@ -1,8 +1,9 @@
 package gr.ariskatsarakis.organizer.user;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class UserInfoService implements UserDetailsService {
         private final UserInfoRepository repository;
         private final PasswordEncoder pEncoder;
+
+        private Logger logger = LoggerFactory.getLogger(this.getClass());
 
         @Autowired
         public UserInfoService(UserInfoRepository repository, PasswordEncoder encoder) {
@@ -35,7 +38,7 @@ public class UserInfoService implements UserDetailsService {
         }
 
         public String addUser(UserInfo userInfo) {
-                userInfo.setPassword(pEncoder.encode(userInfo.getPassword()));
+                // userInfo.setPassword(pEncoder.encode(userInfo.getPassword()));
                 repository.save(userInfo);
                 return "User added successfully";
 

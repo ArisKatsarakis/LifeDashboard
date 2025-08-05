@@ -1,36 +1,45 @@
 import type React from "react";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	Col,
-	Container,
 	Form,
 	FormControl,
 	FormGroup,
 	FormLabel,
-	InputGroup,
+	FormSelect,
 	Row,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import type { expenseDTO } from "../interfaces/ExpenseDTO";
-import { addExpense } from "../Utilities/ApiClient";
+import { addExpense, fetchExpenseCategories } from "../Utilities/ApiClient";
 
 export const ExpenseAdd = (props: { walletId: number }) => {
-	const navigate = useNavigate();
+	const [expenseCategories, setExpenseCategories] = useState<string[]>([]);
 	const handleCancel = () => {
 		window.location.reload();
 	};
+
+	useEffect(() => {
+		const initialize = async () => {
+			const data = await fetchExpenseCategories();
+			setExpenseCategories(data);
+		};
+		initialize();
+	}, []);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.target as typeof e.target & {
 			money: { value: number };
 			dateCreated: { value: string };
+			category: { value: string };
 		};
 		const payload: expenseDTO = {
 			name: "Expense Name",
 			expenseId: null,
 			money: target.money.value,
 			dateCreated: target.dateCreated.value,
+			category: target.category.value,
 		};
 		const response = await addExpense(payload, props.walletId);
 		window.location.reload();
@@ -68,6 +77,24 @@ export const ExpenseAdd = (props: { walletId: number }) => {
 				</FormLabel>
 				<Col md="6">
 					<FormControl type="date" id="dateCreated" />
+				</Col>
+			</FormGroup>
+			<FormGroup as={Row}>
+				<FormLabel column htmlFor="category" className="p-2 text-center">
+					ExpenseCategory
+				</FormLabel>
+				<Col md="6">
+					<FormSelect aria-label="Default select" required={true} id="category">
+						<option value={0}> Select Category </option>
+						{expenseCategories.map((category) => {
+							return (
+								<option value={category} key={category}>
+									{" "}
+									{category}{" "}
+								</option>
+							);
+						})}
+					</FormSelect>
 				</Col>
 			</FormGroup>
 			<div>

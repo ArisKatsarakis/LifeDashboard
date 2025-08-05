@@ -3,6 +3,7 @@ export interface expenseDTO {
 	money: number;
 	dateCreated: string;
 	name: string;
+	category: string;
 }
 export interface User {
 	loggedin: boolean;

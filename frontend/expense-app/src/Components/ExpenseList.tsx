@@ -13,7 +13,8 @@ export const ExpenseList = (props: {
 				{props.expenses.map((e) => {
 					return (
 						<li key={e.expenseId} className="list-group-item">
-							Name : {e?.name}, Money: {e.money}, Date: {e.dateCreated}
+							Name : {e?.name}, Money: {e.money}, Date: {e.dateCreated} ,
+							Category: {e.category}
 						</li>
 					);
 				})}

@@ -14,6 +14,7 @@ public class ExpenseDTO {
         @JsonFormat(pattern = "yyyy-MM-dd")
         private Date dateCreated;
         private String name;
+        private String category;
 
         public String getName() {
                 return name;
@@ -45,6 +46,14 @@ public class ExpenseDTO {
 
         public void setDateCreated(Date dateCreated) {
                 this.dateCreated = dateCreated;
+        }
+
+        public String getCategory() {
+                return category;
+        }
+
+        public void setCategory(String category) {
+                this.category = category;
         }
 
 }

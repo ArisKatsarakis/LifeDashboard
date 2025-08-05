@@ -10,6 +10,7 @@ import {
 	ProtectedRoute,
 	PublicRoute,
 } from "./Components/RoutePublicProtected";
+import { Statistics } from "./Components/Statistics";
 import { WalletDisplay } from "./Components/Wallets";
 
 function App() {
@@ -39,7 +40,6 @@ function App() {
 						</PublicRoute>
 					}
 				/>
-				:
 				<Route
 					path="/wallets"
 					element={
@@ -53,6 +53,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Dashboard />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/stats"
+					element={
+						<ProtectedRoute>
+							<Statistics />
 						</ProtectedRoute>
 					}
 				/>

@@ -75,6 +75,12 @@ const fetchSingleWallet = async (walletId: number): Promise<SingleWallet> => {
 	return data;
 };
 
+const fetchExpenseCategories = async (): Promise<string[]> => {
+	const { data } = await client.get<string[]>(
+		`${apiLinks.expensesLink}/categories`,
+	);
+	return data;
+};
 export {
 	fetchExpenses,
 	addExpense,
@@ -83,4 +89,5 @@ export {
 	fetchIncomes,
 	createIncome,
 	fetchSingleWallet,
+	fetchExpenseCategories,
 };

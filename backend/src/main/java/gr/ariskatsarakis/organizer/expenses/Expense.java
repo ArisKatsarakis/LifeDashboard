@@ -20,7 +20,6 @@ import jakarta.persistence.Table;
 @Service
 @Entity
 @Table(name = "user_expenses")
-/*** TODO Add User for each expense **/
 public class Expense {
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -32,8 +31,8 @@ public class Expense {
         @JoinColumn(name = "wallet_id", nullable = true)
         @JsonIgnore
         private Wallet wallet;
-
         private String name;
+        private ExpenseCategory category;
 
         public String getName() {
                 return name;
@@ -85,4 +84,13 @@ public class Expense {
                 sb.append("}");
                 return sb.toString();
         }
+
+        public ExpenseCategory getCategory() {
+                return category;
+        }
+
+        public void setCategory(ExpenseCategory category) {
+                this.category = category;
+        }
+
 }

@@ -40,6 +40,7 @@ public class ExpenseService {
                 dto.setMoney(expense.getMoney());
                 dto.setDateCreated(expense.getDateCreated());
                 dto.setName(expense.getName());
+                dto.setCategory(expense.getCategory().toString());
                 return dto;
         }
 
@@ -54,6 +55,7 @@ public class ExpenseService {
                         dto.setMoney(e.getMoney());
                         dto.setDateCreated(e.getDateCreated());
                         dto.setName(e.getName());
+                        dto.setCategory(e.getCategory().toString());
                         dtos.add(dto);
                 }
                 return dtos;
@@ -65,6 +67,7 @@ public class ExpenseService {
                 e.setMoney(dto.getMoney());
                 e.setDateCreated(dto.getDateCreated());
                 e.setName(dto.getName());
+                e.setCategory(ExpenseCategory.valueOf(dto.getCategory()));
                 return e;
         }
 

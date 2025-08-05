@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gr.ariskatsarakis.organizer.jwt.JwtService;
 import gr.ariskatsarakis.organizer.user.request.LoginRequest;
+import gr.ariskatsarakis.organizer.user.request.LoginResponse;
 import gr.ariskatsarakis.organizer.user.request.RegisterRequest;
 import gr.ariskatsarakis.organizer.user.request.RegisterResponse;
 
@@ -48,7 +49,6 @@ public class UserController {
                 newUser.setName(registerRequest.getUsername());
                 newUser.setEmail(registerRequest.getEmail());
                 newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-                logger.info("encoded password" + newUser.getPassword());
                 newUser.setRoles("USER");
 
                 String response = userDetailsService.addUser(newUser);
@@ -59,20 +59,28 @@ public class UserController {
         }
 
         @PostMapping("/auth")
-        public ResponseEntity<String> generateJwt(@RequestBody LoginRequest loginRequest) {
+        public ResponseEntity<LoginResponse> generateJwt(@RequestBody LoginRequest loginRequest) {
 
-                UserDetails userInfo = userDetailsService.loadUserByUsername(loginRequest.getUsername());
-                logger.info(userInfo.toString());
-                Authentication authentication = authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(
-                                                loginRequest.getUsername(),
-                                                loginRequest.getPassword()
+                LoginResponse response = new LoginResponse();
+                try {
 
-                                ));
+                        UserDetails userInfo = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+                        logger.info(userInfo.toString());
+                        Authentication authentication = authenticationManager.authenticate(
+                                        new UsernamePasswordAuthenticationToken(
+                                                        loginRequest.getUsername(),
+                                                        loginRequest.getPassword()
 
-                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                String token = jwtService.generateToken(userDetails.getUsername());
-                return new ResponseEntity<>(token, HttpStatus.OK);
+                                        ));
+
+                        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                        String token = jwtService.generateToken(userDetails.getUsername());
+                        response.setJwtToken(token);
+                } catch (Exception e) {
+                        response.setError(e.getMessage());
+                        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+                }
+                return new ResponseEntity<>(response, HttpStatus.OK);
 
         }
 

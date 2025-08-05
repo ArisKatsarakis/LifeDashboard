@@ -5,11 +5,13 @@ import java.util.List;
 
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.incomes.Income;
+import gr.ariskatsarakis.organizer.user.UserInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -20,75 +22,88 @@ import jakarta.persistence.Table;
 @Table(name = "user_wallet")
 public class Wallet {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long walletId;
-	@OneToMany
-	@JoinColumn(name = "wallet_id")
-	private List<Expense> expenses;
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        private Long walletId;
+        @OneToMany
+        @JoinColumn(name = "wallet_id")
+        private List<Expense> expenses;
 
-	@OneToMany
-	@JoinColumn(name = "wallet_id")
-	private List<Income> incomes;
-	private BigDecimal totalExpenses;
-	private BigDecimal totalIncomes;
-	private BigDecimal totalPending;
+        @OneToMany
+        @JoinColumn(name = "wallet_id")
+        private List<Income> incomes;
+        private BigDecimal totalExpenses;
+        private BigDecimal totalIncomes;
+        private BigDecimal totalPending;
 
-	public BigDecimal getTotalPending() {
-		return totalPending;
-	}
+        @ManyToOne
+        @JoinColumn(name = "user_id")
+        private UserInfo userInfo;
 
-	public void setTotalPending(BigDecimal totalPending) {
-		this.totalPending = totalPending;
-	}
+        public BigDecimal getTotalPending() {
+                return totalPending;
+        }
 
-	private String walletName;
+        public void setTotalPending(BigDecimal totalPending) {
+                this.totalPending = totalPending;
+        }
 
-	public Long getWalletId() {
-		return walletId;
-	}
+        private String walletName;
 
-	public void setWalletId(Long walletId) {
-		this.walletId = walletId;
-	}
+        public Long getWalletId() {
+                return walletId;
+        }
 
-	public List<Expense> getExpenses() {
-		return expenses;
-	}
+        public void setWalletId(Long walletId) {
+                this.walletId = walletId;
+        }
 
-	public void setExpenses(List<Expense> expenses) {
-		this.expenses = expenses;
-	}
+        public List<Expense> getExpenses() {
+                return expenses;
+        }
 
-	public BigDecimal getTotalExpenses() {
-		return totalExpenses;
-	}
+        public void setExpenses(List<Expense> expenses) {
+                this.expenses = expenses;
+        }
 
-	public void setTotalExpenses(BigDecimal totalExpenses) {
-		this.totalExpenses = totalExpenses;
-	}
+        public BigDecimal getTotalExpenses() {
+                return totalExpenses;
+        }
 
-	public String getWalletName() {
-		return walletName;
-	}
+        public void setTotalExpenses(BigDecimal totalExpenses) {
+                this.totalExpenses = totalExpenses;
+        }
 
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
+        public String getWalletName() {
+                return walletName;
+        }
 
-	public List<Income> getIncomes() {
-		return incomes;
-	}
+        public void setWalletName(String walletName) {
+                this.walletName = walletName;
+        }
 
-	public void setIncomes(List<Income> incomes) {
-		this.incomes = incomes;
-	}
+        public List<Income> getIncomes() {
+                return incomes;
+        }
 
-	public BigDecimal getTotalIncomes() {
-		return totalIncomes;
-	}
+        public void setIncomes(List<Income> incomes) {
+                this.incomes = incomes;
+        }
 
-	public void setTotalIncomes(BigDecimal totalIncomes) {
-		this.totalIncomes = totalIncomes;
-	}
+        public BigDecimal getTotalIncomes() {
+                return totalIncomes;
+        }
+
+        public void setTotalIncomes(BigDecimal totalIncomes) {
+                this.totalIncomes = totalIncomes;
+        }
+
+        public UserInfo getUserInfo() {
+                return userInfo;
+        }
+
+        public void setUserInfo(UserInfo userInfo) {
+                this.userInfo = userInfo;
+        }
+
 }

@@ -44,4 +44,13 @@ public class UserInfoService implements UserDetailsService {
 
         }
 
+        public UserInfo fetchUser(String email) {
+                Optional<UserInfo> optional = repository.findByEmail(email);
+                if (optional.isEmpty()) {
+                        return null;
+                }
+                return optional.get();
+
+        }
+
 }

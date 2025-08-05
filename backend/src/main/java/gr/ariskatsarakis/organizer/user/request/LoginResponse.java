@@ -4,7 +4,7 @@ public class LoginResponse {
 
         private String jwtToken;
         private String expiration;
-        private String error;
+        private String username;
 
         public String getJwtToken() {
                 return jwtToken;
@@ -22,12 +22,12 @@ public class LoginResponse {
                 this.expiration = expiration;
         }
 
-        public String getError() {
-                return error;
+        public String getUsername() {
+                return username;
         }
 
-        public void setError(String error) {
-                this.error = error;
+        public void setUsername(String username) {
+                this.username = username;
         }
 
 }

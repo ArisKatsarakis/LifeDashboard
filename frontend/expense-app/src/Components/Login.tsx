@@ -34,6 +34,10 @@ export const Login = () => {
 				"jwt",
 				response.jwtToken !== null ? response.jwtToken : "",
 			);
+			window.localStorage.setItem(
+				"username",
+				response.username !== null ? response.username : "",
+			);
 			navigate("/wallets");
 		} catch (error: any) {
 			setErrorMessage("Bad Credentials");

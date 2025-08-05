@@ -5,6 +5,5 @@ export interface LoginInput {
 
 export interface LoginResponse {
 	jwtToken: string | null;
-	expiration: string | null;
-	error: string | null;
+	username: string | null;
 }

@@ -6,7 +6,6 @@ interface ProtectedRouteProps {
 
 export const isLoggedIn = (): boolean => {
 	const jwt = window.localStorage.getItem("jwt");
-	console.log(jwt);
 	if (jwt === undefined || jwt === null) {
 		return false;
 	}

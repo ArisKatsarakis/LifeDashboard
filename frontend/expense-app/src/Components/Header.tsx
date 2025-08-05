@@ -34,6 +34,12 @@ const Header = () => {
 				</Col>
 				{isLoggedIn() === true ? (
 					<Col md="6" style={{ textAlign: "right" }} className="mt-2">
+						<span>
+							{" "}
+							{window.localStorage.getItem("username") !== null
+								? window.localStorage.getItem("username")
+								: null}{" "}
+						</span>
 						<Button
 							variant="danger"
 							onClick={() => {

@@ -4,17 +4,12 @@ import type { SingleWallet } from "../interfaces/SingleWallet";
 import type { Wallet } from "../interfaces/Wallet";
 import { apiLinks } from "./Variables";
 
-let token = "";
-
-const apiToken = (to: string) => {
-	token = to;
-};
-
 const fetchBearer = (): string => {
 	const token = window.localStorage.getItem("jwt")?.toString();
 	console.log(token);
 	return token !== undefined ? token : "";
 };
+
 const client = axios.create({
 	headers: {
 		Authorization: "Bearer " + fetchBearer(),
@@ -88,5 +83,4 @@ export {
 	fetchIncomes,
 	createIncome,
 	fetchSingleWallet,
-	apiToken,
 };

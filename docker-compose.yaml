@@ -1,3 +1,5 @@
+name: LifeDashboard
+
 services:
     postgresdb:
         image: postgres:14.1-alpine

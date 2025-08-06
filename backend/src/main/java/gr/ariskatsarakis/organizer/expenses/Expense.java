@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import gr.ariskatsarakis.organizer.wallet.Wallet;
+import gr.ariskatsarakis.organizer.user.UserInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,12 +27,13 @@ public class Expense {
         private BigDecimal money;
         @JsonFormat(pattern = "dd/MM/yy")
         private Date dateCreated;
-        @ManyToOne
-        @JoinColumn(name = "wallet_id", nullable = true)
-        @JsonIgnore
-        private Wallet wallet;
         private String name;
         private ExpenseCategory category;
+
+        @ManyToOne
+        @JoinColumn(name = "user_id")
+        @JsonIgnore
+        private UserInfo userInfo;
 
         public String getName() {
                 return name;
@@ -66,21 +67,13 @@ public class Expense {
                 this.dateCreated = dateCreated;
         }
 
-        public Wallet getWallet() {
-                return wallet;
-        }
-
-        public void setWallet(Wallet wallet) {
-                this.wallet = wallet;
-        }
-
         @Override
         public String toString() {
                 StringBuilder sb = new StringBuilder();
                 sb.append("{");
-                sb.append(String.format("\n\texpenseId:%d,", this.expenseId.longValue()));
                 sb.append(String.format("\n\tmoney:%d,", this.money.longValue()));
                 sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
+                sb.append(String.format("\n\tuserInfo:%s,", this.userInfo.toString()));
                 sb.append("}");
                 return sb.toString();
         }
@@ -91,6 +84,14 @@ public class Expense {
 
         public void setCategory(ExpenseCategory category) {
                 this.category = category;
+        }
+
+        public UserInfo getUserInfo() {
+                return userInfo;
+        }
+
+        public void setUserInfo(UserInfo userInfo) {
+                this.userInfo = userInfo;
         }
 
 }

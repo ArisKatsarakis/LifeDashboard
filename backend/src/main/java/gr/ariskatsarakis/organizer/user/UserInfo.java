@@ -1,8 +1,5 @@
 package gr.ariskatsarakis.organizer.user;
 
-import java.util.List;
-
-import gr.ariskatsarakis.organizer.wallet.Wallet;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +10,11 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+import gr.ariskatsarakis.organizer.expenses.Expense;
+import gr.ariskatsarakis.organizer.incomes.Income;
 
 @Entity
 @Data
@@ -30,5 +32,10 @@ public class UserInfo {
 
         @OneToMany
         @JoinColumn(name = "user_id")
-        private List<Wallet> wallets;
+        private List<Expense> expenses;
+
+        @OneToMany
+        @JoinColumn(name = "user_id")
+        private List<Income> incomes;
+
 }

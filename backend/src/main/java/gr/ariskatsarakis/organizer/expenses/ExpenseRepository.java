@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import gr.ariskatsarakis.organizer.wallet.Wallet;
+import gr.ariskatsarakis.organizer.user.UserInfo;
 
 /**
  * ExpenseRepository
@@ -13,5 +13,6 @@ import gr.ariskatsarakis.organizer.wallet.Wallet;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-	List<Expense> findByWallet(Wallet wallet);
+        List<Expense> findByUserInfo(UserInfo userInfo);
+
 }

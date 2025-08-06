@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,11 +49,14 @@ public class UserInfoService implements UserDetailsService {
 
         }
 
-        public UserInfo fetchUser(String email) {
-                Optional<UserInfo> optional = repository.findByEmail(email);
+        public UserInfo fetchUser() {
+                UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                                .getPrincipal();
+                Optional<UserInfo> optional = repository.findByEmail(userDetails.getUsername());
                 if (optional.isEmpty()) {
-                        return null;
+                        throw new UsernameNotFoundException("username not found");
                 }
+                logger.info("Fetching user: " + optional.get().getEmail());
                 return optional.get();
 
         }

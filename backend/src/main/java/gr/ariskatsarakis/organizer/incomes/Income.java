@@ -4,9 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import gr.ariskatsarakis.organizer.wallet.Wallet;
+import gr.ariskatsarakis.organizer.user.UserInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,12 +27,11 @@ public class Income {
         private BigDecimal money;
         @JsonFormat(pattern = "dd/MM/yy")
         private Date dateCreated;
+        private IncomeCategory incomeCategory;
 
         @ManyToOne
-        @JoinColumn(name = "wallet_id", nullable = true)
-        @JsonIgnore
-        private Wallet wallet;
-        private IncomeCategory incomeCategory;
+        @JoinColumn(name = "user_id")
+        private UserInfo userInfo;
 
         public Long getIncomeId() {
                 return incomeId;
@@ -59,20 +57,20 @@ public class Income {
                 this.dateCreated = dateCreated;
         }
 
-        public Wallet getWallet() {
-                return wallet;
-        }
-
-        public void setWallet(Wallet wallet) {
-                this.wallet = wallet;
-        }
-
         public IncomeCategory getIncomeCategory() {
                 return incomeCategory;
         }
 
         public void setIncomeCategory(IncomeCategory incomeCategory) {
                 this.incomeCategory = incomeCategory;
+        }
+
+        public UserInfo getUserInfo() {
+                return userInfo;
+        }
+
+        public void setUserInfo(UserInfo userInfo) {
+                this.userInfo = userInfo;
         }
 
 }

@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import gr.ariskatsarakis.organizer.wallet.Wallet;
+import gr.ariskatsarakis.organizer.user.UserInfoService;
 
 /**
  * ExpenseService
@@ -16,20 +16,22 @@ import gr.ariskatsarakis.organizer.wallet.Wallet;
 public class ExpenseService {
 
         private ExpenseRepository expenseRepository;
+        private UserInfoService userInfoService;
 
         private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-        public ExpenseService(ExpenseRepository expenseRepository) {
+        public ExpenseService(ExpenseRepository expenseRepository, UserInfoService userInfoService) {
                 this.expenseRepository = expenseRepository;
+                this.userInfoService = userInfoService;
         }
 
         public List<Expense> fetchExpenses() {
-                return expenseRepository.findAll();
+                return expenseRepository.findByUserInfo(userInfoService.fetchUser());
         }
 
         public ExpenseDTO addExpense(Expense e) {
+                e.setUserInfo(userInfoService.fetchUser());
                 Expense expense = expenseRepository.save(e);
-                logger.info(String.format("Adding expense %s", expense.toString()));
                 return fromExpenseToDTO(expense);
         }
 
@@ -69,10 +71,6 @@ public class ExpenseService {
                 e.setName(dto.getName());
                 e.setCategory(ExpenseCategory.valueOf(dto.getCategory()));
                 return e;
-        }
-
-        public List<Expense> fetchByWallet(Wallet wallet) {
-                return expenseRepository.findByWallet(wallet);
         }
 
 }

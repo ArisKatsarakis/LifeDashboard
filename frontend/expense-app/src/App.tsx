@@ -1,59 +1,72 @@
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { useCookies } from 'react-cookie';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import './App.css';
-import { Dashboard } from './Components/Dashboard';
-import { Login } from './Components/Login';
-
-
+import "bootstrap/dist/css/bootstrap.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { Dashboard } from "./Components/Dashboard";
+import { Header } from "./Components/Header";
+import { Login } from "./Components/Login";
+import { Register } from "./Components/Register";
+import {
+	isLoggedIn,
+	ProtectedRoute,
+	PublicRoute,
+} from "./Components/RoutePublicProtected";
+import { Statistics } from "./Components/Statistics";
+import { WalletDisplay } from "./Components/Wallets";
 
 function App() {
-  const [username, setUsername] = useState<string>('');
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [cookies, setCookie] = useCookies(['jsonToken']);
-
-
-  const getToken = () => {
-    console.log(cookies);
-    if (cookies.jsonToken != null) {
-      setAuthenticated(true);
-      console.log(jwtDecode(cookies.jsonToken));
-      const decodedJwt = jwtDecode<JwtPayload>(cookies.jsonToken);
-      setUsername(decodedJwt.sub == null ? '' : decodedJwt.sub);
-    } else {
-      setAuthenticated(false);
-    }
-  };
-
-  useEffect(
-    () => {
-      getToken();
-    }, []
-  );
-  return (
-    <Container>
-      <BrowserRouter>
-        {
-          (authenticated === true)
-            ?
-            < Routes >
-              <Route path='/' element={<Dashboard username={username} />} />
-            </Routes>
-            :
-            <Login />
-        }
-      </BrowserRouter >
-    </Container >
-
-  );
+	return (
+		<BrowserRouter>
+			<Header />
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<Navigate to={isLoggedIn() === true ? "/wallets" : "/login"} />
+					}
+				/>
+				<Route
+					path="/register"
+					element={
+						<PublicRoute>
+							<Register />
+						</PublicRoute>
+					}
+				/>
+				<Route
+					path="/login"
+					element={
+						<PublicRoute>
+							<Login />
+						</PublicRoute>
+					}
+				/>
+				<Route
+					path="/wallets"
+					element={
+						<ProtectedRoute>
+							<WalletDisplay />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/wallet/:id"
+					element={
+						<ProtectedRoute>
+							<Dashboard />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/stats"
+					element={
+						<ProtectedRoute>
+							<Statistics />
+						</ProtectedRoute>
+					}
+				/>
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;

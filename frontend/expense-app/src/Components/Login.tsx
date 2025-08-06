@@ -1,52 +1,76 @@
-import { FormEvent, useState } from "react";
-import { Col, Container, InputGroup, Row, Form, Button } from "react-bootstrap";
+import { useState } from "react";
+import {
+	Button,
+	Container,
+	Form,
+	FormGroup,
+	FormLabel,
+	Row,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { authenticateApi } from "../Utilities/ApiClient";
-import { useCookies } from "react-cookie";
+import type { LoginInput } from "../interfaces/LoginInput";
+import { login } from "../Utilities/LoginClient";
 
-export function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [cookies, setCookies] = useCookies(['jsonToken']);
+export const Login = () => {
+	const [errorMessage, setErrorMessage] = useState<string>("");
+	const navigate = useNavigate();
 
-  const navigate = useNavigate();
-  const handleSubmit = async (event: FormEvent<HTMLElement>) => {
-    event.preventDefault();
-    const response = await authenticateApi(username, password);
-    console.log(response);
-    if (response != 'Credentials Invalid') {
-      setCookies('jsonToken', response.token);
-      window.location.reload();
-      navigate('/');
-    }
-  }
-  return (
-    <Container>
-      <Row style={{ marginTop: '2rem' }}>
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		setErrorMessage("");
+		const target = event.target as typeof event.target & {
+			username: { value: string };
+			password: { value: string };
+		};
 
-        <Form onSubmit={handleSubmit}>
-          <InputGroup>
-            <InputGroup.Text>Username: </InputGroup.Text>
-            <Form.Control type="text" value={username} onChange={event => {
-              setUsername(event.currentTarget.value)
-            }} />
-          </InputGroup>
-          <InputGroup>
-            <InputGroup.Text>Password: </InputGroup.Text>
-            <Form.Control type="password" value={password} onChange={event => {
-              setPassword(event.currentTarget.value)
-            }} />
-          </InputGroup>
+		const payload: LoginInput = {
+			username: target.username.value,
+			password: target.password.value,
+		};
 
-          <Row style={{ textAlign: 'center', marginTop: '1rem' }}>
-            <Col>
-              <Button type='submit' >Login </Button>
-              <Button> Register </Button>
-            </Col>
-          </Row>
+		try {
+			const response = await login(payload);
+			window.localStorage.setItem(
+				"jwt",
+				response.jwtToken !== null ? response.jwtToken : "",
+			);
+			window.localStorage.setItem(
+				"username",
+				response.username !== null ? response.username : "",
+			);
+			navigate("/wallets");
+		} catch (error: any) {
+			setErrorMessage("Bad Credentials");
+			console.log(error);
+		}
+	};
 
-        </Form>
-      </Row>
-    </Container>
-  )
-}
+	return (
+		<Container className="text-center">
+			<Form onSubmit={handleSubmit}>
+				<FormGroup className="row">
+					<FormLabel htmlFor="username" className="form-label-col">
+						{" "}
+						Username or Email{" "}
+					</FormLabel>
+					<input type={"text"} id="username" className="form-control-col" />
+				</FormGroup>
+				<FormGroup className="row">
+					<FormLabel htmlFor="password" className="form-label-col">
+						{" "}
+						Password{" "}
+					</FormLabel>
+					<input type={"password"} id="password" className="form-control-col" />
+				</FormGroup>
+				<Button type="submit"> Login </Button>
+			</Form>
+			{errorMessage !== "" ? (
+				<Row>
+					{<h2 className="text-danger mt-2"> Error: {errorMessage} </h2>}
+				</Row>
+			) : (
+				<Row></Row>
+			)}
+		</Container>
+	);
+};

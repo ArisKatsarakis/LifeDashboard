@@ -1,136 +1,102 @@
-import { apiLinks } from "./Variables";
-import { Expense, ExpenseType, ExpenseTypeSum } from "../interfaces/ExpenseInterfaces";
-import { Income } from "../interfaces/IncomeInterfaces";
 import axios from "axios";
-import { Wallet } from "../interfaces/WalletInterfaces";
-import { SavingGoal } from "../interfaces/SavingGoalInterfaces";
-const name = 'katsar';
-const pass = 'test';
-export const authenticateApi = async (username?: string, password?: string) => {
-  let payload = {
-    username: name,
-    password: pass
-  };
-  if (username != null && password != null) {
-    console.log(username, password)
-    payload = {
-      username: username,
-      password: password
-    };
-  }
+import type { expenseDTO, IncomeDTO } from "../interfaces/ExpenseDTO";
+import type { SingleWallet } from "../interfaces/SingleWallet";
+import type { Wallet } from "../interfaces/Wallet";
+import { apiLinks } from "./Variables";
 
-  const response = await axios.post(apiLinks.authenticateLink, payload);
-  return response.data;
-}
+const fetchBearer = (): string => {
+	const token = window.localStorage.getItem("jwt")?.toString();
+	console.log(token);
+	return token !== undefined ? token : "";
+};
 
-export const getExpenses = async (): Promise<Expense[]> => {
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.get<Expense[]>(apiLinks.expensesLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  return data;
-}
+const client = axios.create({
+	headers: {
+		Authorization: "Bearer " + fetchBearer(),
+	},
+});
 
+const fetchExpenses = async (walletId?: number): Promise<expenseDTO[]> => {
+	if (walletId !== undefined) {
+		return fetchWalletExpenses(walletId);
+	}
+	const { data } = await client.get<expenseDTO[]>(apiLinks.expensesLink);
+	return data;
+};
 
-export const getExpenseTypes = async (): Promise<ExpenseType[]> => {
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.get<ExpenseType[]>(apiLinks.expenseTypeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  data.map(
-    async (item) => {
-      if (item.expenseTypeId != null) {
-        const arrayOfExpenses: ExpenseTypeSum = await getExpenseTypesExpenses(item.expenseTypeId);
-        item.expense = arrayOfExpenses.expenses;
-        return item;
-      }
-    }
-  )
-  return data;
+const addExpense = async (
+	payload: expenseDTO,
+	walletId: number,
+): Promise<expenseDTO> => {
+	const { data } = await client.post(
+		`${apiLinks.walletsLink}/${walletId}/expenses`,
+		payload,
+	);
+	return data;
+};
 
-}
+const fetchWallets = async (): Promise<Wallet[]> => {
+	const { data } = await client.get(apiLinks.walletsLink);
+	return data;
+};
 
-export const getExpenseTypesExpenses = async (expenseTypeId: number): Promise<ExpenseTypeSum> => {
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.get<ExpenseTypeSum>(`http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
-    { headers: { Authorization: `Bearer ${bearerResponse.token}` } }
-  );
-  return data;
-}
+const fetchWalletExpenses = async (walletId: number): Promise<expenseDTO[]> => {
+	const url = apiLinks.walletsLink + "/" + walletId + "/expenses";
+	const { data } = await client.get<expenseDTO[]>(url);
+	return data;
+};
 
-export const getIncome = async (): Promise<Income[]> => {
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.get<Income[]>(apiLinks.incomeLink, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  return data;
-}
+const createWallet = async (wallet: Wallet): Promise<Wallet> => {
+	const { data } = await client.post(apiLinks.walletsLink, wallet);
+	return data;
+};
 
+const fetchIncomes = async (walletId: number): Promise<IncomeDTO[]> => {
+	const { data } = await client.get<IncomeDTO[]>(
+		`${apiLinks.walletsLink}/${walletId}/incomes`,
+	);
+	return data;
+};
 
-export const getMontlyIncomes = async (month: number): Promise<Income[]> => {
-  const bearerResponse = await authenticateApi();
-  month++;
-  const { data } = await axios.get<Income[]>(apiLinks.montlyIncomeLink + month, { headers: { Authorization: `Bearer ${bearerResponse.token}` } });
-  return data;
-}
+const createIncome = async (
+	payload: IncomeDTO,
+	walletId: number,
+): Promise<IncomeDTO> => {
+	const { data } = await client.post(
+		`${apiLinks.walletsLink}/${walletId}/incomes`,
+		payload,
+	);
+	return data;
+};
+const fetchSingleWallet = async (walletId: number): Promise<SingleWallet> => {
+	const { data } = await client.get<SingleWallet>(
+		`${apiLinks.walletsLink}/${walletId}`,
+	);
+	return data;
+};
 
-export const addExpenseToExpenseType = async (expenseTypeId: number, expense: Expense): Promise<Expense> => {
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.post<Expense>(
-    `http://localhost:8080/api/v1/expense-types/${expenseTypeId}/expenses`,
-    expense,
-    { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
-  )
-  return data;
-}
+const fetchExpenseCategories = async (): Promise<string[]> => {
+	const { data } = await client.get<string[]>(
+		`${apiLinks.expensesLink}/categories`,
+	);
+	return data;
+};
 
-export const addExpenseType = async (expenseType: ExpenseType): Promise<ExpenseType> => {
+const fetchIncomeCategories = async (): Promise<string[]> => {
+	const { data } = await client.get<string[]>(
+		`${apiLinks.incomesLink}/categories`,
+	);
 
-  const bearerResponse = await authenticateApi();
-  const { data } = await axios.post<ExpenseType>(
-    `http://localhost:8080/api/v1/expense-types`,
-    expenseType,
-    { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
-  )
-  return data;
-}
-
-
-export const getLastWallet = async (): Promise<Wallet> => {
-  const bearerResponse = await authenticateApi();
-  try {
-
-    const { data } = await axios.get<Wallet>(
-      `http://localhost:8080/api/v1/last-wallet`,
-      { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
-    )
-
-    return data;
-  } catch (error) {
-    console.log("wallet not found");
-    return error as Wallet;
-  }
-}
-
-export const addIncome = async (income: Income): Promise<Income> => {
-  const bearerResponse = await authenticateApi();
-  try {
-    const { data } = await axios.post<Income>(
-      'http://localhost:8080/api/v1/incomes',
-      income,
-      { headers: { Authorization: `Bearer ${bearerResponse.token}` } },
-
-    );
-    return data;
-  } catch (error) {
-    return error as Income;
-  }
-}
-
-
-export const getSavingGoals = async (): Promise<SavingGoal[]> => {
-  const bearerResponse = await authenticateApi();
-  try {
-    const { data } = await axios.get<SavingGoal[]>(
-      'http://localhost:8080/api/v1/saving-goals',
-      { headers: { Authorization: `Bearer ${bearerResponse.token}` } }
-    );
-    return data;
-  } catch (error) {
-    return error as SavingGoal[];
-  }
-}
+	return data;
+};
+export {
+	fetchExpenses,
+	addExpense,
+	fetchWallets,
+	createWallet,
+	fetchIncomes,
+	createIncome,
+	fetchSingleWallet,
+	fetchExpenseCategories,
+	fetchIncomeCategories,
+};

@@ -1,3 +1,4 @@
+import type { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import {
 	Button,
@@ -10,9 +11,9 @@ import {
 	Row,
 } from "react-bootstrap";
 import type { IncomeDTO } from "../interfaces/ExpenseDTO";
-import { createIncome, fetchIncomeCategories } from "../Utilities/ApiClient";
+import { addIncome, fetchIncomeCategories } from "../Utilities/IncomesClient";
 
-export const IncomeAdd = (props: { walletId: number }) => {
+export const IncomeAdd = () => {
 	const [incomeCategories, setIncomeCategories] = useState<string[]>([]);
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -28,10 +29,15 @@ export const IncomeAdd = (props: { walletId: number }) => {
 			dateCreated: target.dateCreated.value,
 			category: target.category.value,
 		};
+		console.log(payload);
 
-		const resp = await createIncome(payload, props.walletId);
-		console.log(resp);
-		window.location.reload();
+		try {
+			const response = await addIncome(payload);
+			console.log(response);
+		} catch (e) {
+			const error = e as AxiosError;
+			console.log(error.message);
+		}
 	};
 
 	const handleCancel = () => {

@@ -1,4 +1,4 @@
-export interface expenseDTO {
+export interface ExpenseDTO {
 	expenseId: number | null;
 	money: number;
 	dateCreated: string;

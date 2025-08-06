@@ -1,5 +1,4 @@
 import type { AxiosError } from "axios";
-import { loadavg } from "os";
 import { useState } from "react";
 import {
 	Button,

@@ -6,4 +6,10 @@ const apiLinks = {
 	incomesLink: `${backendLink}/api/v1/incomes`,
 };
 
-export { apiLinks };
+const fetchBearer = (): string => {
+	const token = window.localStorage.getItem("jwt")?.toString();
+	console.log(token);
+	return token !== undefined ? token : "";
+};
+
+export { apiLinks, fetchBearer };

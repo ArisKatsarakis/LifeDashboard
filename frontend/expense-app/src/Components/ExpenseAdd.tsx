@@ -10,10 +10,13 @@ import {
 	FormSelect,
 	Row,
 } from "react-bootstrap";
-import type { expenseDTO } from "../interfaces/ExpenseDTO";
-import { addExpense, fetchExpenseCategories } from "../Utilities/ApiClient";
+import type { ExpenseDTO } from "../interfaces/ExpenseDTO";
+import {
+	addExpense,
+	fetchExpenseCategories,
+} from "../Utilities/ExpensesClient";
 
-export const ExpenseAdd = (props: { walletId: number }) => {
+export const ExpenseAdd = () => {
 	const [expenseCategories, setExpenseCategories] = useState<string[]>([]);
 	const handleCancel = () => {
 		window.location.reload();
@@ -34,15 +37,17 @@ export const ExpenseAdd = (props: { walletId: number }) => {
 			dateCreated: { value: string };
 			category: { value: string };
 		};
-		const payload: expenseDTO = {
+		const payload: ExpenseDTO = {
 			name: "Expense Name",
 			expenseId: null,
 			money: target.money.value,
 			dateCreated: target.dateCreated.value,
 			category: target.category.value,
 		};
-		const response = await addExpense(payload, props.walletId);
+
+		const response = await addExpense(payload);
 		window.location.reload();
+		console.log(response);
 	};
 	return (
 		<Form onSubmit={handleSubmit} className="text-center mt-4">

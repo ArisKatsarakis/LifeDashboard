@@ -1,16 +1,21 @@
-import type { expenseDTO } from "../interfaces/ExpenseDTO";
-import type { SingleWallet } from "../interfaces/SingleWallet";
+import { useEffect, useState } from "react";
+import type { ExpenseDTO } from "../interfaces/ExpenseDTO";
+import { fetchExpenses } from "../Utilities/ExpensesClient";
 
-export const ExpenseList = (props: {
-	expenses: expenseDTO[];
-	wallet: SingleWallet | undefined;
-}) => {
+export const ExpenseList = () => {
+	const [expenses, setExpenses] = useState<ExpenseDTO[]>([]);
+	useEffect(() => {
+		const initialize = async () => {
+			const data = await fetchExpenses();
+			setExpenses(data);
+		};
+		initialize();
+	}, []);
 	return (
 		<div>
 			<ul className="list-group">
-				<h2 className="text-danger"> Expenses </h2>
-				<h3> Total Expenses: {props.wallet?.totalExpenses} </h3>
-				{props.expenses.map((e) => {
+				<h2 className="text-danger"> Expenses: </h2>
+				{expenses.map((e) => {
 					return (
 						<li key={e.expenseId} className="list-group-item">
 							Name : {e?.name}, Money: {e.money}, Date: {e.dateCreated} ,

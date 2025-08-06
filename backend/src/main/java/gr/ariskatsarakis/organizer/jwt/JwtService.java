@@ -48,21 +48,25 @@ public class JwtService {
                 return Keys.hmacShaKeyFor(keyBytes);
         }
 
-        public boolean validateJwtToken(String token) {
+        public boolean validateJwtToken(String token) throws Exception {
                 try {
                         Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token);
                         return true;
                 } catch (SecurityException e) {
                         System.out.println("Invalid JWT signature: " + e.getMessage());
+                        throw e;
                 } catch (MalformedJwtException e) {
                         System.out.println("Invalid JWT token: " + e.getMessage());
+                        throw e;
                 } catch (ExpiredJwtException e) {
                         System.out.println("JWT token is expired: " + e.getMessage());
+                        throw new Exception(e.getMessage());
                 } catch (UnsupportedJwtException e) {
                         System.out.println("JWT token is unsupported: " + e.getMessage());
+                        throw e;
                 } catch (IllegalArgumentException e) {
                         System.out.println("JWT claims string is empty: " + e.getMessage());
+                        throw e;
                 }
-                return false;
         }
 }

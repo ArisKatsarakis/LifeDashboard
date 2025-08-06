@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import gr.ariskatsarakis.organizer.user.UserInfoService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,10 +45,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 SecurityContextHolder.getContext().setAuthentication(token);
                         }
 
+                } catch (ExpiredJwtException e) {
+                        throw new ServletException(e.getMessage());
                 } catch (Exception e) {
-                        logger.info("Not authorized request");
+                        throw new ServletException(e.getMessage());
                 }
-
                 filterChain.doFilter(request, response);
         }
 

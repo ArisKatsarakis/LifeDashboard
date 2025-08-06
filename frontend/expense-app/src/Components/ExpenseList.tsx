@@ -8,7 +8,7 @@ export const ExpenseList = (props: {
 	return (
 		<div>
 			<ul className="list-group">
-				<h2 className="text-danger"> Expenses: </h2>
+				<h2 className="text-danger"> Expenses </h2>
 				<h3> Total Expenses: {props.wallet?.totalExpenses} </h3>
 				{props.expenses.map((e) => {
 					return (

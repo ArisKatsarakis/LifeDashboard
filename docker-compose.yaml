@@ -1,56 +1,50 @@
 services:
-  postgresdb:
-    image: postgres:14.1-alpine
-    restart: always
-    container_name: postgresdb
-    env_file: .env
-    ports:
-      - '5438:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      retries: 5432
-    networks:
-      - app-network
-  mvn:
-    depends_on:
-        postgresdb:
-             condition: service_healthy
-    build: 
-       context: ./backend
-       dockerfile: ./Dockerfile.dev
-    user: "0:0"
-    env_file: .env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    volumes:
-      - ./backend:/home/app:rw
-      - ~/.m2:/root/.m2
-    networks:
-      - app-network
-  react:
-    depends_on:
-        - mvn
-    build: 
-       context: ./frontend/
-       dockerfile: ./Dockerfile.dev
-    ports:
-        - '3000:3000'
-    volumes:
-      - ./frontend/expense-app/:/app:rw
-    networks:
-        - app-network
+    postgresdb:
+        image: postgres:14.1-alpine
+        restart: always
+        container_name: postgresdb
+        env_file: .env
+        ports:
+            - "5438:5432"
+        volumes:
+            - db:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 10s
+            retries: 5432
+        networks:
+            - app-network
+    mvn:
+        depends_on:
+            postgresdb:
+                condition: service_healthy
+        build:
+            context: ./backend
+            dockerfile: ./Dockerfile.dev
+        user: "0:0"
+        env_file: .env
+        ports:
+            - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+        volumes:
+            - ./backend:/home/app:rw
+            - ~/.m2:/root/.m2
+        networks:
+            - app-network
+    react:
+        depends_on:
+            - mvn
+        build:
+            context: ./frontend/
+            dockerfile: ./Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend/expense-app/:/app:rw
+        networks:
+            - app-network
 volumes:
-  db:
-    driver: local
-#      environment:                                                                                                    
-#        SPRING_APPLICATION_JSON: '{                                                                                   
-#              "spring.datasource.url"  : "jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$POSTGRESDB_DATABASE", 
-#              "spring.datasource.username" : "$POSTGRESDB_USER",
-#              "spring.datasource.password" : "$POSTGRESDB_ROOT_PASSWORD", 
-#              "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect","spring.jpa.hibernate.ddl-auto" : "update"}' 
+    db:
+        driver: local
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge

@@ -13,4 +13,5 @@ export interface IncomeDTO {
 	incomeId: number | null;
 	money: number;
 	dateCreated: string;
+	category: string;
 }

@@ -35,6 +35,10 @@ export const Dashboard = () => {
 		console.log("testing the use effect");
 	}, []);
 
+	const handleModalOpen = () => {
+		setTransactionModalShow(true);
+	};
+
 	const initialize = async (walletId: number) => {
 		setWalletId(walletId);
 		const exp = await fetchExpenses(walletId);
@@ -46,11 +50,11 @@ export const Dashboard = () => {
 	};
 
 	const handleAdd = () => {
-		setExpenseMode(true);
+		setExpenseMode(!expenseMode);
 	};
 
 	const handleIncomeAdd = () => {
-		setIncomeMode(true);
+		setIncomeMode(!incomeMode);
 	};
 
 	useEffect(() => {
@@ -72,12 +76,17 @@ export const Dashboard = () => {
 					Wallet Chosen: {walletId}-{wallet?.walletName}{" "}
 				</h1>
 				<h2> Total Remaining: {wallet?.totalPending} </h2>
-				<h2> Testing the whole damn thing </h2>
 			</Row>
 			<Row>
 				<Col md="3" />
 				<Col md="6" className="text-center">
-					<Button className="btn btn-secondary p-3 rounded-circle"> + </Button>
+					<Button
+						className="btn btn-secondary p-2 col-md-2 "
+						onClick={handleModalOpen}
+					>
+						{" "}
+						+{" "}
+					</Button>
 					<Modal
 						id="add-transaction-modal"
 						show={transactionModalShow}
@@ -85,10 +94,31 @@ export const Dashboard = () => {
 						backdrop="static"
 						keyboard={false}
 					>
-						<ModalHeader>
+						<ModalHeader closeButton>
 							<span> Choose kind of Transaction:</span>
 						</ModalHeader>
-						<ModalBody></ModalBody>
+						<ModalBody>
+							<Row className="text-center">
+								<Col md="6">
+									<Button variant="warning" onClick={handleAdd}>
+										{" "}
+										Add Expense{" "}
+									</Button>
+								</Col>
+								<Col md="6">
+									<Button variant="success" onClick={handleIncomeAdd}>
+										{" "}
+										Add Income{" "}
+									</Button>
+								</Col>
+								<Col md="12">
+									{expenseMode ? <ExpenseAdd walletId={walletId} /> : <br />}
+								</Col>
+								<Col md="12">
+									{incomeMode ? <IncomeAdd walletId={walletId} /> : <br />}
+								</Col>
+							</Row>
+						</ModalBody>
 					</Modal>
 				</Col>
 				<Col md="3" />
@@ -96,11 +126,6 @@ export const Dashboard = () => {
 			<Row>
 				<Col md="6" className="text-center">
 					<ExpenseList expenses={expenses} wallet={wallet} />
-					<Button variant="warning" onClick={handleAdd}>
-						{" "}
-						Add Expense{" "}
-					</Button>
-					{expenseMode ? <ExpenseAdd walletId={walletId} /> : <br />}
 				</Col>
 				<Col md="6" className="text-center">
 					<h2 className="text-success"> Incomes </h2>
@@ -113,16 +138,13 @@ export const Dashboard = () => {
 							return (
 								<li className="list-group-item" key={inc.incomeId}>
 									{" "}
-									Date: {inc.dateCreated}: {inc.money}{" "}
+									Category: {inc.category} Date: {inc.dateCreated}: {
+										inc.money
+									}{" "}
 								</li>
 							);
 						})}
 					</ul>
-					<Button variant="success" onClick={handleIncomeAdd}>
-						{" "}
-						Add Income{" "}
-					</Button>
-					{incomeMode ? <IncomeAdd walletId={walletId} /> : <br />}
 				</Col>
 			</Row>
 			<Row></Row>

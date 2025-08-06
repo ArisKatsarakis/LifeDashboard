@@ -46,6 +46,7 @@ export const ExpenseAdd = (props: { walletId: number }) => {
 	};
 	return (
 		<Form onSubmit={handleSubmit} className="text-center mt-4">
+			<h2 className="text-warning"> Adding Expense </h2>
 			<FormGroup as={Row}>
 				<FormLabel column htmlFor="name" className="p-2 text-center" md="6">
 					{" "}

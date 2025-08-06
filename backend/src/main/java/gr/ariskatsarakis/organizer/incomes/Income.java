@@ -22,48 +22,57 @@ import jakarta.persistence.Table;
 @Table(name = "user_incomes")
 public class Income {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long incomeId;
-	private BigDecimal money;
-	@JsonFormat(pattern = "dd/MM/yy")
-	private Date dateCreated;
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        private Long incomeId;
+        private BigDecimal money;
+        @JsonFormat(pattern = "dd/MM/yy")
+        private Date dateCreated;
 
-	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = true)
-	@JsonIgnore
-	private Wallet wallet;
+        @ManyToOne
+        @JoinColumn(name = "wallet_id", nullable = true)
+        @JsonIgnore
+        private Wallet wallet;
+        private IncomeCategory incomeCategory;
 
-	public Long getIncomeId() {
-		return incomeId;
-	}
+        public Long getIncomeId() {
+                return incomeId;
+        }
 
-	public void setIncomeId(Long incomeId) {
-		this.incomeId = incomeId;
-	}
+        public void setIncomeId(Long incomeId) {
+                this.incomeId = incomeId;
+        }
 
-	public BigDecimal getMoney() {
-		return money;
-	}
+        public BigDecimal getMoney() {
+                return money;
+        }
 
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
+        public void setMoney(BigDecimal money) {
+                this.money = money;
+        }
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+        public Date getDateCreated() {
+                return dateCreated;
+        }
 
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+        public void setDateCreated(Date dateCreated) {
+                this.dateCreated = dateCreated;
+        }
 
-	public Wallet getWallet() {
-		return wallet;
-	}
+        public Wallet getWallet() {
+                return wallet;
+        }
 
-	public void setWallet(Wallet wallet) {
-		this.wallet = wallet;
-	}
+        public void setWallet(Wallet wallet) {
+                this.wallet = wallet;
+        }
+
+        public IncomeCategory getIncomeCategory() {
+                return incomeCategory;
+        }
+
+        public void setIncomeCategory(IncomeCategory incomeCategory) {
+                this.incomeCategory = incomeCategory;
+        }
 
 }

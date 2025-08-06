@@ -10,33 +10,42 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class IncomeDTO {
 
-	private Long incomeId;
-	private BigDecimal money;
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date dateCreated;
+        private Long incomeId;
+        private BigDecimal money;
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        private Date dateCreated;
+        private String category;
 
-	public Long getIncomeId() {
-		return incomeId;
-	}
+        public String getCategory() {
+                return category;
+        }
 
-	public void setIncomeId(Long incomeId) {
-		this.incomeId = incomeId;
-	}
+        public void setCategory(String category) {
+                this.category = category;
+        }
 
-	public BigDecimal getMoney() {
-		return money;
-	}
+        public Long getIncomeId() {
+                return incomeId;
+        }
 
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
+        public void setIncomeId(Long incomeId) {
+                this.incomeId = incomeId;
+        }
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+        public BigDecimal getMoney() {
+                return money;
+        }
 
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+        public void setMoney(BigDecimal money) {
+                this.money = money;
+        }
+
+        public Date getDateCreated() {
+                return dateCreated;
+        }
+
+        public void setDateCreated(Date dateCreated) {
+                this.dateCreated = dateCreated;
+        }
 
 }

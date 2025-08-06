@@ -1,8 +1,9 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Dashboard } from "./Components/Dashboard";
+import { Expenses } from "./Components/Expenses";
 import { Header } from "./Components/Header";
+import { Incomes } from "./Components/Incomes";
 import { Login } from "./Components/Login";
 import { Register } from "./Components/Register";
 import {
@@ -11,7 +12,6 @@ import {
 	PublicRoute,
 } from "./Components/RoutePublicProtected";
 import { Statistics } from "./Components/Statistics";
-import { WalletDisplay } from "./Components/Wallets";
 
 function App() {
 	return (
@@ -21,7 +21,7 @@ function App() {
 				<Route
 					path="/"
 					element={
-						<Navigate to={isLoggedIn() === true ? "/wallets" : "/login"} />
+						<Navigate to={isLoggedIn() === true ? "/incomes" : "/login"} />
 					}
 				/>
 				<Route
@@ -41,18 +41,10 @@ function App() {
 					}
 				/>
 				<Route
-					path="/wallets"
+					path="/incomes"
 					element={
 						<ProtectedRoute>
-							<WalletDisplay />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/wallet/:id"
-					element={
-						<ProtectedRoute>
-							<Dashboard />
+							<Incomes />
 						</ProtectedRoute>
 					}
 				/>
@@ -61,6 +53,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Statistics />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/expenses"
+					element={
+						<ProtectedRoute>
+							<Expenses />
 						</ProtectedRoute>
 					}
 				/>

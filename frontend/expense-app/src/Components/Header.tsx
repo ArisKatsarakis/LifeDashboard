@@ -13,6 +13,26 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { isLoggedIn } from "./RoutePublicProtected";
 
 const Header = () => {
+	const badges = [
+		{
+			id: 1,
+			name: "Expenses",
+			search: "expenses",
+			link: "/expenses",
+		},
+		{
+			id: 2,
+			name: "Incomes",
+			search: "incomes",
+			link: "/incomes",
+		},
+		{
+			id: 3,
+			name: "Stats",
+			search: "stats",
+			link: "/stats",
+		},
+	];
 	const navigate = useNavigate();
 	const [show, setShow] = useState<boolean>(false);
 	const { pathname } = useLocation();
@@ -34,43 +54,29 @@ const Header = () => {
 					</a>
 				</Col>
 				<Col md="8" className="text-center">
-					<span
-						className={
-							pathname.includes("wallet") === true
-								? "badge bg-success m-1"
-								: "badge bg-secondary m-1"
-						}
-					>
-						<h4>
-							{" "}
-							<a
-								href="/wallets"
-								style={{ textDecoration: "none", color: "white" }}
+					{badges.map((b) => {
+						return (
+							<span
+								className={
+									pathname.includes(b.search) === true
+										? "badge bg-success m-1"
+										: "badge bg-secondary m-1"
+								}
+								key={b.id}
 							>
-								{" "}
-								Wallets{" "}
-							</a>{" "}
-						</h4>
-					</span>
-
-					<span
-						className={
-							pathname.includes("stats") === true
-								? "badge bg-success m-1"
-								: "badge bg-secondary m-1"
-						}
-					>
-						<h4>
-							{" "}
-							<a
-								href="/stats"
-								style={{ textDecoration: "none", color: "white" }}
-							>
-								{" "}
-								Stats{" "}
-							</a>{" "}
-						</h4>
-					</span>
+								<h4>
+									{" "}
+									<a
+										href={b.link}
+										style={{ textDecoration: "none", color: "white" }}
+									>
+										{" "}
+										{b.name}{" "}
+									</a>{" "}
+								</h4>
+							</span>
+						);
+					})}
 				</Col>
 				<Col md="2" style={{ textAlign: "right" }} className="mt-2">
 					{isLoggedIn() === true ? (

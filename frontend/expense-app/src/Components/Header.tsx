@@ -35,6 +35,12 @@ const Header = () => {
 			search: "stats",
 			link: "/stats",
 		},
+		{
+			id: 4,
+			name: "Saving Goals",
+			search: "goals",
+			link: "/goals",
+		},
 	];
 
 	const navigate = useNavigate();

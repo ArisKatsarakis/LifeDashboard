@@ -11,6 +11,7 @@ import {
 	ProtectedRoute,
 	PublicRoute,
 } from "./Components/RoutePublicProtected";
+import { SavingGoals } from "./Components/SavingGoals";
 import { Statistics } from "./Components/Statistics";
 
 function App() {
@@ -61,6 +62,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Expenses />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/goals"
+					element={
+						<ProtectedRoute>
+							<SavingGoals />
 						</ProtectedRoute>
 					}
 				/>

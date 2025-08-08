@@ -14,4 +14,6 @@ import gr.ariskatsarakis.organizer.user.UserInfo;
 public interface IncomeRespository extends JpaRepository<Income, Long> {
 
         List<Income> findByUserInfo(UserInfo userInfo);
+
+        List<Income> findByUserInfoAndIncomeCategory(UserInfo userInfo, IncomeCategory category);
 }

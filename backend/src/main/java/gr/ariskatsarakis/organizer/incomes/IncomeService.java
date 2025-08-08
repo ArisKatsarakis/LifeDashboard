@@ -1,10 +1,13 @@
 package gr.ariskatsarakis.organizer.incomes;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import gr.ariskatsarakis.organizer.user.UserInfo;
 import gr.ariskatsarakis.organizer.user.UserInfoService;
 import jakarta.transaction.Transactional;
 
@@ -21,10 +24,6 @@ public class IncomeService {
         public IncomeService(IncomeRespository incomeRespository, UserInfoService userInfoService) {
                 this.incomeRespository = incomeRespository;
                 this.userInfoService = userInfoService;
-        }
-
-        public Income addIncome(Income income) {
-                return incomeRespository.save(income);
         }
 
         public IncomeDTO fromIncomeToDTO(Income income) {
@@ -62,10 +61,33 @@ public class IncomeService {
 
         public IncomeDTO addIncome(IncomeDTO incomeDTO) {
                 Income income = fromDTOToIncome(incomeDTO);
-                income.setUserInfo(userInfoService.fetchUser());
+                UserInfo userInfo = userInfoService.fetchUser();
+                income.setUserInfo(userInfo);
+                BigDecimal totalIncomes = userInfo.getTotalMoneyReceived() == null ? income.getMoney()
+                                : userInfo.getTotalMoneyReceived().add(income.getMoney());
+                BigDecimal totalPending = userInfo.getTotalMoneyPending() == null ? totalIncomes
+                                : userInfo.getTotalMoneyPending().add(income.getMoney());
+                userInfo.setTotalMoneyReceived(totalIncomes);
+                userInfo.setTotalMoneyPending(totalPending);
                 income = incomeRespository.save(income);
+                userInfoService.updateUser(userInfo);
                 incomeDTO.setIncomeId(income.getIncomeId());
                 return incomeDTO;
+        }
+
+        public List<IncomeDTO> fetchIncomesByCategory(IncomeCategory category) {
+                List<IncomeDTO> idtos = new ArrayList<>();
+                UserInfo userInfo = userInfoService.fetchUser();
+                if (userInfo == null) {
+                        throw new UsernameNotFoundException("username not found");
+                }
+
+                List<Income> incomes = incomeRespository.findByUserInfoAndIncomeCategory(userInfo, category);
+                for (Income i : incomes) {
+                        idtos.add(fromIncomeToDTO(i));
+                }
+
+                return idtos;
         }
 
 }

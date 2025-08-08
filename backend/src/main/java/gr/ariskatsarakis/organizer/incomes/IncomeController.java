@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,8 @@ public class IncomeController {
         }
 
         @GetMapping("/categories")
-        public ResponseEntity<IncomeCategory[]> fetchIncomeCategories() throws Exception {
-                throw new Exception("Testing the exception");
-                // return new ResponseEntity<>(IncomeCategory.values(), HttpStatus.OK);
+        public ResponseEntity<IncomeCategory[]> fetchIncomeCategories() {
+                return new ResponseEntity<>(IncomeCategory.values(), HttpStatus.OK);
         }
 
         @GetMapping
@@ -35,4 +35,10 @@ public class IncomeController {
         public ResponseEntity<IncomeDTO> addIncome(@RequestBody IncomeDTO incomeDTO) {
                 return new ResponseEntity<>(incomeService.addIncome(incomeDTO), HttpStatus.OK);
         }
+
+        @GetMapping("/categories/{category}")
+        public ResponseEntity<List<IncomeDTO>> fetchIncomesByCategories(@PathVariable IncomeCategory category) {
+                return new ResponseEntity<>(incomeService.fetchIncomesByCategory(category), HttpStatus.OK);
+        }
+
 }

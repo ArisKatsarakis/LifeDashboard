@@ -38,7 +38,7 @@ export const Login = () => {
 				"username",
 				response.username !== null ? response.username : "",
 			);
-			navigate("/wallets");
+			navigate("/");
 		} catch (error: any) {
 			setErrorMessage("Bad Credentials");
 			console.log(error);

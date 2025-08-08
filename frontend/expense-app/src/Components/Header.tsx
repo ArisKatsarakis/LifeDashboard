@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	Col,
@@ -10,9 +10,12 @@ import {
 	Row,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import type { UserFinanceDTO } from "../interfaces/UserFinance";
+import { fetchUserFinance } from "../Utilities/UserClient";
 import { isLoggedIn } from "./RoutePublicProtected";
 
 const Header = () => {
+	const [userFinance, setUserFinance] = useState<UserFinanceDTO>();
 	const badges = [
 		{
 			id: 1,
@@ -33,22 +36,39 @@ const Header = () => {
 			link: "/stats",
 		},
 	];
+
 	const navigate = useNavigate();
 	const [show, setShow] = useState<boolean>(false);
 	const { pathname } = useLocation();
 	const handleCloseModal = () => {
 		setShow(false);
 	};
+
 	const handleLogout = () => {
 		window.localStorage.clear();
 		setShow(false);
 		navigate("/");
 	};
+
+	useEffect(() => {
+		const initialize = async () => {
+			if (isLoggedIn() === true) {
+				const data = await fetchUserFinance();
+				setUserFinance(data);
+			}
+		};
+		initialize();
+	}, []);
+
 	return (
-		<Container style={{ borderBottom: "1px solid black" }} fluid>
-			<Row>
+		<Container fluid>
+			<Row style={{ borderBottom: "1px solid black" }}>
 				<Col md="2" style={{}}>
-					<a href="/" className="link-secondary">
+					<a
+						href="/"
+						className="link-secondary"
+						style={{ textDecoration: "none" }}
+					>
 						{" "}
 						<h2> Expense App </h2>{" "}
 					</a>
@@ -137,6 +157,30 @@ const Header = () => {
 					)}
 				</Col>
 			</Row>
+			{isLoggedIn() === false ? (
+				<Row> </Row>
+			) : (
+				<Row className="text-center" style={{ marginTop: "1rem" }}>
+					<Col md="4" className="text-danger ">
+						<span className="badge rounded-pill text-bg-danger text-center">
+							{" "}
+							<h4 className=""> Spent:{userFinance?.totalMoneySpent} </h4>{" "}
+						</span>
+					</Col>
+					<Col md="4" className="text-warning">
+						<span className="badge rounded-pill text-bg-warning align-middle p-2">
+							{" "}
+							<h4> Pending:{userFinance?.totalMoneyPending} </h4>{" "}
+						</span>
+					</Col>
+					<Col md="4" className="text-success">
+						<span className="badge rounded-pill text-bg-success align-middle p-2">
+							{" "}
+							<h4> Received:{userFinance?.totalMoneyReceived} </h4>{" "}
+						</span>
+					</Col>
+				</Row>
+			)}
 		</Container>
 	);
 };

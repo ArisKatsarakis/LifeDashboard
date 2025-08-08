@@ -34,6 +34,7 @@ export const IncomeAdd = () => {
 		try {
 			const response = await addIncome(payload);
 			console.log(response);
+			window.location.reload();
 		} catch (e) {
 			const error = e as AxiosError;
 			console.log(error.message);

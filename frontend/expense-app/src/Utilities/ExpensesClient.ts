@@ -24,4 +24,16 @@ const addExpense = async (expense: ExpenseDTO): Promise<ExpenseDTO> => {
 	return data;
 };
 
-export { fetchExpenses, fetchExpenseCategories, addExpense };
+const fetchExpensesByCategories = async (
+	category: string,
+): Promise<ExpenseDTO[]> => {
+	const { data } = await expensesClient.get("/categories/" + category);
+	return data;
+};
+
+export {
+	fetchExpenses,
+	fetchExpenseCategories,
+	addExpense,
+	fetchExpensesByCategories,
+};

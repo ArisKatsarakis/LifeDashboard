@@ -24,4 +24,18 @@ const fetcIncomes = async (): Promise<IncomeDTO[]> => {
 	return data;
 };
 
-export { fetchIncomeCategories, addIncome, fetcIncomes };
+const fetchIncomesByCategory = async (
+	category: string,
+): Promise<IncomeDTO[]> => {
+	const { data } = await incomeClient.get<IncomeDTO[]>(
+		"/categories/" + category,
+	);
+	return data;
+};
+
+export {
+	fetchIncomeCategories,
+	addIncome,
+	fetcIncomes,
+	fetchIncomesByCategory,
+};

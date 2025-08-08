@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { type AxiosError } from "axios";
 import type { IncomeDTO } from "../interfaces/ExpenseDTO";
-import { fetchBearer } from "./Variables";
+import { fetchBearer, logout } from "./Variables";
 
 const incomeClient = axios.create({
 	baseURL: "http://localhost:8080/api/v1/incomes",
@@ -10,27 +10,63 @@ const incomeClient = axios.create({
 });
 
 const fetchIncomeCategories = async (): Promise<string[]> => {
-	const { data } = await incomeClient.get<string[]>("/categories");
-	return data;
+	try {
+		const { data } = await incomeClient.get<string[]>("/categories");
+		return data;
+	} catch (error) {
+		console.log(error);
+		const e = error as AxiosError;
+		if (e.status === 401) {
+			logout();
+		}
+	}
+	return [];
 };
 
 const addIncome = async (incomeDto: IncomeDTO): Promise<IncomeDTO> => {
-	const { data } = await incomeClient.post<IncomeDTO>("", incomeDto);
-	return data;
+	try {
+		const { data } = await incomeClient.post<IncomeDTO>("", incomeDto);
+		return data;
+	} catch (error) {
+		console.log(error);
+		const e = error as AxiosError;
+		if (e.status === 401) {
+			logout();
+		}
+	}
+	return <IncomeDTO>{};
 };
 
 const fetcIncomes = async (): Promise<IncomeDTO[]> => {
-	const { data } = await incomeClient.get<IncomeDTO[]>("");
-	return data;
+	try {
+		const { data } = await incomeClient.get<IncomeDTO[]>("");
+		return data;
+	} catch (error) {
+		console.log(error);
+		const e = error as AxiosError;
+		if (e.status === 401) {
+			logout();
+		}
+	}
+	return <IncomeDTO[]>[];
 };
 
 const fetchIncomesByCategory = async (
 	category: string,
 ): Promise<IncomeDTO[]> => {
-	const { data } = await incomeClient.get<IncomeDTO[]>(
-		"/categories/" + category,
-	);
-	return data;
+	try {
+		const { data } = await incomeClient.get<IncomeDTO[]>(
+			"/categories/" + category,
+		);
+		return data;
+	} catch (error) {
+		console.log(error);
+		const e = error as AxiosError;
+		if (e.status === 401) {
+			logout();
+		}
+	}
+	return [];
 };
 
 export {

@@ -11,5 +11,8 @@ const fetchBearer = (): string => {
 	console.log(token);
 	return token !== undefined ? token : "";
 };
+const logout = () => {
+	window.localStorage.clear();
+};
 
-export { apiLinks, fetchBearer };
+export { apiLinks, fetchBearer, logout };

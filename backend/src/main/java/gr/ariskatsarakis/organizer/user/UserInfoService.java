@@ -61,4 +61,24 @@ public class UserInfoService implements UserDetailsService {
 
         }
 
+        public void updateUser(UserInfo userInfo) {
+                repository.save(userInfo);
+        }
+
+        public UserInfoFinanceDTO fetchFinance() {
+
+                UserInfoFinanceDTO dto = new UserInfoFinanceDTO();
+                UserInfo userInfo = fetchUser();
+                if (userInfo == null) {
+                        throw new UsernameNotFoundException("Username not found");
+                }
+
+                dto.setTotalMoneyPending(userInfo.getTotalMoneyPending());
+                dto.setTotalMoneyReceived(userInfo.getTotalMoneyReceived());
+                dto.setTotalMoneySpent(userInfo.getTotalMoneySpent());
+
+                return dto;
+
+        }
+
 }

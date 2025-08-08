@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import gr.ariskatsarakis.organizer.expenses.Expense;
@@ -37,5 +38,9 @@ public class UserInfo {
         @OneToMany
         @JoinColumn(name = "user_id")
         private List<Income> incomes;
+
+        private BigDecimal totalMoneySpent = BigDecimal.ZERO;
+        private BigDecimal totalMoneyPending = BigDecimal.ZERO;
+        private BigDecimal totalMoneyReceived = BigDecimal.ZERO;
 
 }

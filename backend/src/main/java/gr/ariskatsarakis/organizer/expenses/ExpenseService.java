@@ -1,18 +1,24 @@
 package gr.ariskatsarakis.organizer.expenses;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import gr.ariskatsarakis.organizer.user.UserInfo;
 import gr.ariskatsarakis.organizer.user.UserInfoService;
+import jakarta.transaction.Transactional;
 
 /**
  * ExpenseService
  */
 @Service
+@Transactional
 public class ExpenseService {
 
         private ExpenseRepository expenseRepository;
@@ -30,7 +36,19 @@ public class ExpenseService {
         }
 
         public ExpenseDTO addExpense(Expense e) {
-                e.setUserInfo(userInfoService.fetchUser());
+                UserInfo userInfo = userInfoService.fetchUser();
+                if (userInfo == null) {
+                        throw new UsernameNotFoundException("UserName not found");
+                }
+                e.setUserInfo(userInfo);
+                BigDecimal totalSpent = userInfo.getTotalMoneySpent();
+                totalSpent = totalSpent != null ? totalSpent.add(e.getMoney()) : e.getMoney();
+                BigDecimal totalPending = userInfo.getTotalMoneyPending() != null
+                                ? userInfo.getTotalMoneyPending().subtract(e.getMoney())
+                                : BigDecimal.ZERO.subtract(e.getMoney());
+                userInfo.setTotalMoneySpent(totalSpent);
+                userInfo.setTotalMoneyPending(totalPending);
+                userInfoService.updateUser(userInfo);
                 Expense expense = expenseRepository.save(e);
                 return fromExpenseToDTO(expense);
         }
@@ -71,6 +89,23 @@ public class ExpenseService {
                 e.setName(dto.getName());
                 e.setCategory(ExpenseCategory.valueOf(dto.getCategory()));
                 return e;
+        }
+
+        public List<ExpenseDTO> fetchExpensesByCategories(ExpenseCategory category) {
+                List<ExpenseDTO> dtos = new ArrayList<>();
+                UserInfo userInfo = userInfoService.fetchUser();
+
+                if (userInfo == null) {
+                        throw new UsernameNotFoundException("username not found");
+
+                }
+
+                List<Expense> expenses = expenseRepository.findByUserInfoAndCategory(userInfo, category);
+                logger.info(Arrays.deepToString(expenses.toArray()));
+                for (Expense e : expenses) {
+                        dtos.add(fromExpenseToDTO(e));
+                }
+                return dtos;
         }
 
 }

@@ -67,17 +67,6 @@ public class Expense {
                 this.dateCreated = dateCreated;
         }
 
-        @Override
-        public String toString() {
-                StringBuilder sb = new StringBuilder();
-                sb.append("{");
-                sb.append(String.format("\n\tmoney:%d,", this.money.longValue()));
-                sb.append(String.format("\n\tdateCreated:%s,", this.dateCreated.toString()));
-                sb.append(String.format("\n\tuserInfo:%s,", this.userInfo.toString()));
-                sb.append("}");
-                return sb.toString();
-        }
-
         public ExpenseCategory getCategory() {
                 return category;
         }

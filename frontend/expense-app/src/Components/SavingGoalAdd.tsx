@@ -1,3 +1,5 @@
+import { addMonths } from "date-fns";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	Container,
@@ -11,6 +13,25 @@ import type { SavingGoalDTO } from "../interfaces/SavingGoal";
 import { addSavingGoal } from "../Utilities/SavingGoalClient";
 
 export const SavingGoalAdd = () => {
+	const monthsCounting = 3;
+	const months: string[] = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	const [monthsMap, setMonthsMap] = useState<Map<string, Date>>(
+		new Map<string, Date>(),
+	);
+
 	const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.target as typeof e.target & {
@@ -28,6 +49,19 @@ export const SavingGoalAdd = () => {
 		const response = await addSavingGoal(payload);
 		console.log(response);
 	};
+
+	useEffect(() => {
+		const start = new Date();
+		let date = new Date();
+		const mMap = new Map<string, Date>();
+		date.setDate(1);
+		for (let i = 0; i < monthsCounting; i++) {
+			date = addMonths(start, i);
+			console.log(date);
+		}
+		setMonthsMap(mMap);
+		console.log(monthsMap);
+	}, []);
 
 	return (
 		<Container>
@@ -62,6 +96,15 @@ export const SavingGoalAdd = () => {
 				</FormGroup>
 				<Button type="submit"> Save Goal </Button>
 			</Form>
+			<Row>
+				<ul className="list-group text-center">
+					{Array.from(monthsMap.entries()).map(([s, d]) => (
+						<li key={s} className="list-group-item">
+							<Button className="btn btn-outline"> {d.toDateString()}</Button>
+						</li>
+					))}
+				</ul>
+			</Row>
 		</Container>
 	);
 };

@@ -16,6 +16,7 @@ import java.util.List;
 
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.incomes.Income;
+import gr.ariskatsarakis.organizer.savinggoals.SavingGoal;
 
 @Entity
 @Data
@@ -43,4 +44,7 @@ public class UserInfo {
         private BigDecimal totalMoneyPending = BigDecimal.ZERO;
         private BigDecimal totalMoneyReceived = BigDecimal.ZERO;
 
+        @OneToMany
+        @JoinColumn(name = "user_id")
+        private List<SavingGoal> savingGoals;
 }

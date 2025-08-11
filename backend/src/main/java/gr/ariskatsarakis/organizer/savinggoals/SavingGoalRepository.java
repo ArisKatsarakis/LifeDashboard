@@ -1,0 +1,15 @@
+package gr.ariskatsarakis.organizer.savinggoals;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import gr.ariskatsarakis.organizer.user.UserInfo;
+
+@Repository
+public interface SavingGoalRepository extends JpaRepository<SavingGoal, Long> {
+
+        List<SavingGoal> findByUserInfo(UserInfo userInfo);
+
+}

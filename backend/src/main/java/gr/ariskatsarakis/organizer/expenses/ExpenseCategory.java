@@ -5,4 +5,5 @@ public enum ExpenseCategory {
         ENTERTAIMENT,
         DEBT,
         FOOD,
+        JUNK_FOOD,
 }

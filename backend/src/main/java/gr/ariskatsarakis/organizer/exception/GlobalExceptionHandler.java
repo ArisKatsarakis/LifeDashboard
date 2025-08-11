@@ -28,4 +28,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         }
 
+        @ExceptionHandler(SavingGoalNotFoundException.class)
+        public ResponseEntity<ExceptionResponse> handleAllExceptions(SavingGoalNotFoundException ex,
+                        HttpServletRequest req) {
+                ExceptionResponse response = new ExceptionResponse();
+                response.setLocation(req.getRequestURI());
+                response.setTimestamp(LocalDate.now());
+                response.setErrorMessage(String.format("Goal: %d not found", ex.getSavingGoalId()));
+
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+        }
+
 }

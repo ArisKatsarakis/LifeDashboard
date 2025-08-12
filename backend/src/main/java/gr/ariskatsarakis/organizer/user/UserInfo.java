@@ -17,6 +17,7 @@ import java.util.List;
 import gr.ariskatsarakis.organizer.expenses.Expense;
 import gr.ariskatsarakis.organizer.incomes.Income;
 import gr.ariskatsarakis.organizer.savinggoals.SavingGoal;
+import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoal;
 
 @Entity
 @Data
@@ -47,4 +48,9 @@ public class UserInfo {
         @OneToMany
         @JoinColumn(name = "user_id")
         private List<SavingGoal> savingGoals;
+
+        @OneToMany
+        @JoinColumn(name = "user_id")
+        private List<SpendingGoal> spendingGoals;
+
 }

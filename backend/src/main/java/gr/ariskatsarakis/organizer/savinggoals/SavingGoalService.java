@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import gr.ariskatsarakis.organizer.exception.SavingGoalNotFoundException;
+import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoal;
+import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoalService;
 import gr.ariskatsarakis.organizer.user.UserInfo;
 import gr.ariskatsarakis.organizer.user.UserInfoService;
 import jakarta.transaction.Transactional;
@@ -18,12 +20,15 @@ public class SavingGoalService {
 
         private SavingGoalRepository savingGoalRepository;
         private UserInfoService userInfoService;
+        private SpendingGoalService spendingGoalService;
 
         public SavingGoalService(
                         SavingGoalRepository savingGoalRepository,
-                        UserInfoService userInfoService) {
+                        UserInfoService userInfoService,
+                        SpendingGoalService spendingGoalService) {
                 this.savingGoalRepository = savingGoalRepository;
                 this.userInfoService = userInfoService;
+                this.spendingGoalService = spendingGoalService;
         }
 
         public List<SavingGoal> fetchSavingGoalsByUser() {
@@ -72,6 +77,28 @@ public class SavingGoalService {
                 sCalculations.setDailySpending(dailySpending);
 
                 return sCalculations;
+        }
+
+        public List<SpendingGoal> addSpendingGoals(Long savingGoalId) {
+                Optional<SavingGoal> optSavingGoal = savingGoalRepository.findById(savingGoalId);
+                if (optSavingGoal.isPresent()) {
+                        SavingGoal goal = optSavingGoal.get();
+                        List<SpendingGoal> spendingGoals = spendingGoalService
+                                        .createSpendingGoalsAccordingToSavingGoal(goal);
+                        return spendingGoals;
+                }
+                throw new SavingGoalNotFoundException(savingGoalId);
+        }
+
+        public String clearSpendingGoals(Long savingGoalId) {
+                Optional<SavingGoal> optional = savingGoalRepository.findById(savingGoalId);
+                if (optional.isEmpty()) {
+                        throw new SavingGoalNotFoundException(savingGoalId);
+
+                }
+                spendingGoalService.clearSpendingGoals(optional.get());
+
+                return "Spending goals deleted for " + savingGoalId;
         }
 
 }

@@ -2,10 +2,12 @@ package gr.ariskatsarakis.organizer.savinggoals;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoal;
 import gr.ariskatsarakis.organizer.user.UserInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +36,10 @@ public class SavingGoal {
         @JoinColumn(name = "user_id")
         @JsonIgnore
         private UserInfo userInfo;
+
+        @OneToMany
+        @JoinColumn(name = "saving_goal_id")
+        private List<SpendingGoal> spendingGoals;
 
         public Long getSavingGoalId() {
                 return savingGoalId;
@@ -72,6 +79,14 @@ public class SavingGoal {
 
         public void setUserInfo(UserInfo userInfo) {
                 this.userInfo = userInfo;
+        }
+
+        public List<SpendingGoal> getSpendingGoals() {
+                return spendingGoals;
+        }
+
+        public void setSpendingGoals(List<SpendingGoal> spendingGoals) {
+                this.spendingGoals = spendingGoals;
         }
 
 }

@@ -75,13 +75,6 @@ export const SavingGoalList = () => {
 											>
 												Edit
 											</Button>{" "}
-											<Button
-												className="btn btn-danger"
-												value={savingGoal.savingGoalId}
-												onClick={updateSpendingGoals}
-											>
-												Update Spending
-											</Button>{" "}
 										</Col>
 										<Col md={2} />
 

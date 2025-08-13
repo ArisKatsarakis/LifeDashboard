@@ -2,8 +2,11 @@ import axios, { type AxiosError } from "axios";
 import type { UserFinanceDTO } from "../interfaces/UserFinance";
 import { fetchBearer, logout } from "./Variables";
 
+const backend = process.env.REACT_APP_BACKEND;
+const mainUrl = `${backend}/api/v1/user`;
+
 const userClient = axios.create({
-	baseURL: "http://localhost:8080/api/v1/user",
+	baseURL: mainUrl,
 	headers: {
 		Authorization: "Bearer " + fetchBearer(),
 	},

@@ -1,4 +1,4 @@
-import axios, { Axios, type AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import type {
 	SavingGoalCalculationsDTO,
 	SavingGoalDTO,
@@ -6,8 +6,10 @@ import type {
 } from "../interfaces/SavingGoal";
 import { fetchBearer, logout } from "./Variables";
 
+const backend = process.env.REACT_APP_BACKEND;
+const mainUrl = `${backend}/api/v1/saving-goals`;
 const savingGoalClient = axios.create({
-	baseURL: "http://localhost:8080/api/v1/saving-goals",
+	baseURL: mainUrl,
 	headers: {
 		Authorization: "Bearer " + fetchBearer(),
 	},

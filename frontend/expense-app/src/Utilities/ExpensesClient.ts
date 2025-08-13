@@ -2,8 +2,10 @@ import axios, { type AxiosError } from "axios";
 import type { ExpenseDTO } from "../interfaces/ExpenseDTO";
 import { fetchBearer, logout } from "./Variables";
 
+const backend = process.env.REACT_APP_BACKEND;
+
 const expensesClient = axios.create({
-	baseURL: "http://localhost:8080/api/v1/expenses",
+	baseURL: `${backend}/api/v1/expenses`,
 	headers: {
 		Authorization: "Bearer " + fetchBearer(),
 	},

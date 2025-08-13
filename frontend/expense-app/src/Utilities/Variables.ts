@@ -12,7 +12,7 @@ const fetchBearer = (): string => {
 	return token !== undefined ? token : "";
 };
 const logout = () => {
-	window.localStorage.clear();
+	// window.localStorage.clear();
 };
 
 export { apiLinks, fetchBearer, logout };

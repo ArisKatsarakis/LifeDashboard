@@ -2,9 +2,10 @@ import axios from "axios";
 import type { LoginInput, LoginResponse } from "../interfaces/LoginInput";
 import type { RegisterInput, RegisterResponse } from "../interfaces/Register";
 
+const backend = process.env.REACT_APP_BACKEND;
 const urls = {
-	loginUrl: "http://localhost:8080/auth",
-	registerUrl: "http://localhost:8080/register",
+	loginUrl: backend + "/auth",
+	registerUrl: backend + "/register",
 };
 
 const login = async (input: LoginInput): Promise<LoginResponse> => {

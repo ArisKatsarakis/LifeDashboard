@@ -47,7 +47,6 @@ export const ExpenseAdd = () => {
 
 		const response = await addExpense(payload);
 		window.location.reload();
-		console.log(response);
 	};
 	return (
 		<Form onSubmit={handleSubmit} className="text-center mt-4">

@@ -1,28 +1,16 @@
 package gr.ariskatsarakis.organizer.expenses;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoal;
 import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoalRepository;
 import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoalService;
-import gr.ariskatsarakis.organizer.user.UserInfo;
 import gr.ariskatsarakis.organizer.user.UserInfoService;
 import jakarta.transaction.Transactional;
 
@@ -59,7 +47,7 @@ public class TestExpenseService {
                 // Expense e = i.getArgument(0);
                 // e.setExpenseId(0l);
                 // return e;
-                // });
+                /*** TODO fix the date error **/
                 //
                 // Expense expense = new Expense();
                 // expense.setDateCreated(Date.valueOf(LocalDate.now()));

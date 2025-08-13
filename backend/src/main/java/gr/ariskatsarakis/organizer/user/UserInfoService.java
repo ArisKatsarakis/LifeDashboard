@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import gr.ariskatsarakis.organizer.exception.UsernameFoundException;
-
 @Service
 public class UserInfoService implements UserDetailsService {
         private final UserInfoRepository repository;
@@ -34,9 +32,6 @@ public class UserInfoService implements UserDetailsService {
                 if (userInfo.isEmpty()) {
                         logger.info("User not found with email: " + username);
                         userInfo = repository.findByName(username);
-                        if (userInfo.isEmpty()) {
-                                throw new UsernameNotFoundException("User not found");
-                        }
                 }
                 UserInfoDetails user = new UserInfoDetails(userInfo.get());
                 User userDetails = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
@@ -45,9 +40,6 @@ public class UserInfoService implements UserDetailsService {
         }
 
         public String addUser(UserInfo userInfo) {
-                if (repository.findByEmail(userInfo.getEmail()) != null) {
-                        throw new UsernameFoundException(userInfo.getEmail());
-                }
                 // userInfo.setPassword(pEncoder.encode(userInfo.getPassword()));
                 repository.save(userInfo);
                 return "User added successfully";

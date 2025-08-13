@@ -3,6 +3,9 @@ package gr.ariskatsarakis.organizer.spendinggoals;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import gr.ariskatsarakis.organizer.savinggoals.SavingGoal;
 import gr.ariskatsarakis.organizer.user.UserInfo;
 import jakarta.persistence.Entity;
@@ -24,15 +27,28 @@ public class SpendingGoal {
         @GeneratedValue(strategy = GenerationType.SEQUENCE)
         private Long spendingGoalId;
         private BigDecimal spendingMoney;
+        @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate spendingDay;
 
         @ManyToOne
         @JoinColumn(name = "user_id")
+        @JsonIgnore
         private UserInfo userInfo;
 
         @ManyToOne
         @JoinColumn(name = "saving_goal_id")
+        @JsonIgnore
         private SavingGoal savingGoal;
+
+        private BigDecimal daySpented;
+
+        public BigDecimal getDaySpented() {
+                return daySpented;
+        }
+
+        public void setDaySpented(BigDecimal daySpented) {
+                this.daySpented = daySpented;
+        }
 
         public Long getSpendingGoalId() {
                 return spendingGoalId;

@@ -1,6 +1,5 @@
 package gr.ariskatsarakis.organizer.savinggoals;
 
-import java.net.http.HttpResponse.ResponseInfo;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,19 +36,26 @@ public class SavingGoalController {
         }
 
         @GetMapping("/{savingGoalId}")
-        public ResponseEntity<SavingCalculations> fetchCalculationsForSavingGoals(@PathVariable Long savingGoalId) {
-                return new ResponseEntity<>(savingGoalService.fetchCalcualtions(savingGoalId), HttpStatus.OK);
-
+        public ResponseEntity<SavingGoal> fetchCalculationsForSavingGoals(@PathVariable Long savingGoalId) {
+                return new ResponseEntity<>(savingGoalService.fetchSavingGoalById(savingGoalId), HttpStatus.OK);
         }
 
         @GetMapping("/{savingGoalId}/create-spending-goals")
         public ResponseEntity<List<SpendingGoal>> addSpendingGoalsToSavingGoal(@PathVariable Long savingGoalId) {
-                return new ResponseEntity<>(savingGoalService.addSpendingGoals(savingGoalId), HttpStatus.OK);
+                return new ResponseEntity<>(savingGoalService.addSpendingGoalsOfFetch(savingGoalId), HttpStatus.OK);
         }
 
         @DeleteMapping("/{savingGoalId}/create-spending-goals")
         public ResponseEntity<String> clearSpendingGoalsForSavingGoal(@PathVariable Long savingGoalId) {
                 return new ResponseEntity<>(savingGoalService.clearSpendingGoals(savingGoalId), HttpStatus.OK);
+        }
+
+        @PutMapping("/{savingGoalId}")
+        public ResponseEntity<SavingGoal> updateSavingGoal(@PathVariable Long savingGoalId,
+                        @RequestBody SavingGoal savingGoal) {
+                return new ResponseEntity<>(
+                                savingGoalService.updateSavingGoal(savingGoalId, savingGoal),
+                                HttpStatus.OK);
         }
 
 }

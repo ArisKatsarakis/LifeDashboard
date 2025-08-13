@@ -79,7 +79,7 @@ public class SavingGoalService {
                 return sCalculations;
         }
 
-        public List<SpendingGoal> addSpendingGoals(Long savingGoalId) {
+        public List<SpendingGoal> addSpendingGoalsOfFetch(Long savingGoalId) {
                 Optional<SavingGoal> optSavingGoal = savingGoalRepository.findById(savingGoalId);
                 if (optSavingGoal.isPresent()) {
                         SavingGoal goal = optSavingGoal.get();
@@ -99,6 +99,23 @@ public class SavingGoalService {
                 spendingGoalService.clearSpendingGoals(optional.get());
 
                 return "Spending goals deleted for " + savingGoalId;
+        }
+
+        public SavingGoal fetchSavingGoalById(Long savingGoalId) {
+                return savingGoalRepository.findById(savingGoalId).get();
+        }
+
+        public SavingGoal updateSavingGoal(Long savingGoalId, SavingGoal savingGoal) {
+                SavingGoal oldGoal = savingGoalRepository.findById(savingGoalId).get();
+                if (oldGoal == null) {
+                        throw new SavingGoalNotFoundException(savingGoalId);
+                }
+                spendingGoalService.clearSpendingGoals(oldGoal);
+                savingGoal.setUserInfo(
+                                oldGoal.getUserInfo() == null ? userInfoService.fetchUser() : oldGoal.getUserInfo());
+                savingGoal = savingGoalRepository.save(savingGoal);
+                spendingGoalService.createSpendingGoalsAccordingToSavingGoal(savingGoal);
+                return savingGoal;
         }
 
 }

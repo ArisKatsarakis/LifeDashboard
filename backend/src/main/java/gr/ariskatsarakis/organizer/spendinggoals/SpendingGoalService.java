@@ -66,11 +66,12 @@ public class SpendingGoalService {
 
         }
 
-        public void clearSpendingGoals(SavingGoal savingGoal) {
+        public List<SpendingGoal> clearSpendingGoals(SavingGoal savingGoal) {
                 List<SpendingGoal> spendingGoals = spendingGoalRepository.findBySavingGoal(savingGoal);
                 spendingGoals.stream().forEach(s -> {
                         spendingGoalRepository.delete(s);
                 });
+                return spendingGoals;
         }
 
         public List<SpendingGoal> updateSpendingGoalsCauseOfExpense(Expense expense) {
@@ -104,6 +105,21 @@ public class SpendingGoalService {
 
                 }
                 return userSpendingGoals;
+        }
+
+        public void updateSpendingGoalsAccordingToSavingGoal(SavingGoal savingGoal,
+                        List<SpendingGoal> oldSpendingGoals) {
+                List<SpendingGoal> newSpendingGoals = createSpendingGoalsAccordingToSavingGoal(savingGoal);
+                for (SpendingGoal g : oldSpendingGoals) {
+                        SpendingGoal dayGoal = newSpendingGoals.stream()
+                                        .filter(s -> s.getSpendingDay().equals(g.getSpendingDay())).findFirst()
+                                        .orElse(null);
+                        if (dayGoal == null)
+                                continue;
+                        dayGoal.setDaySpented(g.getDaySpented());
+                        spendingGoalRepository.save(dayGoal);
+                }
+
         }
 
 }

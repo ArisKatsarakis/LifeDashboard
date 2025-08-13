@@ -110,11 +110,11 @@ public class SavingGoalService {
                 if (oldGoal == null) {
                         throw new SavingGoalNotFoundException(savingGoalId);
                 }
-                spendingGoalService.clearSpendingGoals(oldGoal);
+                List<SpendingGoal> spendingGoals = spendingGoalService.clearSpendingGoals(oldGoal);
                 savingGoal.setUserInfo(
                                 oldGoal.getUserInfo() == null ? userInfoService.fetchUser() : oldGoal.getUserInfo());
                 savingGoal = savingGoalRepository.save(savingGoal);
-                spendingGoalService.createSpendingGoalsAccordingToSavingGoal(savingGoal);
+                spendingGoalService.updateSpendingGoalsAccordingToSavingGoal(savingGoal, spendingGoals);
                 return savingGoal;
         }
 

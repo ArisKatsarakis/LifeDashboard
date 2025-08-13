@@ -11,6 +11,7 @@ import {
 	ProtectedRoute,
 	PublicRoute,
 } from "./Components/RoutePublicProtected";
+import { SavingGoalAdd } from "./Components/SavingGoalAdd";
 import { SavingGoals } from "./Components/SavingGoals";
 import { Statistics } from "./Components/Statistics";
 
@@ -70,6 +71,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<SavingGoals />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/goals/:goalId"
+					element={
+						<ProtectedRoute>
+							<SavingGoalAdd />
 						</ProtectedRoute>
 					}
 				/>

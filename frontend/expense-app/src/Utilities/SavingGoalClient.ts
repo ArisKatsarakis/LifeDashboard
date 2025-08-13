@@ -2,6 +2,7 @@ import axios, { Axios, type AxiosError } from "axios";
 import type {
 	SavingGoalCalculationsDTO,
 	SavingGoalDTO,
+	SpendingGoalDTO,
 } from "../interfaces/SavingGoal";
 import { fetchBearer, logout } from "./Variables";
 
@@ -60,4 +61,37 @@ const fetchGoalCalculations = async (
 	return <SavingGoalCalculationsDTO>{};
 };
 
-export { fetchSavingGoals, addSavingGoal, fetchGoalCalculations };
+const addSpendingGoals = async (
+	savingGoalId: number,
+): Promise<SpendingGoalDTO[]> => {
+	const { data } = await savingGoalClient.get<SpendingGoalDTO[]>(
+		"/" + savingGoalId + "/create-spending-goals",
+	);
+	return data;
+};
+
+const fetchSavingGoalById = async (
+	savingGoalId: number,
+): Promise<SavingGoalDTO> => {
+	const { data } = await savingGoalClient.get<SavingGoalDTO>(
+		"/" + savingGoalId,
+	);
+	return data;
+};
+
+const updateSavingGoal = async (
+	savingGoalId: number,
+	savingGoal: SavingGoalDTO,
+): Promise<SavingGoalDTO> => {
+	const { data } = await savingGoalClient.put("/" + savingGoalId, savingGoal);
+	return data;
+};
+
+export {
+	fetchSavingGoals,
+	addSavingGoal,
+	fetchGoalCalculations,
+	addSpendingGoals,
+	fetchSavingGoalById,
+	updateSavingGoal,
+};

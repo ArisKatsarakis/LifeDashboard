@@ -4,5 +4,10 @@ export interface SavingGoalDTO {
 	startFrom: string;
 	finishTo: string;
 }
-
+export type SpendingGoalDTO = {
+	spendingGoalId: number;
+	spendingMoney: number;
+	spendingDay: string;
+	daySpented: number;
+};
 export type SavingGoalCalculationsDTO = {};

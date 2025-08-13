@@ -1,6 +1,7 @@
 package gr.ariskatsarakis.organizer.spendinggoals;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -53,7 +54,10 @@ public class SpendingGoalService {
                         if (totalPending.equals(BigDecimal.ZERO)) {
                                 throw new InSuffecientPendingAmmount(userInfo, savingGoal.getSavingGoalId());
                         }
-                        sp.setSpendingMoney(totalPending.divide(BigDecimal.valueOf(period.getDays())));
+                        sp.setSpendingMoney(
+                                        totalPending
+                                                        .divide(BigDecimal.valueOf(period.getDays()), 2)
+                                                        .round(MathContext.DECIMAL32));
                         sp.setUserInfo(userInfo);
                         sp.setSavingGoal(savingGoal);
                         sp.setDaySpented(BigDecimal.ZERO);

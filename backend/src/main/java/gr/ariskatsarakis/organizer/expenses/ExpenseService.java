@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import gr.ariskatsarakis.organizer.spendinggoals.SpendingGoalService;
 import gr.ariskatsarakis.organizer.user.UserInfo;
 import gr.ariskatsarakis.organizer.user.UserInfoService;
 import jakarta.transaction.Transactional;
@@ -23,12 +24,15 @@ public class ExpenseService {
 
         private ExpenseRepository expenseRepository;
         private UserInfoService userInfoService;
+        private SpendingGoalService spendingGoalService;
 
         private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-        public ExpenseService(ExpenseRepository expenseRepository, UserInfoService userInfoService) {
+        public ExpenseService(ExpenseRepository expenseRepository, UserInfoService userInfoService,
+                        SpendingGoalService spendingGoalService) {
                 this.expenseRepository = expenseRepository;
                 this.userInfoService = userInfoService;
+                this.spendingGoalService = spendingGoalService;
         }
 
         public List<Expense> fetchExpenses() {
@@ -50,6 +54,7 @@ public class ExpenseService {
                 userInfo.setTotalMoneyPending(totalPending);
                 userInfoService.updateUser(userInfo);
                 Expense expense = expenseRepository.save(e);
+                spendingGoalService.updateSpendingGoalsCauseOfExpense(expense);
                 return fromExpenseToDTO(expense);
         }
 

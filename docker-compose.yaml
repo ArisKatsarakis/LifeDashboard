@@ -40,6 +40,7 @@ services:
             dockerfile: ./Dockerfile.dev
         ports:
             - "3000:3000"
+        env_file: .env
         volumes:
             - ./frontend/expense-app/:/app:rw
         networks:

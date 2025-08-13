@@ -49,6 +49,7 @@ public class SecurityConfig {
                 CorsConfiguration configuration = new CorsConfiguration();
                 String[] servers = new String[] {
                                 "http://localhost:3000",
+                                "http://localhost:8081",
                 };
                 configuration.setAllowedOrigins(Arrays.asList(servers));
                 configuration.setAllowedMethods(Arrays.asList("*"));

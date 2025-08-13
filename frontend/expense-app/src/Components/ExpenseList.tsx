@@ -10,6 +10,8 @@ export const ExpenseList = () => {
 			setExpenses(data);
 		};
 		initialize();
+		const port = process.env.REACT_APP_BACKEND;
+		console.log(port);
 	}, []);
 	return (
 		<div>

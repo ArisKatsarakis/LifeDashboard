@@ -1,8 +1,10 @@
 package gr.ariskatsarakis.organizer.expenses;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import gr.ariskatsarakis.organizer.user.UserInfo;
@@ -18,5 +20,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
         List<Expense> findByCategory(ExpenseCategory categoyr);
 
         List<Expense> findByUserInfoAndCategory(UserInfo userInfo, ExpenseCategory category);
+
+        @Query("select distinct( e.dateCreated ) from Expense e")
+        List<Date> findDistinctDates();
 
 }

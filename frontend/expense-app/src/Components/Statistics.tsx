@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { cursorTo } from "readline";
 import type { ExpenseDTO, IncomeDTO } from "../interfaces/ExpenseDTO";
 import {
 	fetchExpenseCategories,
@@ -39,33 +40,51 @@ export const Statistics = () => {
 
 	return (
 		<Container>
+			{/*Expenses Statistics*/}
 			<Row className="mt-4">
 				<Col md="12" className="text-center">
 					<h2 className="text-bg-danger"> Expenses </h2>
 				</Col>{" "}
-				{Array.from(expensesCatMap.entries()).map(([category, expenses]) => (
-					<Col md="3" key={category} className="text-center">
-						<h4 className="text-bg-primary">{category}</h4>
-						<ul className="list-group">
-							{expenses.map((expense) => (
-								<li
-									key={expense.expenseId}
-									className="list-group-item list-group-item-primary"
-								>
-									{expense.name}: ${expense.money}
-								</li>
-							))}
-						</ul>
-					</Col>
-				))}
+				{Array.from(expensesCatMap.entries()).map(([category, expenses]) => {
+					return (
+						<Col md="3" key={category} className="text-center">
+							<h4 className="text-bg-primary">
+								{category} : ${" "}
+								{expenses
+									.map((e) => e.money)
+									.reduce((sum, curValue) => {
+										return sum + curValue;
+									}, 0)}
+							</h4>
+							<ul className="list-group">
+								{expenses.map((expense) => (
+									<li
+										key={expense.expenseId}
+										className="list-group-item list-group-item-primary"
+									>
+										{expense.name}: ${expense.money}
+									</li>
+								))}
+							</ul>
+						</Col>
+					);
+				})}
 			</Row>
+			{/*Incomes Statistics*/}
 			<Row className="mt-4">
 				<Col md="12" className="text-center">
 					<h2 className="text-bg-success"> Incomes </h2>
 				</Col>{" "}
 				{Array.from(incomesMap.entries()).map(([category, incomes]) => (
 					<Col md="3" key={category} className="text-center">
-						<h4 className="text-bg-primary">{category}</h4>
+						<h4 className="text-bg-primary">
+							{category} $
+							{incomes
+								.map((i) => i.money)
+								.reduce((sum, curValue) => {
+									return sum + curValue;
+								}, 0)}
+						</h4>
 						<ul className="list-group">
 							{incomes.map((income) => (
 								<li

@@ -6,6 +6,7 @@ import {
 	FormGroup,
 	FormLabel,
 	Row,
+	Spinner,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import type { LoginInput } from "../interfaces/LoginInput";
@@ -13,9 +14,11 @@ import { login } from "../Utilities/LoginClient";
 
 export const Login = () => {
 	const [errorMessage, setErrorMessage] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		setLoading(true);
 		event.preventDefault();
 		setErrorMessage("");
 		const target = event.target as typeof event.target & {
@@ -40,6 +43,7 @@ export const Login = () => {
 			);
 			setTimeout(() => {
 				navigate("/incomes");
+				window.location.reload();
 			}, 3000);
 		} catch (error: any) {
 			setErrorMessage("Bad Credentials");
@@ -49,23 +53,38 @@ export const Login = () => {
 
 	return (
 		<Container className="text-center">
-			<Form onSubmit={handleSubmit}>
-				<FormGroup className="row">
-					<FormLabel htmlFor="username" className="form-label-col">
-						{" "}
-						Username or Email{" "}
-					</FormLabel>
-					<input type={"text"} id="username" className="form-control-col" />
-				</FormGroup>
-				<FormGroup className="row">
-					<FormLabel htmlFor="password" className="form-label-col">
-						{" "}
-						Password{" "}
-					</FormLabel>
-					<input type={"password"} id="password" className="form-control-col" />
-				</FormGroup>
-				<Button type="submit"> Login </Button>
-			</Form>
+			{!loading ? (
+				<Form onSubmit={handleSubmit}>
+					<FormGroup className="row">
+						<FormLabel htmlFor="username" className="form-label-col">
+							{" "}
+							Username or Email{" "}
+						</FormLabel>
+						<input type={"text"} id="username" className="form-control-col" />
+					</FormGroup>
+					<FormGroup className="row">
+						<FormLabel htmlFor="password" className="form-label-col">
+							{" "}
+							Password{" "}
+						</FormLabel>
+						<input
+							type={"password"}
+							id="password"
+							className="form-control-col"
+						/>
+					</FormGroup>
+					<Button type="submit"> Login </Button>
+				</Form>
+			) : (
+				<Spinner
+					animation="border"
+					role="status"
+					style={{ width: "300px", height: "300px" }}
+				>
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			)}
+
 			{errorMessage !== "" ? (
 				<Row>
 					{<h2 className="text-danger mt-2"> Error: {errorMessage} </h2>}

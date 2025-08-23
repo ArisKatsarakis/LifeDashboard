@@ -33,12 +33,13 @@ export const ExpenseAdd = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.target as typeof e.target & {
+			name: { value: string };
 			money: { value: number };
 			dateCreated: { value: string };
 			category: { value: string };
 		};
 		const payload: ExpenseDTO = {
-			name: "Expense Name",
+			name: target.name.value,
 			expenseId: null,
 			money: target.money.value,
 			dateCreated: target.dateCreated.value,
@@ -48,6 +49,7 @@ export const ExpenseAdd = () => {
 		const response = await addExpense(payload);
 		window.location.reload();
 	};
+
 	return (
 		<Form onSubmit={handleSubmit} className="text-center mt-4">
 			<h2 className="text-warning"> Adding Expense </h2>

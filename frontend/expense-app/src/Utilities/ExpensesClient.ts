@@ -11,9 +11,17 @@ const expensesClient = axios.create({
 	},
 });
 
-const fetchExpenses = async (): Promise<ExpenseDTO[]> => {
+const fetchExpenses = async (
+	page: number,
+	limit: number,
+): Promise<ExpenseDTO[]> => {
 	try {
-		const { data } = await expensesClient.get<ExpenseDTO[]>("");
+		const { data } = await expensesClient.get<ExpenseDTO[]>("", {
+			params: {
+				page: page,
+				limit: limit,
+			},
+		});
 		return data;
 	} catch (error) {
 		console.log(error);
@@ -23,6 +31,20 @@ const fetchExpenses = async (): Promise<ExpenseDTO[]> => {
 		}
 	}
 	return [];
+};
+
+const fetchExpensesCount = async (): Promise<number> => {
+	try {
+		const { data } = await expensesClient.get<number>("/count");
+		return data;
+	} catch (error) {
+		console.log(error);
+		const e = error as AxiosError;
+		if (e.status === 401) {
+			logout();
+		}
+	}
+	return 0;
 };
 
 const fetchExpenseCategories = async (): Promise<string[]> => {
@@ -74,4 +96,5 @@ export {
 	fetchExpenseCategories,
 	addExpense,
 	fetchExpensesByCategories,
+	fetchExpensesCount,
 };

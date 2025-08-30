@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { cursorTo } from "readline";
+import {
+	Col,
+	Container,
+	Form,
+	FormLabel,
+	FormSelect,
+	InputGroup,
+	Row,
+} from "react-bootstrap";
+
 import type { ExpenseDTO, IncomeDTO } from "../interfaces/ExpenseDTO";
 import {
 	fetchExpenseCategories,
@@ -40,6 +48,29 @@ export const Statistics = () => {
 
 	return (
 		<Container>
+			{/***
+			 * Month Picker for filter per month
+			 */}
+			<Form as={Container}>
+				<InputGroup as={Row}>
+					<FormLabel
+						as={Col}
+						htmlFor="month"
+						className="form-control-label col-md-4"
+					>
+						{" "}
+						Month{" "}
+					</FormLabel>
+					<FormSelect
+						as={Col}
+						id="month"
+						name="month"
+						className="form-control-col col-md-2"
+					>
+						<option value={0}> All </option>
+					</FormSelect>
+				</InputGroup>
+			</Form>
 			{/*Expenses Statistics*/}
 			<Row className="mt-4">
 				<Col md="12" className="text-center">

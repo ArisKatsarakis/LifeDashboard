@@ -51,7 +51,7 @@ public class SecurityConfig {
                                 "http://localhost:3000",
                                 "http://localhost:8081"
                 };
-                configuration.setAllowedOrigins(Arrays.asList(servers));
+                configuration.setAllowedOrigins(Arrays.asList("*"));
                 configuration.setAllowedMethods(Arrays.asList("*"));
                 configuration.setAllowedHeaders(Arrays.asList("*"));
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -70,16 +70,16 @@ public class UserController {
                         Authentication authentication = authenticationManager.authenticate(
                                         new UsernamePasswordAuthenticationToken(
                                                         loginRequest.getUsername(),
-                                                        loginRequest.getPassword()
-
-                                        ));
+                                                        loginRequest.getPassword()));
 
                         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
                         String token = jwtService.generateToken(userDetails.getUsername());
                         response.setJwtToken(token);
                         response.setUsername(userDetails.getUsername());
                 } catch (Exception e) {
                         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+
                 }
                 return new ResponseEntity<>(response, HttpStatus.OK);
 

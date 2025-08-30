@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import type { ExpenseDTO } from "../interfaces/ExpenseDTO";
 import { fetchExpenses, fetchExpensesCount } from "../Utilities/ExpensesClient";
+import { ExpenseAdd } from "./ExpenseAdd";
 
 export const ExpenseList = () => {
 	const [expenses, setExpenses] = useState<ExpenseDTO[]>([]);
 	const [pageCount, setPageCount] = useState<number>(0);
 	const [page, setPage] = useState<number>(1);
 	const [limit, setLimit] = useState<number>(5);
+	const [results, setResults] = useState<number>(0);
 
 	useEffect(() => {
 		const initialize = async () => {
 			const count = await fetchExpensesCount();
-			setPageCount(Math.floor(count / limit));
+			setResults(count);
+			setPageCount(Math.round(count / limit));
 			const data = await fetchExpenses(page, limit);
 			setExpenses(data);
 		};
@@ -20,11 +23,19 @@ export const ExpenseList = () => {
 		const port = process.env.REACT_APP_BACKEND;
 		console.log(port);
 	}, [page]);
+
 	return (
-		<div style={{ textAlign: "center" }}>
+		<div style={{ textAlign: "center" }} className="container">
 			<ul className="list-group">
-				<h2 className="text-danger"> Expenses: </h2>
-				<span> Page Count: {pageCount} </span>
+				<Row style={{ marginBottom: "1rem" }}>
+					<Col>
+						<h2 className="text-danger"> Expenses: </h2>
+						<span> Page Count: {pageCount} </span>
+					</Col>
+					<Col>
+						<ExpenseAdd />
+					</Col>
+				</Row>
 				{expenses.map((e) => {
 					return (
 						<li key={e.expenseId} className="list-group-item">
@@ -62,7 +73,7 @@ export const ExpenseList = () => {
 						</Button>
 					</Col>
 					<Col md="6" />
-					<Col>Results: {limit}</Col>
+					<Col>Results: {results}</Col>
 				</Row>
 			</Container>
 		</div>

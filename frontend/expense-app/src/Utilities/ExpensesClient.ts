@@ -16,6 +16,7 @@ const fetchExpenses = async (
 	limit: number,
 ): Promise<ExpenseDTO[]> => {
 	try {
+		page = page - 1;
 		const { data } = await expensesClient.get<ExpenseDTO[]>("", {
 			params: {
 				page: page,
